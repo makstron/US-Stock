@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+
+    <!-- Common -->
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="brand_red">#EA4335</color>
+    <!-- // Common -->
+
+    <color name="status_bar_color">#505050</color>
+
+    <!-- navigation -->
+    <color name="nav_company_name">#2B2B2B</color>
+    <color name="nav_company_email">#3C3F41</color>
+    <color name="nav_menu_item_color">#2B2B2B</color>
+    <color name="nav_menu_item_color_selected">@color/brand_red</color>
+    <!-- // navigation -->
+
+    <!-- toolbar -->
+    <color name="toolbar_fon">@color/white</color>
+    <color name="toolbar_menu_icon_color">#505050</color>
+    <color name="toolbar_text_color">#505050</color>
+    <!-- // toolbar -->
+
+
 </resources>
