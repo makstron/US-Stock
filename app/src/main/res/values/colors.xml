@@ -4,10 +4,12 @@
     <!-- Common -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="transparent">#00000000</color>
     <color name="brand_red">#EA4335</color>
     <!-- // Common -->
 
     <color name="status_bar_color">#505050</color>
+    <color name="app_bg">#FCFCFC</color>
 
     <!-- navigation -->
     <color name="nav_company_name">#2B2B2B</color>
@@ -20,7 +22,13 @@
     <color name="toolbar_fon">@color/white</color>
     <color name="toolbar_menu_icon_color">#505050</color>
     <color name="toolbar_text_color">#505050</color>
+    <color name="toolbar_edit_text_hint_color">#9C9C9C</color>
     <!-- // toolbar -->
+
+    <!-- Search -->
+    <color name="search_result_item_text">#141111</color>
+    <color name="no_results_text_color">#141111</color>
+    <!-- // Search -->
 
 
 </resources>

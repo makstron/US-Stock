@@ -15,4 +15,9 @@
     <!-- Stocks menu -->
     <string name="action_search">Search</string>
     <!-- // Stocks menu -->
+
+    <!-- Search -->
+    <string name="search_hint">Search symbols or companies</string>
+    <string name="search_empty_message">No Results Found</string>
+    <!-- // Search -->
 </resources>
