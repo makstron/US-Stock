@@ -18,7 +18,7 @@ import com.klim.windowsmanager.WindowsKeeper
 import com.klim.windowsmanager.views.WindowsContainer
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.ActivityMainBinding
-import com.klim.us_stock.ui.search.SearchFragment
+import com.klim.us_stock.ui.windows.search.SearchFragment
 
 class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 

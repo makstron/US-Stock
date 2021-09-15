@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_company_list"
-        android:name="com.klim.us_stock.ui.home.HomeFragment"
+        android:name="com.klim.us_stock.ui.windows.home.HomeFragment"
         android:label="@string/menu_company_list"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.klim.us_stock.ui.gallery.GalleryFragment"
+        android:name="com.klim.us_stock.ui.windows.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_info"
-        android:name="com.klim.us_stock.ui.slideshow.SlideshowFragment"
+        android:name="com.klim.us_stock.ui.windows.info.InfoFragment"
         android:label="@string/menu_info"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_info" />
 </navigation>

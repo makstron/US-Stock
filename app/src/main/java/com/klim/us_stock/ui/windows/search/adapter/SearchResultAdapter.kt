@@ -1,10 +1,10 @@
-package com.klim.us_stock.ui.search.adapter
+package com.klim.us_stock.ui.windows.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.klim.us_stock.databinding.SearchItemBinding
-import com.klim.us_stock.ui.search.SearchResultView
+import com.klim.us_stock.ui.windows.search.SearchResultView
 
 class SearchResultAdapter: RecyclerView.Adapter<SearchResultViewHolder>() {
 

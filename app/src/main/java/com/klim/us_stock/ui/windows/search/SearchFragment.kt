@@ -1,4 +1,4 @@
-package com.klim.us_stock.ui.search
+package com.klim.us_stock.ui.windows.search
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.klim.us_stock.databinding.FragmentSearchBinding
 import com.klim.us_stock.ui.BaseFragment
-import com.klim.us_stock.ui.search.adapter.SearchResultAdapter
+import com.klim.us_stock.ui.windows.search.adapter.SearchResultAdapter
 
 
 class SearchFragment : BaseFragment() {

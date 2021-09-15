@@ -3,7 +3,6 @@ package com.klim.us_stock.data.retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.klim.us_stock.BuildConfig;
-import com.klim.us_stock.data.retrofit.apis.PostDetailsApi;
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi;
 
 import okhttp3.OkHttpClient;
@@ -20,7 +19,6 @@ public class RetrofitProvider {
     private Retrofit retrofit;
 
     private SearchStockSymbolApi searchStockSymbolApi;
-    private PostDetailsApi postDetailsApi;
 
     public static RetrofitProvider get() {
         if (provider == null) {

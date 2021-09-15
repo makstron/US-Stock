@@ -1,4 +1,4 @@
-package com.klim.us_stock.ui.search
+package com.klim.us_stock.ui.windows.search
 
 import android.graphics.Typeface
 import android.text.Spannable
