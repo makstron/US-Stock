@@ -2,6 +2,7 @@ package com.klim.windowsmanager
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import java.lang.Exception
@@ -15,7 +16,7 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
         val containerView = activity.getActivityViewContainer()
 
         val frameLayout = FrameLayout(activity.getContext())
-        frameLayout.id = View.generateViewId()
+        frameLayout.id = View.generateViewId() + Random().nextInt(1000)
         frameLayout.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
         containerView.addView(frameLayout)
 
