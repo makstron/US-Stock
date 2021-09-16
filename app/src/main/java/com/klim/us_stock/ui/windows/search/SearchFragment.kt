@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.klim.us_stock.databinding.FragmentSearchBinding
 import com.klim.us_stock.ui.BaseFragment
 import com.klim.us_stock.ui.windows.search.adapter.SearchResultAdapter
+import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
 
 
 class SearchFragment : BaseFragment() {
@@ -80,8 +81,11 @@ class SearchFragment : BaseFragment() {
         })
     }
 
-    private fun onSearchItemSelected(ticker: String) {
-        Toast.makeText(requireContext(), ticker, Toast.LENGTH_SHORT).show()
+    private fun onSearchItemSelected(symbol: String) {
+        val args = Bundle().apply {
+            putString(SymbolDetailsFragment.SYMBOL, symbol)
+        }
+        startWindow(SymbolDetailsFragment.newInstance(args))
     }
 
     override fun onDestroy() {

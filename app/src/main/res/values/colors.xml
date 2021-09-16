@@ -23,6 +23,7 @@
     <color name="toolbar_menu_icon_color">#505050</color>
     <color name="toolbar_text_color">#505050</color>
     <color name="toolbar_edit_text_hint_color">#9C9C9C</color>
+    <color name="toolbar_edit_text_color">#141111</color>
     <!-- // toolbar -->
 
     <!-- Search -->
@@ -30,5 +31,9 @@
     <color name="no_results_text_color">#141111</color>
     <!-- // Search -->
 
+    <!-- Details window -->
+    <color name="default_text_color">#141111</color>
+    <color name="default_thumb_color">#8A8A8A</color>
+    <!-- // Details window -->
 
 </resources>
