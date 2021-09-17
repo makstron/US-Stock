@@ -19,6 +19,11 @@ import com.klim.windowsmanager.views.WindowsContainer
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.ActivityMainBinding
 import com.klim.us_stock.ui.windows.search.SearchFragment
+import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
@@ -82,5 +87,20 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
             return
         }
         super.onBackPressed()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(1000)
+            val args = Bundle().apply {
+                putString(SymbolDetailsFragment.SYMBOL, "TSLA")
+            }
+            startWindow(SymbolDetailsFragment.newInstance(args))
+        }
+
+
+
     }
 }

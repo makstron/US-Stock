@@ -1,6 +1,7 @@
 package com.klim.us_stock.ui.windows.symbol_details
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.MarkerOptions
+import com.klim.smoothie_chart.ChartDataItem
 import com.klim.us_stock.ui.windows.symbol_details.entity.DetailsResultView
 import com.klim.us_stock.ui.windows.symbol_details.entity.PriceEntityView
 
@@ -222,6 +224,14 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         binding.addressMap.onResume()
+
+        val data = ArrayList<ChartDataItem>()
+        data.add(ChartDataItem(1631246400000, 20f))
+        data.add(ChartDataItem(1631505600000, 20f))
+        data.add(ChartDataItem(1631592000000, 10f))
+        data.add(ChartDataItem(1631678400000, 60f))
+        data.add(ChartDataItem(1631764800000, 30f))
+        binding.chart.setData(data, Color.RED)
     }
 
     override fun onPause() {

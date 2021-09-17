@@ -156,7 +156,7 @@
                     app:layout_constraintTop_toTopOf="@+id/priceDelta"
                     tools:text="1.5%" />
 
-                <View
+                <com.klim.smoothie_chart.SmoothieChart
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"

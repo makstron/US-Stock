@@ -63,6 +63,7 @@ dependencies {
     implementation project(path: ':windowsManager')
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation project(path: ':smoothie_chart')
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
