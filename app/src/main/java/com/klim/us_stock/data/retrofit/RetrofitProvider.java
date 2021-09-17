@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.klim.us_stock.BuildConfig;
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi;
+import com.klim.us_stock.data.retrofit.apis.StockSymbolApi;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -19,6 +20,7 @@ public class RetrofitProvider {
     private Retrofit retrofit;
 
     private SearchStockSymbolApi searchStockSymbolApi;
+    private StockSymbolApi stockSymbolApi;
 
     public static RetrofitProvider get() {
         if (provider == null) {
@@ -55,6 +57,13 @@ public class RetrofitProvider {
             searchStockSymbolApi = getRetrofit().create(SearchStockSymbolApi.class);
         }
         return searchStockSymbolApi;
+    }
+
+    public StockSymbolApi getStockSymbolApi() {
+        if (stockSymbolApi == null) {
+            stockSymbolApi = getRetrofit().create(StockSymbolApi.class);
+        }
+        return stockSymbolApi;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.klim.us_stock.ui.windows.symbol_details
 
 import android.annotation.SuppressLint
+import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.klim.us_stock.ui.windows.symbol_details.entity.DetailsResultView
+import com.klim.us_stock.ui.windows.symbol_details.entity.PriceEntityView
 
 
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
@@ -76,6 +78,10 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
         vm.geocodedAddress.observe(viewLifecycleOwner) { location ->
             setLocationOnMap(location)
+        }
+
+        vm.price.observe(viewLifecycleOwner) { prices ->
+            setPrices(prices)
         }
 
         similarAdapter.clickListener = ::onSimilarSymbolItemSelected
@@ -161,6 +167,24 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
             googleMap?.addMarker(marker)
 
             locationWasSetOnMap = true
+        }
+    }
+
+    private fun setPrices(prices: PriceEntityView) {
+        binding.apply {
+            price.text = prices.currentPrice
+            priceDelta.text = prices.priceDifferent
+            priceDeltaPercent.text = prices.priceDifferentPercent
+
+            price.background = null
+            priceDeltaThumb.visibility = View.GONE
+
+            priceDelta.setTextColor(prices.color)
+            priceDeltaPercent.setTextColor(prices.color)
+
+            priceChangeIcon.setColorFilter(prices.color, PorterDuff.Mode.SRC_ATOP)
+            priceChangeIcon.setImageResource(prices.arrow)
+            priceChangeIcon.visibility = View.VISIBLE
         }
     }
 
