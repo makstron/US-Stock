@@ -35,6 +35,7 @@
     <string name="description_open_full">Open full description</string>
     <string name="label_tags">Tags</string>
     <string name="label_related_stocks">Related Stocks</string>
+    <string name="historical_data_do_not_allowed">Data do not allowed</string>
     <!-- // Details -->
 
 </resources>

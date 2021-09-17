@@ -1,15 +1,14 @@
 package com.klim.us_stock.di
 
-import com.klim.us_stock.data.repository.stock.StockRepository
+import com.klim.us_stock.data.repository.history.data_source.HistoryDataSourceI
+import com.klim.us_stock.data.repository.history.data_source.remote.HistoryRemoteDataSource
 import com.klim.us_stock.data.repository.stock.data_source.StockDataSourceI
 import com.klim.us_stock.data.repository.stock.data_source.remote.StockRemoteDataSource
-import com.klim.us_stock.data.repository.symbol.SymbolRepository
 import com.klim.us_stock.data.repository.symbol.data_source.SymbolDataSourceI
 import com.klim.us_stock.data.repository.symbol.data_source.remote.SymbolRemoteDataSource
+import com.klim.us_stock.data.retrofit.apis.HistoryApi
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi
 import com.klim.us_stock.data.retrofit.apis.StockSymbolApi
-import com.klim.us_stock.domain.repository.StockRepositoryI
-import com.klim.us_stock.domain.repository.SymbolRepositoryI
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -29,4 +28,9 @@ class DataSourcesModule {
         return StockRemoteDataSource(api)
     }
 
+    @Provides
+    @Singleton
+    fun provideHistoryRemoteDataSource(api: HistoryApi): HistoryDataSourceI {
+        return HistoryRemoteDataSource(api)
+    }
 }

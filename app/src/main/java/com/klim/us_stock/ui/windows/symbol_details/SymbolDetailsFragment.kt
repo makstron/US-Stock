@@ -2,6 +2,7 @@ package com.klim.us_stock.ui.windows.symbol_details
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.klim.smoothie_chart.ChartDataItem
 import com.klim.us_stock.App
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.FragmentSymbolDetailsBinding
@@ -93,6 +95,15 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
         vm.price.observe(viewLifecycleOwner) { prices ->
             setPrices(prices)
+        }
+
+        vm.history.observe(viewLifecycleOwner) { prices ->
+            prices?.let {
+                binding.chart.setData(prices, getColor(R.color.brand_red))
+                binding.labelChartErrorMessage.visibility = View.GONE
+            } ?: run {
+                binding.labelChartErrorMessage.visibility = View.VISIBLE
+            }
         }
 
         similarAdapter.clickListener = ::onSimilarSymbolItemSelected

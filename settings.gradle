@@ -1,3 +1,4 @@
 rootProject.name = "US-Stock"
 include ':app'
 include ':windowsManager'
+include ':smoothie_chart'

@@ -1,6 +1,7 @@
 package com.klim.us_stock.di
 
 import com.klim.us_stock.data.retrofit.RetrofitProvider
+import com.klim.us_stock.data.retrofit.apis.HistoryApi
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi
 import com.klim.us_stock.data.retrofit.apis.StockSymbolApi
 import dagger.Module
@@ -27,6 +28,12 @@ class RetrofitModule {
     @Singleton
     fun provideStockSymbolApi(retrofit: Retrofit): StockSymbolApi {
         return retrofit.create<StockSymbolApi>(StockSymbolApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHistoryApi(retrofit: Retrofit): HistoryApi {
+        return retrofit.create<HistoryApi>(HistoryApi::class.java)
     }
 
 }

@@ -7,11 +7,6 @@ import android.os.Bundle
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
-import com.klim.us_stock.data.repository.stock.StockRepository
-import com.klim.us_stock.data.repository.stock.data_source.remote.StockRemoteDataSource
-import com.klim.us_stock.data.repository.symbol.SymbolRepository
-import com.klim.us_stock.data.repository.symbol.data_source.remote.SymbolRemoteDataSource
-import com.klim.us_stock.data.retrofit.RetrofitProvider
 import com.klim.us_stock.domain.entity.SymbolDetailsEntity
 import com.klim.us_stock.domain.repository.StockRepositoryI
 import com.klim.us_stock.domain.repository.SymbolRepositoryI
@@ -25,8 +20,10 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 import android.annotation.SuppressLint
+import com.klim.smoothie_chart.ChartDataItem
 import com.klim.us_stock.R
 import com.klim.us_stock.domain.entity.SymbolPriceEntity
+import com.klim.us_stock.domain.repository.HistoryRepositoryI
 import java.lang.Exception
 import java.lang.RuntimeException
 import javax.inject.Inject
@@ -36,14 +33,12 @@ class SymbolDetailsViewModel
 @Inject
 constructor(
     application: Application,
-    val repository: SymbolRepositoryI,
-    val repositoryStock: StockRepositoryI
+    private val repository: SymbolRepositoryI,
+    private val repositoryStock: StockRepositoryI,
+    private val repositoryHistory: HistoryRepositoryI,
 ) : AndroidViewModel(application) {
 
     private val geocoder = Geocoder(application, Locale.getDefault())
-//    private val repository: SymbolRepositoryI = SymbolRepository(SymbolRemoteDataSource(RetrofitProvider.get().searchStockSymbolApi))
-//    private val repositoryStock: StockRepositoryI = StockRepository(StockRemoteDataSource(RetrofitProvider.get().stockSymbolApi))
-
     private val employeesFormatter = DecimalFormat("#,###")
 
     lateinit var currentSymbol: String
@@ -57,6 +52,11 @@ constructor(
 
     private val _price = MutableLiveData<PriceEntityView>()
     val price: LiveData<PriceEntityView> = _price
+
+    private val _history = MutableLiveData<List<ChartDataItem>?>()
+    val history: LiveData<List<ChartDataItem>?> = _history
+
+    val data = ArrayList<ChartDataItem>()
 
     val isLoading = ObservableBoolean(false)
     val isExistsResult = ObservableBoolean(true)
@@ -98,8 +98,20 @@ constructor(
                 )
             }
 
+            val jobHistory = launch(Dispatchers.Main) {
+                val lastMonthsHistory = repositoryHistory.getLastMonthPrices(currentSymbol)
+                if (lastMonthsHistory != null) {
+                    _history.postValue(lastMonthsHistory?.map {
+                        ChartDataItem(it.time, it.priceClose)
+                    })
+                } else {
+                    _history.postValue(null)
+                }
+            }
+
             jobDetails.join()
             jobPrice.join()
+            jobHistory.join()
 
             isLoading.set(false)
         }
