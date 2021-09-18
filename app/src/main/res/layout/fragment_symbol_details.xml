@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:background="@drawable/thumb"
+                    android:minWidth="40dp"
                     android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -88,6 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/thumb"
+                    android:minWidth="60dp"
                     android:textColor="@color/default_text_color"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/symbol"
@@ -101,12 +103,13 @@
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/thumb"
+                    android:minWidth="80dp"
                     android:textColor="@color/default_text_color"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/symbol"
-                    tools:text="$59 838 568 121" />
+                    tools:text="756.24" />
 
                 <View
                     android:id="@+id/priceDeltaThumb"
@@ -124,11 +127,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="4dp"
-                    android:textColor="@color/brand_red"
+                    android:textColor="@color/default_text_color"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/price"
-                    tools:text="-2.78" />
+                    tools:text="-2.78"
+                    tools:textColor="@color/brand_red" />
 
                 <ImageView
                     android:id="@+id/priceChangeIcon"
@@ -167,7 +171,7 @@
                     android:id="@+id/labelChartErrorMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/historical_data_do_not_allowed"
+                    android:text="@string/data_not_loaded"
                     android:textColor="@color/default_text_color"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/chart"

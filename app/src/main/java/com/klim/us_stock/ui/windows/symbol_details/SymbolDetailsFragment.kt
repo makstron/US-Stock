@@ -121,6 +121,9 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         binding.apply {
             symbol.text = details.symbol
             symbol.background = null
+            symbol.minimumWidth = 0
+            symbol.minWidth = 0
+
             companyName.text = details.name
             companyName.background = null
 
@@ -193,21 +196,28 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun setPrices(prices: PriceEntityView?) {
-        if (prices == null) return
-        binding.apply {
-            price.text = prices.currentPrice
-            priceDelta.text = prices.priceDifferent
-            priceDeltaPercent.text = prices.priceDifferentPercent
+        if (prices == null) {
+            binding.apply {
+                price.text = getString(R.string.data_not_loaded)
+                priceDelta.text = getString(R.string.data_not_loaded)
+            }
+        } else {
+            binding.apply {
+                price.text = prices.currentPrice
+                priceDelta.text = prices.priceDifferent
+                priceDeltaPercent.text = prices.priceDifferentPercent
 
+                priceDelta.setTextColor(prices.color)
+                priceDeltaPercent.setTextColor(prices.color)
+
+                priceChangeIcon.setColorFilter(prices.color, PorterDuff.Mode.SRC_ATOP)
+                priceChangeIcon.setImageResource(prices.arrow)
+                priceChangeIcon.visibility = View.VISIBLE
+            }
+        }
+        binding.apply {
             price.background = null
             priceDeltaThumb.visibility = View.GONE
-
-            priceDelta.setTextColor(prices.color)
-            priceDeltaPercent.setTextColor(prices.color)
-
-            priceChangeIcon.setColorFilter(prices.color, PorterDuff.Mode.SRC_ATOP)
-            priceChangeIcon.setImageResource(prices.arrow)
-            priceChangeIcon.visibility = View.VISIBLE
         }
     }
 
