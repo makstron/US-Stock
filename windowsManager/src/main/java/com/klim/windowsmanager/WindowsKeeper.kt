@@ -18,6 +18,7 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
         val frameLayout = FrameLayout(activity.getContext())
         frameLayout.id = View.generateViewId() + Random().nextInt(1000)
         frameLayout.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        frameLayout.isClickable = true
         containerView.addView(frameLayout)
 
         setFragment(activity, frameLayout.id, fragment, fragment::class.java.simpleName)

@@ -181,7 +181,8 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setPrices(prices: PriceEntityView) {
+    private fun setPrices(prices: PriceEntityView?) {
+        if (prices == null) return
         binding.apply {
             price.text = prices.currentPrice
             priceDelta.text = prices.priceDifferent

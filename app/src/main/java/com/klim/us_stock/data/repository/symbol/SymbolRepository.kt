@@ -11,9 +11,9 @@ import kotlin.random.Random
 
 class SymbolRepository(private val remoteDataSource: SymbolDataSourceI) : SymbolRepositoryI {
 
-    private var SimilarColorRed = Color.parseColor("#E83E3E")
-    private var SimilarColorGreen = Color.parseColor("#5887D3")
-    private var lastSimilarColor: Int = SimilarColorRed
+    private var similarColorRed = Color.parseColor("#E83E3E")
+    private var similarColorGreen = Color.parseColor("#58D38C")
+    private var lastSimilarColor: Int = similarColorRed
 
     override suspend fun search(query: String): List<SearchResultEntity> {
         return remoteDataSource.search(query).map {
@@ -62,10 +62,10 @@ class SymbolRepository(private val remoteDataSource: SymbolDataSourceI) : Symbol
 
     //Sorry, I don't know where the designer took that colors and principles to generate them
     private fun getNextTagColor(): Int {
-        if (lastSimilarColor == SimilarColorRed) {
-            lastSimilarColor = SimilarColorGreen
+        if (lastSimilarColor == similarColorRed) {
+            lastSimilarColor = similarColorGreen
         } else {
-            lastSimilarColor = SimilarColorRed
+            lastSimilarColor = similarColorRed
         }
         return lastSimilarColor
     }
