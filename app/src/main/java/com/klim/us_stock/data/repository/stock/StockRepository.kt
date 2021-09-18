@@ -37,7 +37,7 @@ constructor(
     private fun getDayWithShift(shift: Int = 0): String {
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, shift)
-        println("generated date " + dayFormatTest.format(cal.timeInMillis))
+//        println("generated date " + dayFormatTest.format(cal.timeInMillis))
         return dayFormat.format(cal.timeInMillis)
     }
 }
