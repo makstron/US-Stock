@@ -9,7 +9,7 @@ class InfoViewModel
 @Inject constructor(): ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is info Fragment"
+        value = "Info"
     }
     val text: LiveData<String> = _text
 }

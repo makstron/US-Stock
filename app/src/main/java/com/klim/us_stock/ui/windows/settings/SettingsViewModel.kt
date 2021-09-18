@@ -9,7 +9,7 @@ class SettingsViewModel
 @Inject constructor(): ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is settings Fragment"
+        value = "Settings"
     }
     val text: LiveData<String> = _text
 }
