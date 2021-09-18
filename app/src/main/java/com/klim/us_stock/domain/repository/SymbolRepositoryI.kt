@@ -3,7 +3,7 @@ package com.klim.us_stock.domain.repository
 import com.klim.us_stock.domain.entity.SearchResultEntity
 import com.klim.us_stock.domain.entity.SymbolDetailsEntity
 
-interface StockSymbolRepositoryI {
+interface SymbolRepositoryI {
 
     suspend fun search(query: String): List<SearchResultEntity>
 

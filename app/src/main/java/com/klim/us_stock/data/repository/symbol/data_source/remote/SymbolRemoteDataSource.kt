@@ -1,13 +1,13 @@
 package com.klim.us_stock.data.repository.symbol.data_source.remote
 
-import com.klim.us_stock.data.repository.symbol.data_source.StockSymbolDataSourceI
+import com.klim.us_stock.data.repository.symbol.data_source.SymbolDataSourceI
 import com.klim.us_stock.data.repository.symbol.data_source.dto.SearchStockSymbolDTO
 import com.klim.us_stock.data.repository.symbol.data_source.dto.SymbolDetailsDTO
 import com.klim.us_stock.data.repository.symbol.map
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi
 import java.lang.Exception
 
-class StockSymbolRemoteDataSource(private val api: SearchStockSymbolApi) : StockSymbolDataSourceI {
+class SymbolRemoteDataSource(private val api: SearchStockSymbolApi) : SymbolDataSourceI {
 
     override suspend fun search(query: String): List<SearchStockSymbolDTO> {
         val response = api.search(query)

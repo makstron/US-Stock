@@ -6,8 +6,14 @@ import com.klim.us_stock.domain.entity.SymbolPriceEntity
 import com.klim.us_stock.domain.repository.StockRepositoryI
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class StockRepository(private val remoteDataSrc: StockDataSourceI) : StockRepositoryI {
+class StockRepository
+@Inject
+constructor(
+    private val remoteDataSrc: StockDataSourceI
+) : StockRepositoryI {
+
     private val dayFormat = SimpleDateFormat("YYYY-MM-dd").apply {
         timeZone = TimeZone.getTimeZone("GMT-5:00")
     }

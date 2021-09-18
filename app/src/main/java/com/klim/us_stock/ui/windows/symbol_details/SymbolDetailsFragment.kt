@@ -1,6 +1,7 @@
 package com.klim.us_stock.ui.windows.symbol_details
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
@@ -9,25 +10,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.klim.us_stock.R
-import com.klim.us_stock.databinding.FragmentSymbolDetailsBinding
-import com.klim.us_stock.ui.BaseFragment
-import com.klim.us_stock.ui.windows.symbol_details.adapters.SimilarAdapter
-import com.klim.us_stock.ui.windows.symbol_details.adapters.TagsAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.MarkerOptions
+import com.klim.us_stock.App
+import com.klim.us_stock.R
+import com.klim.us_stock.databinding.FragmentSymbolDetailsBinding
+import com.klim.us_stock.di.symbol_details.SymbolDetailsModule
+import com.klim.us_stock.ui.BaseFragment
+import com.klim.us_stock.ui.windows.symbol_details.adapters.SimilarAdapter
+import com.klim.us_stock.ui.windows.symbol_details.adapters.TagsAdapter
 import com.klim.us_stock.ui.windows.symbol_details.entity.DetailsResultView
 import com.klim.us_stock.ui.windows.symbol_details.entity.PriceEntityView
+import javax.inject.Inject
 
 
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
-    private lateinit var binding: FragmentSymbolDetailsBinding
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var vm: SymbolDetailsViewModel
+    private lateinit var binding: FragmentSymbolDetailsBinding
 
     private var googleMap: GoogleMap? = null
 
@@ -47,9 +52,15 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity?.application as App).appComponent.getSymbolDetailsComponent(SymbolDetailsModule()).inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSymbolDetailsBinding.inflate(inflater, container, false)
-        vm = ViewModelProvider(this).get(SymbolDetailsViewModel::class.java)
+        vm = ViewModelProvider(this, viewModelFactory).get(SymbolDetailsViewModel::class.java)
+
         binding.vm = vm
 
         vm.loadArguments(arguments)

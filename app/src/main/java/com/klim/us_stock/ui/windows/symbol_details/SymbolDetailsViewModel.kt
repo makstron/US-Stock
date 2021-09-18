@@ -5,18 +5,16 @@ import android.graphics.Color
 import android.location.Geocoder
 import android.os.Bundle
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableFloat
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.klim.us_stock.data.repository.stock.StockRepository
 import com.klim.us_stock.data.repository.stock.data_source.remote.StockRemoteDataSource
-import com.klim.us_stock.data.repository.symbol.StockSymbolRepository
-import com.klim.us_stock.data.repository.symbol.data_source.remote.StockSymbolRemoteDataSource
+import com.klim.us_stock.data.repository.symbol.SymbolRepository
+import com.klim.us_stock.data.repository.symbol.data_source.remote.SymbolRemoteDataSource
 import com.klim.us_stock.data.retrofit.RetrofitProvider
 import com.klim.us_stock.domain.entity.SymbolDetailsEntity
 import com.klim.us_stock.domain.repository.StockRepositoryI
-import com.klim.us_stock.domain.repository.StockSymbolRepositoryI
+import com.klim.us_stock.domain.repository.SymbolRepositoryI
 import com.klim.us_stock.ui.windows.symbol_details.entity.DetailsResultView
 import com.klim.us_stock.ui.windows.symbol_details.entity.PriceEntityView
 import com.klim.us_stock.ui.windows.symbol_details.entity.SimilarEntityView
@@ -31,12 +29,20 @@ import com.klim.us_stock.R
 import com.klim.us_stock.domain.entity.SymbolPriceEntity
 import java.lang.Exception
 import java.lang.RuntimeException
+import javax.inject.Inject
 
 
-class SymbolDetailsViewModel(application: Application) : AndroidViewModel(application) {
+class SymbolDetailsViewModel
+@Inject
+constructor(
+    application: Application,
+    val repository: SymbolRepositoryI,
+    val repositoryStock: StockRepositoryI
+) : AndroidViewModel(application) {
+
     private val geocoder = Geocoder(application, Locale.getDefault())
-    private val repository: StockSymbolRepositoryI = StockSymbolRepository(StockSymbolRemoteDataSource(RetrofitProvider.get().searchStockSymbolApi))
-    private val repositoryStock: StockRepositoryI = StockRepository(StockRemoteDataSource(RetrofitProvider.get().stockSymbolApi))
+//    private val repository: SymbolRepositoryI = SymbolRepository(SymbolRemoteDataSource(RetrofitProvider.get().searchStockSymbolApi))
+//    private val repositoryStock: StockRepositoryI = StockRepository(StockRemoteDataSource(RetrofitProvider.get().stockSymbolApi))
 
     private val employeesFormatter = DecimalFormat("#,###")
 

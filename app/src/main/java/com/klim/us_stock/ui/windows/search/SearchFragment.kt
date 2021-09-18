@@ -6,20 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.klim.us_stock.App
 import com.klim.us_stock.databinding.FragmentSearchBinding
+import com.klim.us_stock.di.search.SearchModule
 import com.klim.us_stock.ui.BaseFragment
 import com.klim.us_stock.ui.windows.search.adapter.SearchResultAdapter
 import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
+import javax.inject.Inject
 
 
 class SearchFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentSearchBinding
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var vm: SearchViewModel
+    private lateinit var binding: FragmentSearchBinding
 
     private val searchAdapter = SearchResultAdapter()
 
@@ -31,9 +35,14 @@ class SearchFragment : BaseFragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity?.application as App).appComponent.getSearchComponent(SearchModule()).inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        vm = ViewModelProvider(this).get(SearchViewModel::class.java)
+        vm = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
         binding.vm = vm
 
         setActionListeners()

@@ -9,18 +9,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.klim.us_stock.data.repository.symbol.StockSymbolRepository
-import com.klim.us_stock.data.repository.symbol.data_source.remote.StockSymbolRemoteDataSource
+import com.klim.us_stock.data.repository.symbol.SymbolRepository
+import com.klim.us_stock.data.repository.symbol.data_source.remote.SymbolRemoteDataSource
 import com.klim.us_stock.data.retrofit.RetrofitProvider
 import com.klim.us_stock.domain.entity.SearchResultEntity
-import com.klim.us_stock.domain.repository.StockSymbolRepositoryI
+import com.klim.us_stock.domain.repository.SymbolRepositoryI
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel
+@Inject constructor(val repository: SymbolRepositoryI) : ViewModel() {
+
     private val DELAY_BEFORE_SEND_SEARCH_REQUEST = 700L
 
-    val repository: StockSymbolRepositoryI = StockSymbolRepository(StockSymbolRemoteDataSource(RetrofitProvider.get().searchStockSymbolApi))
+//    val repository: SymbolRepositoryI = SymbolRepository(SymbolRemoteDataSource(RetrofitProvider.get().searchStockSymbolApi))
 
     private val _searchResults = MutableLiveData<List<SearchResultView>>()
     val searchResults: LiveData<List<SearchResultView>> = _searchResults

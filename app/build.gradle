@@ -62,6 +62,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
     implementation project(path: ':windowsManager')
 
+    //dagger
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    //google play services
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     testImplementation 'junit:junit:4.+'

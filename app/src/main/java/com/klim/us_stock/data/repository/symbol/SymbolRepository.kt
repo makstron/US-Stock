@@ -1,16 +1,15 @@
 package com.klim.us_stock.data.repository.symbol
 
 import android.graphics.Color
-import androidx.core.graphics.red
-import com.klim.us_stock.data.repository.symbol.data_source.remote.StockSymbolRemoteDataSource
+import com.klim.us_stock.data.repository.symbol.data_source.SymbolDataSourceI
 import com.klim.us_stock.domain.entity.RelatedStockEntity
 import com.klim.us_stock.domain.entity.SearchResultEntity
 import com.klim.us_stock.domain.entity.SymbolDetailsEntity
 import com.klim.us_stock.domain.entity.TagEntity
-import com.klim.us_stock.domain.repository.StockSymbolRepositoryI
+import com.klim.us_stock.domain.repository.SymbolRepositoryI
 import kotlin.random.Random
 
-class StockSymbolRepository(private val remoteDataSource: StockSymbolRemoteDataSource) : StockSymbolRepositoryI {
+class SymbolRepository(private val remoteDataSource: SymbolDataSourceI) : SymbolRepositoryI {
 
     private var SimilarColorRed = Color.parseColor("#E83E3E")
     private var SimilarColorGreen = Color.parseColor("#5887D3")

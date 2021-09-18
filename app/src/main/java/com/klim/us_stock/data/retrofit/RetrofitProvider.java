@@ -15,55 +15,23 @@ public class RetrofitProvider {
     public static final String BASE_URL = "https://api.polygon.io/";
     public static final String API_KEY = "pBTRT6y6rRicla11X0dQ4V3lRVg1O9cP";
 
-    private static RetrofitProvider provider;
+    public static Retrofit getRetrofit() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
-    private Retrofit retrofit;
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
 
-    private SearchStockSymbolApi searchStockSymbolApi;
-    private StockSymbolApi stockSymbolApi;
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
-    public static RetrofitProvider get() {
-        if (provider == null) {
-            provider = new RetrofitProvider();
-        }
-        return provider;
-    }
-
-    public Retrofit getRetrofit() {
-        if (retrofit == null) {
-
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
-
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .build();
-
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
 //                    .client(client)
-                    .build();
-        }
-        return retrofit;
-    }
-
-    public SearchStockSymbolApi getSearchStockSymbolApi() {
-        if (searchStockSymbolApi == null) {
-            searchStockSymbolApi = getRetrofit().create(SearchStockSymbolApi.class);
-        }
-        return searchStockSymbolApi;
-    }
-
-    public StockSymbolApi getStockSymbolApi() {
-        if (stockSymbolApi == null) {
-            stockSymbolApi = getRetrofit().create(StockSymbolApi.class);
-        }
-        return stockSymbolApi;
+                .build();
     }
 
 }

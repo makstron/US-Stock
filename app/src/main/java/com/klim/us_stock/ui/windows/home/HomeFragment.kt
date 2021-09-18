@@ -1,5 +1,6 @@
 package com.klim.us_stock.ui.windows.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,37 +9,33 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.klim.us_stock.App
 import com.klim.us_stock.databinding.FragmentHomeBinding
+import com.klim.us_stock.di.home.HomeModule
+import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var vm: HomeViewModel
+    private lateinit var binding: FragmentHomeBinding
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity?.application as App).appComponent.getHomeComponent(HomeModule()).inject(this)
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        vm = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        vm.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
-        return root
+
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
