@@ -21,6 +21,7 @@ class WindowsContainer : FrameLayout {
 
     lateinit var windowsKeeper: WindowsKeeper
     private var mDetector: GestureDetector
+    var windowCloseListener: (() -> Unit)? = null
 
     private var startedClosing = false
     private var swipeDistance: PointF = PointF(0f, 0f)
@@ -130,6 +131,7 @@ class WindowsContainer : FrameLayout {
                 super.onAnimationEnd(animation, isReverse)
                 enableUserSwipe = true
                 windowsKeeper.removeTopWindow()
+                windowCloseListener?.invoke()
             }
         })
         va.start()

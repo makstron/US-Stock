@@ -19,6 +19,11 @@ import com.klim.windowsmanager.views.WindowsContainer
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.ActivityMainBinding
 import com.klim.us_stock.ui.windows.search.SearchFragment
+import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
@@ -46,6 +51,7 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
         navView.setupWithNavController(navController)
 
         binding.appBarMain.wcWindowsContainer.windowsKeeper = WindowsKeeper(this@MainActivity)
+        binding.appBarMain.wcWindowsContainer.windowCloseListener = ::windowsClose
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,9 +75,16 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     override fun startWindow(fragment: Fragment, isItBase: Boolean) {
         binding.appBarMain.wcWindowsContainer.startWindow(fragment, isItBase)
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
     override fun getActivityViewContainer(): WindowsContainer = binding.appBarMain.wcWindowsContainer
+
+    private fun windowsClose() {
+        if (binding.appBarMain.wcWindowsContainer.windowsKeeper.getTopWindowOrNull() == null) {
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
+    }
 
     override fun getContext(): Context {
         return this
@@ -82,5 +95,17 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
             return
         }
         super.onBackPressed()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //just for test
+//        GlobalScope.launch(Dispatchers.Main) {
+//            delay(100)
+//            val args = Bundle().apply {
+//                putString(SymbolDetailsFragment.SYMBOL, "TSLA")
+//            }
+//            startWindow(SymbolDetailsFragment.newInstance(args))
+//        }
     }
 }
