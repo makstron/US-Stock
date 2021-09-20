@@ -3,8 +3,6 @@ package com.klim.us_stock.data.retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.klim.us_stock.BuildConfig;
-import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi;
-import com.klim.us_stock.data.retrofit.apis.StockSymbolApi;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -30,7 +28,7 @@ public class RetrofitProvider {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-//                    .client(client)
+                .client(client)
                 .build();
     }
 
