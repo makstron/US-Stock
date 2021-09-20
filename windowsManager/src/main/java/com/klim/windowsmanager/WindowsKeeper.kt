@@ -9,7 +9,7 @@ import java.lang.Exception
 import java.util.*
 
 class WindowsKeeper(var activity: WindowsContainerActivity) {
-    private var windows = ArrayList<Window>(3)
+    internal var windows = ArrayList<Window>(3)
 
     @SuppressLint("ClickableViewAccessibility")
     fun startWindow(fragment: Fragment, isItBase: Boolean = false) {
@@ -52,6 +52,13 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
     fun getTopWindowOrNull(): Window? {
         return if (windows.size > 0)
             windows.last()
+        else
+            null
+    }
+
+    fun getUnderTopWindowOrNull(): Window? {
+        return if (windows.size > 1)
+            windows[windows.size - 2]
         else
             null
     }

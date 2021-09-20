@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.PointF
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -15,6 +16,9 @@ import com.klim.windowsmanager.R
 import com.klim.windowsmanager.WindowsKeeper
 import com.klim.windowsmanager.Window
 import kotlin.math.abs
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import com.klim.windowsmanager.Test
 
 
 class WindowsContainer : FrameLayout {
@@ -40,7 +44,10 @@ class WindowsContainer : FrameLayout {
         mDetector = GestureDetector(context, GestureListener())
         displayWidth = Resources.getSystem().displayMetrics.widthPixels.toFloat()
         moveDistanceBeforeStartSwipe = context.resources.getDimension(R.dimen.start_swipe_distance)
-        pointOfNoReturn = displayWidth / 5f
+        pointOfNoReturn = displayWidth / 3f
+
+        val t = Test()
+        t.gogogo()
     }
 
     fun startWindow(fragment: Fragment, isItBase: Boolean = false) {
@@ -125,6 +132,7 @@ class WindowsContainer : FrameLayout {
         va.addUpdateListener { animation ->
             enableUserSwipe = false
             window.containerView.translationX = animation.animatedValue as Float
+            drawBackground()
         }
         va.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
@@ -151,30 +159,12 @@ class WindowsContainer : FrameLayout {
 
     internal inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
-        override fun onDown(event: MotionEvent): Boolean {
-            return super.onDown(event)
-        }
-
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            return super.onSingleTapUp(e)
-        }
-
-        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            return super.onSingleTapConfirmed(e)
-        }
-
-        override fun onLongPress(e: MotionEvent) {
-            super.onLongPress(e)
-        }
-
-        override fun onDoubleTap(e: MotionEvent): Boolean {
-            return super.onDoubleTap(e)
-        }
-
         override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             if (enableUserSwipe) {
                 addToSwipeDistance(distanceX, distanceY)
                 checkConditionsForStartClosing()
+
+                drawBackground()
                 if (startedClosing) {
                     moveTopWindow(distanceX, distanceY)
                     return true
@@ -205,4 +195,52 @@ class WindowsContainer : FrameLayout {
             return super.onFling(event1, event2, velocityX, velocityY)
         }
     }
+
+
+    fun drawBackground() {
+        if (pageBackground == null)
+            return
+
+        val foreground: Drawable
+        if (windowsKeeper.windows.size == 1) {
+            if (this.foreground == null) {
+                this.foreground = pageBackground!!.createForeground()
+            }
+            foreground = this.foreground
+        } else if (windowsKeeper.windows.size > 1) {
+            val d = windowsKeeper.windows[windowsKeeper.windows.size - 2].containerView
+            if (d.foreground == null) {
+                d.foreground = pageBackground!!.createForeground()
+            }
+            foreground = d.foreground
+        } else {
+            return
+        }
+
+
+//        val passedDistance = windowsKeeper.getTopWindow().containerView.translationX
+//        pageBackground!!.onDraw(foreground, passedDistance, width.toFloat())
+    }
+
+
+    var pageBackground: PageBackground<*>? = null
+
+
+    interface PageBackground<D> where D : Drawable {
+        fun createForeground(): D
+        fun onDraw(drawable: D, passedDistance: Float, of: Float)
+    }
+
+    class Shadow : PageBackground<ColorDrawable> {
+
+        override fun createForeground(): ColorDrawable {
+            return ColorDrawable(Color.argb(0, 0, 0, 0))
+        }
+
+        override fun onDraw(drawable: ColorDrawable, passedDistance: Float, of: Float) {
+            val al = 50f - (50f / of * passedDistance)
+            drawable.alpha = al.toInt()
+        }
+    }
+
 }
