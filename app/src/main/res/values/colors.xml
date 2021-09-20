@@ -10,7 +10,7 @@
     <color name="second_text_color">#7A7A7A</color>
     <!-- // Common -->
 
-    <color name="status_bar_color">#505050</color>
+    <color name="status_bar_color">#FCFCFC</color>
     <color name="app_bg">#FCFCFC</color>
 
     <!-- navigation -->
