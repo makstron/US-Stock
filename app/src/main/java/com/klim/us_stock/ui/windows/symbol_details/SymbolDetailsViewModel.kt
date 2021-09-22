@@ -20,6 +20,7 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 import android.annotation.SuppressLint
+import android.location.Address
 import com.klim.smoothie_chart.ChartDataItem
 import com.klim.us_stock.App
 import com.klim.us_stock.R
@@ -48,8 +49,8 @@ constructor(
     private val _detailsResults = MutableLiveData<DetailsResultView>()
     val detailsResults: LiveData<DetailsResultView> = _detailsResults
 
-    private val _geocodedAddress = MutableLiveData<LatLng>()
-    val geocodedAddress: LiveData<LatLng> = _geocodedAddress
+    private val _geocodedAddress = MutableLiveData<LatLng?>()
+    val geocodedAddress: LiveData<LatLng?> = _geocodedAddress
 
     private val _price = MutableLiveData<PriceEntityView>()
     val price: LiveData<PriceEntityView> = _price
@@ -78,8 +79,7 @@ constructor(
                     val preparedResult = prepareDetailsResult(results)
                     _detailsResults.postValue(preparedResult)
 
-                    val addressGeocoded = geocodeAddress(results.address)
-                    _geocodedAddress.postValue(addressGeocoded)
+                    _geocodedAddress.postValue(geocodeAddress(results.address))
                 }
                 isExistsResult.set(results != null)
             }
@@ -111,11 +111,19 @@ constructor(
         }
     }
 
-    private suspend fun geocodeAddress(address: String): LatLng {
-        val latLng: LatLng
+    private suspend fun geocodeAddress(address: String): LatLng? {
+        var latLng: LatLng? = null
         withContext(Dispatchers.IO) {
-            val addressLocation = geocoder.getFromLocationName(address, 1).first()
-            latLng = LatLng(addressLocation.latitude, addressLocation.longitude)
+            val addresses = ArrayList<Address>()
+            try {
+                addresses.addAll(geocoder.getFromLocationName(address, 1))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            if (addresses.isNotEmpty()) {
+                val addressLocation = addresses.first()
+                latLng = LatLng(addressLocation.latitude, addressLocation.longitude)
+            }
         }
         return latLng
     }

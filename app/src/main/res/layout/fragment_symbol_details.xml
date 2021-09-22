@@ -396,6 +396,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/barrier3" />
 
                 <TextView
+                    android:id="@+id/mapsNoAddresses"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#7CFFFFFF"
+                    android:gravity="center"
+                    android:text="@string/data_not_loaded"
+                    android:textColor="@color/default_text_color"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/addressMap"
+                    app:layout_constraintEnd_toEndOf="@+id/addressMap"
+                    app:layout_constraintStart_toStartOf="@+id/addressMap"
+                    app:layout_constraintTop_toTopOf="@+id/addressMap"
+                    tools:visibility="visible" />
+
+                <TextView
                     android:id="@+id/labelDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

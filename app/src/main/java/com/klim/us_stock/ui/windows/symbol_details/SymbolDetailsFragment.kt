@@ -184,15 +184,21 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun setLocationOnMap(location: LatLng?) {
-        if (location != null && !locationWasSetOnMap && googleMap != null) {
-            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14f)
-            googleMap?.animateCamera(cameraUpdate)
+        if (!locationWasSetOnMap && googleMap != null) {
+            if (location != null) {
+                val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 14f)
+                googleMap?.animateCamera(cameraUpdate)
 
-            val marker = MarkerOptions()
-            marker.position(location)
-            googleMap?.addMarker(marker)
+                val marker = MarkerOptions()
+                marker.position(location)
+                googleMap?.addMarker(marker)
 
-            locationWasSetOnMap = true
+                locationWasSetOnMap = true
+
+                binding.mapsNoAddresses.visibility = View.GONE
+            } else {
+                binding.mapsNoAddresses.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -241,7 +247,9 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         googleMap.setMinZoomPreference(0f)
         googleMap.uiSettings.setAllGesturesEnabled(false)
 
-        setLocationOnMap(vm.geocodedAddress.value)
+        vm.geocodedAddress.value?.let { value ->
+            setLocationOnMap(value)
+        }
     }
 
     override fun onResume() {
