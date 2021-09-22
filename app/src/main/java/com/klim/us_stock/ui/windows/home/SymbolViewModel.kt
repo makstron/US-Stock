@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-class HomeViewModel
+class SymbolViewModel
 @Inject constructor() : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Stocks"
+        value = "Symbols"
     }
     val text: LiveData<String> = _text
 }

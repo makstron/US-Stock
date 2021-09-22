@@ -3,21 +3,17 @@ package com.klim.us_stock
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
-import com.klim.us_stock.di.AppComponent
-import com.klim.us_stock.di.AppModule
-import com.klim.us_stock.di.DaggerAppComponent
+import com.klim.us_stock.di.ComponentsProvider
 
-class App: Application() {
 
-    val appComponent: AppComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        DaggerAppComponent
-            .builder()
-            .appModule(AppModule(this))
-            .build()
-    }
+class App : Application() {
+
+    lateinit var componentsProvider: ComponentsProvider
 
     override fun onCreate() {
         super.onCreate()
+        componentsProvider = ComponentsProvider(this)
+        componentsProvider.appComponent.inject(this)
     }
 
     override fun attachBaseContext(base: Context?) {

@@ -4,6 +4,7 @@ import com.klim.us_stock.ui.windows.info.InfoFragment;
 
 import dagger.Subcomponent;
 
+@InfoScope
 @Subcomponent(modules = {InfoModule.class})
 public interface InfoComponent {
 

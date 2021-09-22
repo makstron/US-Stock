@@ -1,42 +1,42 @@
 package com.klim.us_stock.di
 
 import com.klim.us_stock.App
-import com.klim.us_stock.di.home.HomeComponent
-import com.klim.us_stock.di.home.HomeModule
+import com.klim.us_stock.di.home.SymbolsComponent
 import com.klim.us_stock.di.info.InfoComponent
-import com.klim.us_stock.di.info.InfoModule
+import com.klim.us_stock.di.main_activity.MainActivityComponent
 import com.klim.us_stock.di.search.SearchComponent
-import com.klim.us_stock.di.search.SearchModule
 import com.klim.us_stock.di.settings.SettingsComponent
-import com.klim.us_stock.di.settings.SettingsModule
 import com.klim.us_stock.di.symbol_details.SymbolDetailsComponent
-import com.klim.us_stock.di.symbol_details.SymbolDetailsModule
-import com.klim.us_stock.di.view_model.ViewModelFactoryModule
+import com.klim.us_stock.di.view_model.ViewModelsBindModule
 import dagger.Component
+import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
         AppModule::class,
-        ViewModelFactoryModule::class,
+        ViewModelsBindModule::class,
         RepositoryModule::class,
         DataSourcesModule::class,
         RetrofitModule::class,
+        UtilsModule::class,
     ]
 )
-interface AppComponent {
+interface AppComponent : AndroidInjector<App> {
 
-    fun inject(app: App)
+    override fun inject(app: App)
 
-    fun getHomeComponent(module: HomeModule): HomeComponent
+    fun getMainActivityComponent(): MainActivityComponent
 
-    fun getSettingsComponent(module: SettingsModule): SettingsComponent
+    fun getSymbolComponent(): SymbolsComponent
 
-    fun getInfoComponent(module: InfoModule): InfoComponent
+    fun getSettingsComponent(): SettingsComponent
 
-    fun getSymbolDetailsComponent(module: SymbolDetailsModule): SymbolDetailsComponent
+    fun getInfoComponent(): InfoComponent
 
-    fun getSearchComponent(module: SearchModule): SearchComponent
+    fun getSymbolDetailsComponent(): SymbolDetailsComponent
+
+    fun getSearchComponent(): SearchComponent
 
 }

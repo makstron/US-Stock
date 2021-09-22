@@ -13,11 +13,9 @@ constructor(
     private val historyDataSrc: HistoryDataSourceI
 ) : HistoryRepositoryI {
 
-    private val dayFormat = SimpleDateFormat("YYYY-MM-dd")
-
-    override suspend fun getLastMonthPrices(symbol: String): List<SymbolHistoryPriceEntity>? {
-        val response = historyDataSrc.getPeriodPrices(symbol, getDayWithShift(-30), getDayWithShift())
-        response?.let{ list ->
+    override suspend fun getPricesForPeriod(symbol: String, olderDate: String, newerDate: String): List<SymbolHistoryPriceEntity>? {
+        val response = historyDataSrc.getPeriodPrices(symbol, olderDate, newerDate)
+        response?.let { list ->
             return list.map {
                 it.map()
             }
@@ -25,13 +23,5 @@ constructor(
             return null
         }
     }
-
-    @Synchronized
-    private fun getDayWithShift(shift: Int = 0): String {
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.DAY_OF_YEAR, shift)
-        return dayFormat.format(cal.timeInMillis)
-    }
-
 
 }

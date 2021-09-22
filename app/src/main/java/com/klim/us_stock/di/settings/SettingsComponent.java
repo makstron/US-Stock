@@ -4,6 +4,7 @@ import com.klim.us_stock.ui.windows.settings.SettingsFragment;
 
 import dagger.Subcomponent;
 
+@SettingsScope
 @Subcomponent(modules = {SettingsModule.class})
 public interface SettingsComponent {
 

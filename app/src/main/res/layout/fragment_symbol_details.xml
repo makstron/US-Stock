@@ -94,6 +94,7 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/symbol"
                     app:layout_constraintStart_toEndOf="@+id/symbol"
+                    app:layout_constraintTop_toTopOf="@+id/symbol"
                     tools:text="Tesla Inc." />
 
                 <TextView

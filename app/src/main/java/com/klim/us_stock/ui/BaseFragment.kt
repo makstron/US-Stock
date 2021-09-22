@@ -4,11 +4,21 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.klim.us_stock.App
+import com.klim.us_stock.di.ComponentsProvider
 import com.klim.windowsmanager.WindowsContainerActivity
 
 abstract class BaseFragment() : Fragment() {
 
-    fun startWindow(fragment: BaseFragment, isItBase: Boolean = false) {
+    fun getApp(): App {
+        return requireActivity().application as App
+    }
+
+    fun getComponentProvider(): ComponentsProvider {
+        return getApp().componentsProvider
+    }
+
+    fun startWindow(fragment: Fragment, isItBase: Boolean = false) {
         if (activity is WindowsContainerActivity) {
             (activity as WindowsContainerActivity).startWindow(fragment, isItBase)
         } else {

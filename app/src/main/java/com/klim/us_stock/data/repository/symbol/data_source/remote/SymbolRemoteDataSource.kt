@@ -5,13 +5,20 @@ import com.klim.us_stock.data.repository.symbol.data_source.dto.SearchStockSymbo
 import com.klim.us_stock.data.repository.symbol.data_source.dto.SymbolDetailsDTO
 import com.klim.us_stock.data.repository.symbol.map
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi
+import com.klim.us_stock.data.retrofit.models.SearchResultResponse
 import java.lang.Exception
 
 class SymbolRemoteDataSource(private val api: SearchStockSymbolApi) : SymbolDataSourceI {
 
     override suspend fun search(query: String): List<SearchStockSymbolDTO> {
-        val response = api.search(query)
-        response.results?.let { results ->
+        var response: SearchResultResponse? = null
+        try {
+            response = api.search(query)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        response?.results?.let { results ->
             return results.map {
                 it.map()
             }

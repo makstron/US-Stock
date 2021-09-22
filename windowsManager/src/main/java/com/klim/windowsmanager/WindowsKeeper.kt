@@ -56,7 +56,14 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
             null
     }
 
-    fun existsWindowForBackPressed(): Boolean = !getTopWindow().base
+    fun existsWindowForBackPressed(): Boolean {
+        val topWindows = getTopWindowOrNull()
+        return if (topWindows != null) {
+            !topWindows.base
+        } else {
+            false
+        }
+    }
 
     fun removeTopWindow(): Boolean {
         if (existsWindowForBackPressed()) {

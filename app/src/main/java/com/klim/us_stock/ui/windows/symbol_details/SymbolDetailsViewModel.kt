@@ -21,9 +21,12 @@ import java.text.DecimalFormat
 import java.util.*
 import android.annotation.SuppressLint
 import com.klim.smoothie_chart.ChartDataItem
+import com.klim.us_stock.App
 import com.klim.us_stock.R
 import com.klim.us_stock.domain.entity.SymbolPriceEntity
+import com.klim.us_stock.domain.entity.SymbolPriceSummaryEntity
 import com.klim.us_stock.domain.repository.HistoryRepositoryI
+import com.klim.us_stock.domain.usecase.SymbolDetailsUseCase
 import java.lang.Exception
 import java.lang.RuntimeException
 import javax.inject.Inject
@@ -33,12 +36,10 @@ class SymbolDetailsViewModel
 @Inject
 constructor(
     application: Application,
-    private val repository: SymbolRepositoryI,
-    private val repositoryStock: StockRepositoryI,
-    private val repositoryHistory: HistoryRepositoryI,
+    private val symbolDetailsUseCase: SymbolDetailsUseCase,
+    private val geocoder: Geocoder,
 ) : AndroidViewModel(application) {
 
-    private val geocoder = Geocoder(application, Locale.getDefault())
     private val employeesFormatter = DecimalFormat("#,###")
 
     lateinit var currentSymbol: String
@@ -72,7 +73,7 @@ constructor(
         viewModelScope.launch(Dispatchers.Main) {
 
             val jobDetails = launch(Dispatchers.Main) {
-                val results = getDetails(currentSymbol)
+                val results = symbolDetailsUseCase.getDetails(SymbolDetailsUseCase.Params(currentSymbol))
                 results?.let {
                     val preparedResult = prepareDetailsResult(results)
                     _detailsResults.postValue(preparedResult)
@@ -82,26 +83,19 @@ constructor(
                 }
                 isExistsResult.set(results != null)
             }
-
+//
             val jobPrice = launch(Dispatchers.Main) {
-                val defLastPrice = async(Dispatchers.IO) {
-                    repositoryStock.getLastPrice(currentSymbol)
-                }
-                val defPreviousPrice = async(Dispatchers.IO) {
-                    repositoryStock.getPreviousPrice(currentSymbol)
-                }
-                val lastPrice = defLastPrice.await()
-                val previousPrice = defPreviousPrice.await()
+                val results = symbolDetailsUseCase.getPrice(SymbolDetailsUseCase.Params(currentSymbol))
 
                 _price.postValue(
-                    preparePriceResult(lastPrice, previousPrice)
+                    preparePriceResult(results)
                 )
             }
 
             val jobHistory = launch(Dispatchers.Main) {
-                val lastMonthsHistory = repositoryHistory.getLastMonthPrices(currentSymbol)
+                val lastMonthsHistory = symbolDetailsUseCase.getLastMonthPrice(SymbolDetailsUseCase.Params(currentSymbol))
                 if (lastMonthsHistory != null) {
-                    _history.postValue(lastMonthsHistory?.map {
+                    _history.postValue(lastMonthsHistory.map {
                         ChartDataItem(it.time, it.priceClose)
                     })
                 } else {
@@ -117,6 +111,15 @@ constructor(
         }
     }
 
+    private suspend fun geocodeAddress(address: String): LatLng {
+        val latLng: LatLng
+        withContext(Dispatchers.IO) {
+            val addressLocation = geocoder.getFromLocationName(address, 1).first()
+            latLng = LatLng(addressLocation.latitude, addressLocation.longitude)
+        }
+        return latLng
+    }
+
     @SuppressLint("DefaultLocale")
     fun roundUpMoney(value: Float): Float {
         return try {
@@ -127,23 +130,6 @@ constructor(
             ex.printStackTrace()
             throw RuntimeException(ex)
         }
-    }
-
-    private suspend fun getDetails(symbol: String): SymbolDetailsEntity? {
-        val results: SymbolDetailsEntity?
-        withContext(Dispatchers.IO) {
-            results = repository.getDetails(symbol)
-        }
-        return results
-    }
-
-    private suspend fun geocodeAddress(address: String): LatLng {
-        var addressGeocoded: LatLng
-        withContext(Dispatchers.IO) {
-            val addressLocation = geocoder.getFromLocationName(address, 1).first()
-            addressGeocoded = LatLng(addressLocation.latitude, addressLocation.longitude)
-        }
-        return addressGeocoded
     }
 
     private fun prepareDetailsResult(results: SymbolDetailsEntity): DetailsResultView {
@@ -165,37 +151,43 @@ constructor(
         )
     }
 
-    private fun preparePriceResult(lastPrice: SymbolPriceEntity?, previousPrice: SymbolPriceEntity?): PriceEntityView? {
-        if (lastPrice != null && previousPrice != null) {
-            val color: Int
-            val arrow: Int
-            when {
-                lastPrice.close > previousPrice.close -> {
-                    color = Color.parseColor("#0ac269")
-                    arrow = R.drawable.ic_arrow_up
+    private fun preparePriceResult(price: SymbolPriceSummaryEntity?): PriceEntityView? {
+        if (price != null) {
+
+            var priceDifferentFormat = (getApplication() as App).getString(R.string.data_not_loaded)
+            var priceDifferentPercentFormat = ""
+            var color: Int = Color.GRAY
+            var arrow: Int = 0
+
+            if (price.valueFromLatest != null && price.percentFromLatest != null) {
+                when {
+                    price.valueFromLatest > 0 -> {
+                        color = Color.parseColor("#0ac269")
+                        arrow = R.drawable.ic_arrow_up
+                    }
+                    price.valueFromLatest < 0 -> {
+                        color = Color.parseColor("#E51616")
+                        arrow = R.drawable.ic_arrow_down
+                    }
+                    else -> {
+                        color = Color.GRAY
+                        arrow = R.drawable.ic_arrow_empty
+                    }
                 }
-                lastPrice.close < previousPrice.close -> {
-                    color = Color.parseColor("#E51616")
-                    arrow = R.drawable.ic_arrow_down
-                }
-                else -> {
-                    color = Color.GRAY
-                    arrow = R.drawable.ic_arrow_empty
-                }
+
+                val priceDifferent = roundUpMoney(price.valueFromLatest)
+                val priceDifferentPercent = roundUpMoney(price.percentFromLatest)
+
+                priceDifferentFormat = if (priceDifferent > 0) "+${priceDifferent}" else "$priceDifferent"
+                priceDifferentPercentFormat = "$priceDifferentPercent".replace("-", "")
             }
 
-            val priceDifferent = roundUpMoney(lastPrice.close - previousPrice.close)
-            val priceDifferentPercent = roundUpMoney((lastPrice.close * 100f / previousPrice.close) - 100)
-
-            val priceDifferentS = if (priceDifferent > 0) "+${priceDifferent}" else "$priceDifferent"
-            val priceDifferentPercentS = "$priceDifferentPercent".replace("-", "")
-
             return PriceEntityView(
-                currentPrice = "$${lastPrice.close}",
+                currentPrice = "$${price.currentPrice}",
                 color = color,
                 arrow = arrow,
-                priceDifferent = priceDifferentS,
-                priceDifferentPercent = priceDifferentPercentS,
+                priceDifferent = priceDifferentFormat,
+                priceDifferentPercent = priceDifferentPercentFormat,
             )
         } else {
             return null

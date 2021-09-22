@@ -12,6 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitProvider {
     public static final String BASE_URL = "https://api.polygon.io/";
     public static final String API_KEY = "pBTRT6y6rRicla11X0dQ4V3lRVg1O9cP";
+    public static final String REQUEST_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String SERVER_TIMEZONE = "GMT-5:00";
 
     public static Retrofit getRetrofit() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

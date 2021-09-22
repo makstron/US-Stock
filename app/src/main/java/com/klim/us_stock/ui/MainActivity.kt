@@ -7,48 +7,60 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.klim.us_stock.App
 import com.klim.windowsmanager.WindowsContainerActivity
 import com.klim.windowsmanager.WindowsKeeper
 import com.klim.windowsmanager.views.WindowsContainer
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.ActivityMainBinding
+import com.klim.us_stock.ui.windows.MainActivityViewModel
+import com.klim.us_stock.ui.windows.home.SymbolViewModel
 import com.klim.us_stock.ui.windows.search.SearchFragment
 import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
+import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), WindowsContainerActivity {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var vm: MainActivityViewModel
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as App).componentsProvider.getMainActivityComponent().inject(this)
         super.onCreate(savedInstanceState)
 
+        vm = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbar)
-
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        vm.init()
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_company_list, R.id.nav_settings, R.id.nav_info
-            ), drawerLayout
+            ), binding.drawerLayout
         )
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
 
         binding.appBarMain.wcWindowsContainer.windowsKeeper = WindowsKeeper(this@MainActivity)
         binding.appBarMain.wcWindowsContainer.windowCloseListener = ::windowsClose
@@ -107,5 +119,10 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 //            }
 //            startWindow(SymbolDetailsFragment.newInstance(args))
 //        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (application as App).componentsProvider.destroyMainActivityComponent()
     }
 }

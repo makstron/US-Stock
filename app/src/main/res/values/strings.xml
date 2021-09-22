@@ -8,7 +8,7 @@
 
     <!-- Navigation -->
     <string name="nav_header_subtitle">@string/company_email</string>
-    <string name="menu_company_list">Stocks</string>
+    <string name="menu_company_list">Symbols</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_info">Info</string>
     <!-- // Navigation -->

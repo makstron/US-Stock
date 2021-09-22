@@ -9,10 +9,10 @@ import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.klim.us_stock.App
+import com.klim.us_stock.databinding.FragmentInfoBinding
 import com.klim.us_stock.databinding.FragmentSearchBinding
-import com.klim.us_stock.di.search.SearchModule
 import com.klim.us_stock.ui.BaseFragment
+import com.klim.us_stock.ui.utils.viewBind
 import com.klim.us_stock.ui.windows.search.adapter.SearchResultAdapter
 import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
 import javax.inject.Inject
@@ -23,9 +23,10 @@ class SearchFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var vm: SearchViewModel
-    private lateinit var binding: FragmentSearchBinding
+    private var binding: FragmentSearchBinding by viewBind()
 
-    private val searchAdapter = SearchResultAdapter()
+    @Inject
+    lateinit var searchAdapter: SearchResultAdapter
 
     companion object {
         fun newInstance(args: Bundle): SearchFragment {
@@ -35,9 +36,9 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity?.application as App).appComponent.getSearchComponent(SearchModule()).inject(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getComponentProvider().getSearchComponent().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -49,7 +50,6 @@ class SearchFragment : BaseFragment() {
 
         searchAdapter.clickListener = ::onSearchItemSelected
         binding.searchList.adapter = searchAdapter
-        binding.searchList.layoutManager = LinearLayoutManager(requireContext())
         binding.searchList.setHasFixedSize(true)
 
         return binding.root
@@ -98,7 +98,8 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        hideSoftKeyboard(binding.searchField, requireContext())
+//        hideSoftKeyboard(binding.searchField, requireContext())
         super.onDestroy()
+        getComponentProvider().destroySearchComponent()
     }
 }

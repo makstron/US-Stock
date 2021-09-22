@@ -2,7 +2,6 @@ package com.klim.us_stock.ui.windows.symbol_details
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
@@ -13,15 +12,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.klim.smoothie_chart.ChartDataItem
 import com.klim.us_stock.App
 import com.klim.us_stock.R
+import com.klim.us_stock.databinding.FragmentInfoBinding
 import com.klim.us_stock.databinding.FragmentSymbolDetailsBinding
-import com.klim.us_stock.di.symbol_details.SymbolDetailsModule
 import com.klim.us_stock.ui.BaseFragment
+import com.klim.us_stock.ui.utils.viewBind
 import com.klim.us_stock.ui.windows.symbol_details.adapters.SimilarAdapter
 import com.klim.us_stock.ui.windows.symbol_details.adapters.TagsAdapter
 import com.klim.us_stock.ui.windows.symbol_details.entity.DetailsResultView
@@ -34,7 +34,8 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var vm: SymbolDetailsViewModel
-    private lateinit var binding: FragmentSymbolDetailsBinding
+    private var binding: FragmentSymbolDetailsBinding by viewBind()
+    private var addressMap: MapView? = null
 
     private var googleMap: GoogleMap? = null
 
@@ -54,15 +55,15 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity?.application as App).appComponent.getSymbolDetailsComponent(SymbolDetailsModule()).inject(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        getComponentProvider().getSymbolDetailsComponent().inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSymbolDetailsBinding.inflate(inflater, container, false)
         vm = ViewModelProvider(this, viewModelFactory).get(SymbolDetailsViewModel::class.java)
-
+        addressMap = binding.addressMap
         binding.vm = vm
 
         vm.loadArguments(arguments)
@@ -229,10 +230,9 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
             binding.iconOpenMoreDescription.setImageResource(R.drawable.anim_description_open)
             binding.descriptionContent.maxLines = 100
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val avd = binding.iconOpenMoreDescription.drawable as AnimatedVectorDrawable
-            avd.start()
-        }
+        val avd = binding.iconOpenMoreDescription.drawable as AnimatedVectorDrawable
+        avd.start()
+
         descriptionIsOpen = !descriptionIsOpen
     }
 
@@ -262,9 +262,15 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         binding.addressMap.onPause()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        addressMap?.onDestroy()
+        addressMap = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        binding.addressMap.onDestroy()
+        getComponentProvider().destroySymbolDetailsComponent()
     }
 
     override fun onLowMemory() {

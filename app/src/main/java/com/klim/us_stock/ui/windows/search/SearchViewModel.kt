@@ -9,21 +9,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.klim.us_stock.data.repository.symbol.SymbolRepository
-import com.klim.us_stock.data.repository.symbol.data_source.remote.SymbolRemoteDataSource
-import com.klim.us_stock.data.retrofit.RetrofitProvider
 import com.klim.us_stock.domain.entity.SearchResultEntity
-import com.klim.us_stock.domain.repository.SymbolRepositoryI
+import com.klim.us_stock.domain.usecase.SearchUseCase
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 
 class SearchViewModel
-@Inject constructor(val repository: SymbolRepositoryI) : ViewModel() {
+@Inject constructor(private val searchUseCase: SearchUseCase) : ViewModel() {
 
+    //delay while user write
     private val DELAY_BEFORE_SEND_SEARCH_REQUEST = 700L
 
-//    val repository: SymbolRepositoryI = SymbolRepository(SymbolRemoteDataSource(RetrofitProvider.get().searchStockSymbolApi))
+    //need for tests in the future
+    private val dispatcherMain = Dispatchers.Main
+    private val dispatcherIO = Dispatchers.IO
 
     private val _searchResults = MutableLiveData<List<SearchResultView>>()
     val searchResults: LiveData<List<SearchResultView>> = _searchResults
@@ -37,7 +37,7 @@ class SearchViewModel
     fun preSearch(request: String) {
         searchRequest = request
         job?.cancel()
-        job = viewModelScope.launch(Dispatchers.Main) {
+        job = viewModelScope.launch(dispatcherMain) {
             delay(DELAY_BEFORE_SEND_SEARCH_REQUEST)
             job = null
             search()
@@ -46,28 +46,27 @@ class SearchViewModel
 
     private fun search() {
         isSearching.set(true)
-        viewModelScope.launch(Dispatchers.Main) {
-            val results: List<SearchResultEntity>
-            withContext(Dispatchers.IO) {
-                results = repository.search(searchRequest)
+        viewModelScope.launch(dispatcherMain) {
+            val results = searchUseCase.search(SearchUseCase.Params(searchRequest))
+            val resultsViews: List<SearchResultView>
+            withContext(dispatcherIO) {
+                resultsViews = prepareSearchResults(results)
             }
-
-            prepareSearchResults(results)
+            isExistsResult.set(resultsViews.isNotEmpty())
+            _searchResults.postValue(resultsViews)
+            isSearching.set(false)
         }
     }
 
-    private fun prepareSearchResults(results: List<SearchResultEntity>) {
+    private fun prepareSearchResults(results: List<SearchResultEntity>): List<SearchResultView> {
         val regex = Regex(searchRequest, RegexOption.IGNORE_CASE)
-        val resultsView = results.map { sre ->
+        return results.map { sre ->
             SearchResultView(
                 ticker = sre.ticker,
                 tickerStyled = setStyleForText(sre.ticker, regex),
                 companyStyled = setStyleForText(sre.name, regex)
             )
         }
-        isExistsResult.set(resultsView.isNotEmpty())
-        _searchResults.postValue(resultsView)
-        isSearching.set(false)
     }
 
     private fun setStyleForText(text: String, regex: Regex): SpannableStringBuilder {

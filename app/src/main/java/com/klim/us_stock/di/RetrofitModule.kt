@@ -4,9 +4,14 @@ import com.klim.us_stock.data.retrofit.RetrofitProvider
 import com.klim.us_stock.data.retrofit.apis.HistoryApi
 import com.klim.us_stock.data.retrofit.apis.SearchStockSymbolApi
 import com.klim.us_stock.data.retrofit.apis.StockSymbolApi
+import com.klim.us_stock.di.qualifiers.DateFormatRequest
+import com.klim.us_stock.di.qualifiers.TimezoneServer
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,6 +21,22 @@ class RetrofitModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return RetrofitProvider.getRetrofit()
+    }
+
+    @Provides
+    @Singleton
+    @DateFormatRequest
+    fun provideRequestDateFormatter(@TimezoneServer timeZone: TimeZone): SimpleDateFormat {
+        return SimpleDateFormat(RetrofitProvider.REQUEST_DATE_FORMAT).apply {
+            this.timeZone = timeZone
+        }
+    }
+
+    @Provides
+    @Singleton
+    @TimezoneServer
+    fun provideServerTimezone(): TimeZone {
+        return TimeZone.getTimeZone(RetrofitProvider.SERVER_TIMEZONE)
     }
 
     @Provides

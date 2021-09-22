@@ -6,7 +6,10 @@ import com.klim.us_stock.data.repository.symbol.data_source.dto.SymbolDetailsDTO
 import com.klim.us_stock.data.repository.symbol.data_source.dto.TagDTO
 import com.klim.us_stock.data.retrofit.models.SearchResultItem
 import com.klim.us_stock.data.retrofit.models.SymbolDetailsResponse
+import com.klim.us_stock.domain.entity.RelatedStockEntity
 import com.klim.us_stock.domain.entity.SearchResultEntity
+import com.klim.us_stock.domain.entity.SymbolDetailsEntity
+import com.klim.us_stock.domain.entity.TagEntity
 
 //search
 
@@ -41,14 +44,29 @@ fun SymbolDetailsResponse.map() =
         relatedStocks = mapRelatedStocks(this.similar),
     )
 
-fun SymbolDetailsResponse.mapTags(tags: List<String>) : List<TagDTO> {
+fun mapTags(tags: List<String>) : List<TagDTO> {
     return tags.map {
         TagDTO(it)
     }
 }
 
-fun SymbolDetailsResponse.mapRelatedStocks(stocks: List<String>) : List<RelatedStockDTO> {
+fun mapRelatedStocks(stocks: List<String>) : List<RelatedStockDTO> {
     return stocks.map {
         RelatedStockDTO(it)
     }
 }
+
+fun SymbolDetailsDTO.map() =
+    SymbolDetailsEntity(
+        symbol = this.symbol,
+        name = this.name,
+        sector = this.sector,
+        industry = this.industry,
+        ceo = this.ceo,
+        employees = this.employees,
+        address = this.address,
+        phone = this.phone,
+        description = this.description,
+        tags = this.tags.map { TagEntity(it.tag) },
+        relatedStocks = this.relatedStocks.map { RelatedStockEntity(it.symbol) },
+    )
