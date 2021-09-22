@@ -196,27 +196,19 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setPrices(prices: PriceEntityView?) {
-        if (prices == null) {
-            binding.apply {
-                price.text = getString(R.string.data_not_loaded)
-                priceDelta.text = getString(R.string.data_not_loaded)
-            }
-        } else {
-            binding.apply {
-                price.text = prices.currentPrice
-                priceDelta.text = prices.priceDifferent
-                priceDeltaPercent.text = prices.priceDifferentPercent
-
-                priceDelta.setTextColor(prices.color)
-                priceDeltaPercent.setTextColor(prices.color)
-
-                priceChangeIcon.setColorFilter(prices.color, PorterDuff.Mode.SRC_ATOP)
-                priceChangeIcon.setImageResource(prices.arrow)
-                priceChangeIcon.visibility = View.VISIBLE
-            }
-        }
+    private fun setPrices(prices: PriceEntityView) {
         binding.apply {
+            price.text = prices.currentPrice
+            priceDelta.text = prices.priceDifferent
+            priceDeltaPercent.text = prices.priceDifferentPercent
+
+            priceDelta.setTextColor(prices.color)
+            priceDeltaPercent.setTextColor(prices.color)
+
+            priceChangeIcon.setColorFilter(prices.color, PorterDuff.Mode.SRC_ATOP)
+            priceChangeIcon.setImageResource(prices.arrow)
+            priceChangeIcon.visibility = View.VISIBLE
+
             price.background = null
             priceDeltaThumb.visibility = View.GONE
         }

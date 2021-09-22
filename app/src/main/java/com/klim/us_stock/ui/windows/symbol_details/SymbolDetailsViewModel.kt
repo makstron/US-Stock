@@ -151,13 +151,16 @@ constructor(
         )
     }
 
-    private fun preparePriceResult(price: SymbolPriceSummaryEntity?): PriceEntityView? {
+    private fun preparePriceResult(price: SymbolPriceSummaryEntity?): PriceEntityView {
+        var priceCurrent = (getApplication() as App).getString(R.string.data_not_loaded)
+        var priceDifferentFormat = (getApplication() as App).getString(R.string.data_not_loaded)
+        var priceDifferentPercentFormat = ""
+        var color: Int = Color.GRAY
+        var arrow: Int = 0
+
         if (price != null) {
 
-            var priceDifferentFormat = (getApplication() as App).getString(R.string.data_not_loaded)
-            var priceDifferentPercentFormat = ""
-            var color: Int = Color.GRAY
-            var arrow: Int = 0
+            priceCurrent = "$${price.currentPrice}"
 
             if (price.valueFromLatest != null && price.percentFromLatest != null) {
                 when {
@@ -181,17 +184,15 @@ constructor(
                 priceDifferentFormat = if (priceDifferent > 0) "+${priceDifferent}" else "$priceDifferent"
                 priceDifferentPercentFormat = "$priceDifferentPercent".replace("-", "")
             }
-
-            return PriceEntityView(
-                currentPrice = "$${price.currentPrice}",
-                color = color,
-                arrow = arrow,
-                priceDifferent = priceDifferentFormat,
-                priceDifferentPercent = priceDifferentPercentFormat,
-            )
-        } else {
-            return null
         }
+
+        return PriceEntityView(
+            currentPrice = priceCurrent,
+            color = color,
+            arrow = arrow,
+            priceDifferent = priceDifferentFormat,
+            priceDifferentPercent = priceDifferentPercentFormat,
+        )
     }
 
 }
