@@ -8,8 +8,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.klim.us_stock.domain.entity.SymbolDetailsEntity
-import com.klim.us_stock.domain.repository.StockRepositoryI
-import com.klim.us_stock.domain.repository.SymbolRepositoryI
 import com.klim.us_stock.ui.windows.symbol_details.entity.DetailsResultView
 import com.klim.us_stock.ui.windows.symbol_details.entity.PriceEntityView
 import com.klim.us_stock.ui.windows.symbol_details.entity.SimilarEntityView
@@ -21,13 +19,15 @@ import java.text.DecimalFormat
 import java.util.*
 import android.annotation.SuppressLint
 import android.location.Address
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.klim.smoothie_chart.ChartDataItem
 import com.klim.us_stock.App
+import com.klim.us_stock.ui.firebase.FirebaseCrashKeys
 import com.klim.us_stock.R
-import com.klim.us_stock.domain.entity.SymbolPriceEntity
 import com.klim.us_stock.domain.entity.SymbolPriceSummaryEntity
-import com.klim.us_stock.domain.repository.HistoryRepositoryI
 import com.klim.us_stock.domain.usecase.SymbolDetailsUseCase
+import com.klim.us_stock.ui.firebase.FirebaseLogKeys
 import java.lang.Exception
 import java.lang.RuntimeException
 import javax.inject.Inject
@@ -39,6 +39,8 @@ constructor(
     application: Application,
     private val symbolDetailsUseCase: SymbolDetailsUseCase,
     private val geocoder: Geocoder,
+    private val firebaseCrashlytics: FirebaseCrashlytics,
+    private val firebaseAnalytics: FirebaseAnalytics,
 ) : AndroidViewModel(application) {
 
     private val employeesFormatter = DecimalFormat("#,###")
@@ -67,6 +69,13 @@ constructor(
         args?.let { args ->
             currentSymbol = args.getString(SymbolDetailsFragment.SYMBOL) ?: ""
         }
+
+        //logs
+        firebaseCrashlytics.setCustomKey(FirebaseCrashKeys.SYMBOL_DETAILS, currentSymbol)
+
+        val bundle = Bundle()
+        bundle.putString(FirebaseLogKeys.PARAM_SYMBOL, currentSymbol)
+        firebaseAnalytics.logEvent(FirebaseLogKeys.ACTION_OPEN_SYMBOL_DETAILS, bundle)
     }
 
     fun loadDetails() {
@@ -119,6 +128,7 @@ constructor(
                 addresses.addAll(geocoder.getFromLocationName(address, 1))
             } catch (e: Exception) {
                 e.printStackTrace()
+                firebaseCrashlytics.recordException(e)
             }
             if (addresses.isNotEmpty()) {
                 val addressLocation = addresses.first()

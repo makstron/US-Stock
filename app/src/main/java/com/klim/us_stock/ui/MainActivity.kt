@@ -14,12 +14,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.klim.us_stock.App
 import com.klim.windowsmanager.WindowsContainerActivity
 import com.klim.windowsmanager.WindowsKeeper
 import com.klim.windowsmanager.views.WindowsContainer
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.ActivityMainBinding
+import com.klim.us_stock.ui.firebase.FirebaseLogKeys
 import com.klim.us_stock.ui.windows.MainActivityViewModel
 import com.klim.us_stock.ui.windows.home.SymbolViewModel
 import com.klim.us_stock.ui.windows.search.SearchFragment
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var vm: MainActivityViewModel
+
+    @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -123,6 +128,9 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        firebaseAnalytics.logEvent(FirebaseLogKeys.ACTION_EXIT, Bundle())
+
         (application as App).componentsProvider.destroyMainActivityComponent()
     }
 }

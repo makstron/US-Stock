@@ -21,7 +21,8 @@ import javax.inject.Singleton
         DataSourcesModule::class,
         RetrofitModule::class,
         UtilsModule::class,
-    ]
+        FirebaseModule::class,
+    ],
 )
 interface AppComponent : AndroidInjector<App> {
 
