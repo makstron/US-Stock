@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -26,6 +27,7 @@ import com.klim.us_stock.ui.windows.MainActivityViewModel
 import com.klim.us_stock.ui.windows.home.SymbolViewModel
 import com.klim.us_stock.ui.windows.search.SearchFragment
 import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
+import dagger.Lazy
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -39,8 +41,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var vm: MainActivityViewModel
+    lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
+    val vm: MainActivityViewModel by viewModels { viewModelFactory.get() }
 
     @Inject
     lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -52,11 +54,9 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
         (application as App).componentsProvider.getMainActivityComponent().inject(this)
         super.onCreate(savedInstanceState)
 
-        vm = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
-        vm.init()
 
         appBarConfiguration = AppBarConfiguration(
             setOf(

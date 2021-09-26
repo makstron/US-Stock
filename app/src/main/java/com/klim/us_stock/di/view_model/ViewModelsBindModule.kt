@@ -10,41 +10,44 @@ import com.klim.us_stock.ui.windows.settings.SettingsViewModel
 import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
+import javax.inject.Provider
+import javax.inject.Singleton
 
 @Module
-abstract class ViewModelsBindModule {
+interface ViewModelsBindModule {
 
     @Binds
-    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)
-    internal abstract fun mainActivityViewModel(viewModel: MainActivityViewModel): ViewModel
+    fun mainActivityViewModel(viewModel: MainActivityViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SymbolViewModel::class)
-    internal abstract fun homeViewModel(viewModel: SymbolViewModel): ViewModel
+    fun homeViewModel(viewModel: SymbolViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
-    internal abstract fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
+    fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(InfoViewModel::class)
-    internal abstract fun infoViewModel(viewModel: InfoViewModel): ViewModel
+    fun infoViewModel(viewModel: InfoViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
-    internal abstract fun searchViewModel(viewModel: SearchViewModel): ViewModel
+    fun searchViewModel(viewModel: SearchViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SymbolDetailsViewModel::class)
-    internal abstract fun symbolDetailsViewModel(viewModel: SymbolDetailsViewModel): ViewModel
+    fun symbolDetailsViewModel(viewModel: SymbolDetailsViewModel): ViewModel
 }

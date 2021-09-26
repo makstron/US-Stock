@@ -8,23 +8,6 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class AppModule(private val app: App) {
+class AppModule {
 
-    @Provides
-    @Singleton
-    fun provideContext(): Context {
-        return app
-    }
-
-    @Provides
-    @Singleton
-    fun provideApp(): App {
-        return app
-    }
-
-    @Provides
-    @Singleton
-    fun provideApplication(): Application {
-        return app
-    }
 }

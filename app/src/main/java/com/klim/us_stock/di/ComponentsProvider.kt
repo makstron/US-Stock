@@ -16,7 +16,7 @@ class ComponentsProvider(val app: App) {
     init {
         appComponent = DaggerAppComponent
             .builder()
-            .appModule(AppModule(app))
+            .app(app)
             .build()
     }
 

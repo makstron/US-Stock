@@ -5,9 +5,10 @@ import javax.inject.Inject
 
 class MainActivityViewModel
 @Inject
-constructor(): ViewModel() {
+constructor() : ViewModel() {
 
-    fun init() {
+    init {
+
     }
 
 }

@@ -8,6 +8,7 @@ import com.klim.us_stock.di.search.SearchComponent
 import com.klim.us_stock.di.settings.SettingsComponent
 import com.klim.us_stock.di.symbol_details.SymbolDetailsComponent
 import com.klim.us_stock.di.view_model.ViewModelsBindModule
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import javax.inject.Singleton
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
+        AppBindsModule::class,
         ViewModelsBindModule::class,
         RepositoryModule::class,
         DataSourcesModule::class,
@@ -25,6 +27,15 @@ import javax.inject.Singleton
     ],
 )
 interface AppComponent : AndroidInjector<App> {
+
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun app(app: App): Builder
+
+        fun build(): AppComponent
+    }
 
     override fun inject(app: App)
 
