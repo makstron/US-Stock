@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.klim.us_stock.databinding.FragmentInfoBinding
 import com.klim.us_stock.databinding.FragmentSearchBinding
 import com.klim.us_stock.ui.BaseFragment
 import com.klim.us_stock.ui.utils.viewBind
+import com.klim.us_stock.ui.view_extensions.addOnTextChangeEndListener
 import com.klim.us_stock.ui.windows.search.adapter.SearchResultAdapter
 import com.klim.us_stock.ui.windows.symbol_details.SymbolDetailsFragment
 import javax.inject.Inject
@@ -75,8 +73,8 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun setActionListeners() {
-        binding.searchField.addTextChangedListener { searchRequest ->
-            vm.preSearch(searchRequest.toString())
+        binding.searchField.addOnTextChangeEndListener {searchRequest ->
+            vm.search(searchRequest.toString())
         }
 
         binding.arrowBack.setOnClickListener {

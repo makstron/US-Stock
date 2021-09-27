@@ -32,19 +32,9 @@ class SearchViewModel
     val isExistsResult = ObservableBoolean(true)
 
     var searchRequest = ""
-    var job: Job? = null
 
-    fun preSearch(request: String) {
+    fun search(request: String) {
         searchRequest = request
-        job?.cancel()
-        job = viewModelScope.launch(dispatcherMain) {
-            delay(DELAY_BEFORE_SEND_SEARCH_REQUEST)
-            job = null
-            search()
-        }
-    }
-
-    private fun search() {
         isSearching.set(true)
         viewModelScope.launch(dispatcherMain) {
             val results = searchUseCase.search(SearchUseCase.Params(searchRequest))
