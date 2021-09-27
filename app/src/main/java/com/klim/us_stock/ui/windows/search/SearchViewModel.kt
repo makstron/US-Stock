@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.klim.us_stock.CoroutineDispatchers
 import com.klim.us_stock.domain.entity.SearchResultEntity
 import com.klim.us_stock.domain.usecase.SearchUseCase
 import kotlinx.coroutines.*
