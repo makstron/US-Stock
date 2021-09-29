@@ -1,10 +1,18 @@
 package com.klim.us_stock.data.retrofit;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.klim.us_stock.BuildConfig;
 
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,8 +27,16 @@ public class RetrofitProvider {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
+        Interceptor apiKeyInterceptor = chain -> {
+            Request request = chain.request();
+            HttpUrl url = request.url().newBuilder().addQueryParameter("apiKey", API_KEY).build();
+            request = request.newBuilder().url(url).build();
+            return chain.proceed(request);
+        };
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addInterceptor(apiKeyInterceptor)
                 .build();
 
         Gson gson = new GsonBuilder()
