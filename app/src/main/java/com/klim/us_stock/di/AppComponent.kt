@@ -20,10 +20,12 @@ import javax.inject.Singleton
         AppBindsModule::class,
         ViewModelsBindModule::class,
         RepositoryModule::class,
+        RepositoryBindModule::class,
         DataSourcesModule::class,
         RetrofitModule::class,
         UtilsModule::class,
         FirebaseModule::class,
+        CacheModule::class,
     ],
 )
 interface AppComponent : AndroidInjector<App> {
