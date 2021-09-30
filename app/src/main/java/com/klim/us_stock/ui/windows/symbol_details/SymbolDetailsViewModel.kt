@@ -31,6 +31,7 @@ import com.klim.us_stock.ui.firebase.FirebaseLogKeys
 import java.lang.Exception
 import java.lang.RuntimeException
 import javax.inject.Inject
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 
 
 class SymbolDetailsViewModel
@@ -41,6 +42,7 @@ constructor(
     private val geocoder: Geocoder,
     private val firebaseCrashlytics: FirebaseCrashlytics,
     private val firebaseAnalytics: FirebaseAnalytics,
+    private val phoneNumberUtil: PhoneNumberUtil,
 ) : AndroidViewModel(application) {
 
     private val employeesFormatter = DecimalFormat("#,###")
@@ -162,12 +164,17 @@ constructor(
             ceo = results.ceo,
             employees = employeesFormatter.format(results.employees),
             address = results.address,
-            phone = results.phone,
+            phone = numberFormat(results.phone),
             description = results.description,
             tags = tags,
             similar = similar,
         )
     }
+
+    private fun numberFormat(number: String) = phoneNumberUtil.format(
+        phoneNumberUtil.parse(number, "US"),
+        PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
+    )
 
     private fun preparePriceResult(price: SymbolPriceSummaryEntity?): PriceEntityView {
         var priceCurrent = (getApplication() as App).getString(R.string.data_not_loaded)
