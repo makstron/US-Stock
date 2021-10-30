@@ -2,9 +2,9 @@ package com.klim.us_stock.data.cache
 
 interface Cache<K, V> {
 
-    fun put(key: K, value: V?): Boolean
+    operator fun set(key: K, value: V?)
 
-    fun get(key: K): V?
+    operator fun get(key: K): V?
 
     fun size(): Int
 

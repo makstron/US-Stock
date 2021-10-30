@@ -11,7 +11,6 @@ import dagger.Provides
 import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -20,7 +19,7 @@ class RetrofitModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
-        return RetrofitProvider.getRetrofit()
+        return RetrofitProvider.retrofit
     }
 
     @Provides

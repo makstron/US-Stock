@@ -26,7 +26,7 @@ constructor(
         if (symbolPriceEntity == null) {
             remoteDataSrc.getPrice(symbol, date)?.let {
                 symbolPriceEntity = it.map()
-                cache.put(keyCache, symbolPriceEntity)
+                cache.set(keyCache, symbolPriceEntity)
             }
         }
         return symbolPriceEntity

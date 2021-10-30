@@ -171,10 +171,16 @@ constructor(
         )
     }
 
-    private fun numberFormat(number: String) = phoneNumberUtil.format(
-        phoneNumberUtil.parse(number, "US"),
-        PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
-    )
+    private fun numberFormat(number: String): String {
+        return try {
+            phoneNumberUtil.format(
+                phoneNumberUtil.parse(number, "US"),
+                PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
+            )
+        } catch (e: Exception) {
+            number
+        }
+    }
 
     private fun preparePriceResult(price: SymbolPriceSummaryEntity?): PriceEntityView {
         var priceCurrent = (getApplication() as App).getString(R.string.data_not_loaded)

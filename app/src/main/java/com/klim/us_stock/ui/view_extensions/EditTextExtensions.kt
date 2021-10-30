@@ -12,7 +12,7 @@ import kotlinx.coroutines.*
 fun EditText.addOnTextChangeEndListener(delay: Long = 700L, action: (text: CharSequence?) -> Unit) {
     this.addTextChangedListener(object : TextEndWatcher(delay) {
         override fun endTextChanged(text: CharSequence?) {
-            action.invoke(text)
+            action(text)
         }
     })
 }

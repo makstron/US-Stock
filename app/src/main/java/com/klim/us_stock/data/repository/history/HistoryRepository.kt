@@ -24,7 +24,7 @@ constructor(
         if (list == null) {
             historyDataSrc.getPeriodPrices(symbol, olderDate, newerDate)?.let {historyPrices ->
                 list = historyPrices.map{it.map()}
-                cache.put(symbol, list)
+                cache.set(symbol, list)
             }
         }
         return list

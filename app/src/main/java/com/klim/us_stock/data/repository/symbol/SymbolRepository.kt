@@ -1,6 +1,7 @@
 package com.klim.us_stock.data.repository.symbol
 
 import com.klim.us_stock.data.cache.Cache
+//import com.klim.us_stock.data.cache.get
 import com.klim.us_stock.data.repository.symbol.data_source.SymbolDataSourceI
 import com.klim.us_stock.domain.entity.*
 import com.klim.us_stock.domain.repository.SymbolRepositoryI
@@ -25,12 +26,12 @@ constructor(
     override suspend fun getDetails(symbol: String): SymbolDetailsEntity? {
         var detailsEntity: SymbolDetailsEntity? = null
         if (!cacheDetails.isEmpty()) {
-            detailsEntity = cacheDetails.get(symbol)
+            detailsEntity = cacheDetails[symbol]
         }
         if (detailsEntity == null) {
             remoteDataSource.getDetails(symbol)?.let { details ->
                 detailsEntity = details.map()
-                cacheDetails.put(symbol, detailsEntity)
+                cacheDetails[symbol] = detailsEntity
             }
         }
         return detailsEntity

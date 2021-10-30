@@ -1,6 +1,5 @@
 package com.klim.us_stock.data.retrofit.apis
 
-import com.klim.us_stock.data.retrofit.RetrofitProvider.API_KEY
 import com.klim.us_stock.data.retrofit.models.SymbolPriceResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

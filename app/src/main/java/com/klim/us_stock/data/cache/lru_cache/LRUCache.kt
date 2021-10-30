@@ -3,7 +3,6 @@ package com.klim.us_stock.data.cache.lru_cache
 import com.klim.us_stock.data.cache.Cache
 import com.klim.us_stock.data.cache.lru_cache.list.DoublyLinkedList
 import com.klim.us_stock.data.cache.lru_cache.list.Node
-import java.lang.StringBuilder
 
 class LRUCache<K, V>(
     val maxSize: Int = 0
@@ -12,7 +11,7 @@ class LRUCache<K, V>(
     private val list = DoublyLinkedList<CacheItem<K, V>>()
     private val map = HashMap<K, Node<CacheItem<K, V>>>()
 
-    override fun put(key: K, value: V?): Boolean {
+    override fun set(key: K, value: V?) {
         val cacheItem = CacheItem(key, value)
         val node = Node(cacheItem)
         val existingNode = map[key]
@@ -29,8 +28,6 @@ class LRUCache<K, V>(
         }
         list.addFirst(node)
         map[key] = node
-
-        return true
     }
 
     override fun get(key: K): V? {

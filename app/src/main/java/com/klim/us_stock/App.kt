@@ -14,6 +14,8 @@ class App : Application() {
         super.onCreate()
         componentsProvider = ComponentsProvider(this)
         componentsProvider.appComponent.inject(this)
+
+//        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false)
     }
 
     override fun attachBaseContext(base: Context?) {
