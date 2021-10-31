@@ -1,4 +1,31 @@
 rootProject.name = "US-Stock"
+
+//app
+
 include ':app'
+project(':app').projectDir = new File(rootDir, 'src/app')
+
+
+//features
+
+include ':symbol_details'
+project(':symbol_details').projectDir = new File(rootDir, 'src/presentation/symbol_details')
+
+
+//views
+
 include ':windowsManager'
+project(':windowsManager').projectDir = new File(rootDir, 'src/presentation/views/windowsManager')
+
 include ':smoothie_chart'
+project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/views/smoothie_chart')
+
+//base components
+
+//include ':smoothie_chart'
+//project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/views/smoothie_chart')
+
+include ':analytics'
+include ':resources'
+include ':di'
+include ':smth'

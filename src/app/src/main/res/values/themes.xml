@@ -1,0 +1,29 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.USStock" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:statusBarColor" tools:targetApi="l">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/brand_red</item>
+        <item name="colorSecondaryVariant">@color/brand_red</item>
+        <item name="colorOnSecondary">@color/black</item>
+    </style>
+
+    <style name="Theme.USStock.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.USStock.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.USStock.Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary" >
+        <item name="colorPrimary">@color/toolbar_fon</item>
+        <item name="colorControlNormal">@color/toolbar_menu_icon_color</item>
+        <item name="navigationIcon">@drawable/ic_menu</item>
+        <item name="navigationIconTint">@color/toolbar_menu_icon_color</item>
+    </style>
+</resources>
