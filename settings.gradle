@@ -1,4 +1,4 @@
-rootProject.name = "US-Stock"
+//rootProject.name = "US-Stock"
 
 //app
 
@@ -22,10 +22,23 @@ project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/view
 
 //base components
 
-//include ':smoothie_chart'
-//project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/views/smoothie_chart')
-
 include ':analytics'
+project(':analytics').projectDir = new File(rootDir, 'src/core/analytics')
+
 include ':resources'
-include ':di'
+project(':resources').projectDir = new File(rootDir, 'src/presentation/resources')
+
+include ':dependencyingection'
+project(':dependencyingection').projectDir = new File(rootDir, 'src/core/dependencyingection')
+
 include ':smth'
+project(':smth').projectDir = new File(rootDir, 'src/core/smth')
+
+include ':network_retrofit'
+project(':network_retrofit').projectDir = new File(rootDir, 'src/core/network/network_retrofit')
+
+include ':network_api'
+project(':network_api').projectDir = new File(rootDir, 'src/core/network/network_api')
+
+include ':constants'
+project(':constants').projectDir = new File(rootDir, 'src/core/constants')

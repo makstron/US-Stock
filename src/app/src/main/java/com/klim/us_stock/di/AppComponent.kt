@@ -1,13 +1,14 @@
 package com.klim.us_stock.di
 
-import com.klim.analytics.di.FirebaseModule
-import com.klim.di.ApplicationContextProvider
-import com.klim.di.view_model.ViewModelsBindModule
+import com.klim.analytics.di.AnalyticsDependency
+import com.klim.constants.di.ConstantsProvider
+import com.klim.dep_in.ApplicationContextProvider
+import com.klim.network_api.ApiProvider
 import com.klim.smth.di.DataSourcesModule
 import com.klim.smth.di.RepositoryBindModule
 import com.klim.smth.di.RepositoryModule
-import com.klim.smth.di.RetrofitModule
 import com.klim.us_stock.App
+import com.klim.us_stock.di.view_model.ViewModelsBindModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -15,6 +16,11 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
+    dependencies = [
+        ApiProvider::class,
+        ConstantsProvider::class,
+        AnalyticsDependency::class,
+    ],
     modules = [
         AppModule::class,
         AppBindsModule::class,
@@ -22,9 +28,7 @@ import javax.inject.Singleton
         RepositoryModule::class,
         RepositoryBindModule::class,
         DataSourcesModule::class,
-        RetrofitModule::class,
         UtilsModule::class,
-        FirebaseModule::class,
         CacheModule::class,
     ],
 )
@@ -35,6 +39,12 @@ interface AppComponent : AndroidInjector<App>, ApplicationContextProvider { //to
 
         @BindsInstance
         fun app(app: App): Builder
+
+        fun apiProvider(apiProvider: ApiProvider): Builder
+
+        fun constantsProvider(constantsProvider: ConstantsProvider): Builder
+
+        fun analyticsDependency(analyticsDependency: AnalyticsDependency): Builder
 
         fun build(): AppComponent
 

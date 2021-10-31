@@ -16,7 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.klim.analytics.AnalyticsI
 import com.klim.analytics.firebase.FirebaseLogKeys
-import com.klim.di.ApplicationContextProvider
+import com.klim.dep_in.ApplicationContextProvider
 import com.klim.us_stock.R
 import com.klim.us_stock.databinding.ActivityMainBinding
 import com.klim.us_stock.di.main_activity.MainActivityComponent
@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
     lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
     val vm: MainActivityViewModel by viewModels { viewModelFactory.get() }
 
-    @Inject
-    lateinit var analytics: AnalyticsI
+//    @Inject
+//    lateinit var analytics: AnalyticsI  //todo modules
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     private fun inject() {
         val component = MainActivityComponent.Initializer
-            .init((application as ApplicationContextProvider))
+            .init(application as ApplicationContextProvider)
         component.inject(this)
     }
 
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
     override fun onDestroy() {
         super.onDestroy()
 
-        analytics.logEvent(FirebaseLogKeys.ACTION_EXIT, Bundle())
+//        analytics.logEvent(FirebaseLogKeys.ACTION_EXIT, Bundle())  //todo modules
 
 //        (application as App).componentsProvider.destroyMainActivityComponent() //todo modules
     }

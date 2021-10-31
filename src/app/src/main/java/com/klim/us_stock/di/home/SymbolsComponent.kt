@@ -1,6 +1,6 @@
 package com.klim.us_stock.di.home
 
-import com.klim.di.ApplicationContextProvider
+import com.klim.dep_in.ApplicationContextProvider
 import com.klim.symbol_details.di.DaggerSymbolDetailsComponent
 import com.klim.symbol_details.di.SymbolDetailsComponent
 import com.klim.us_stock.di.main_activity.MainActivityModule

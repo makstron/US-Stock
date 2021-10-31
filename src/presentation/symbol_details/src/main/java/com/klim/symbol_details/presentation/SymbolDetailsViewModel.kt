@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.klim.analytics.AnalyticsI
 import com.klim.analytics.firebase.FirebaseLogKeys
-import com.klim.di.ApplicationContextProvider
+import com.klim.dep_in.ApplicationContextProvider
 import com.klim.smoothie_chart.ChartDataItem
 import com.klim.smth.domain.entity.SymbolDetailsEntity
 import com.klim.smth.domain.entity.SymbolPriceSummaryEntity

@@ -1,6 +1,6 @@
 package com.klim.us_stock.di.info
 
-import com.klim.di.ApplicationContextProvider
+import com.klim.dep_in.ApplicationContextProvider
 import com.klim.us_stock.ui.windows.info.InfoFragment
 import dagger.Component
 

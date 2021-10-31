@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
@@ -42,6 +42,16 @@ android {
 
 dependencies {
 
+    implementation project(':network_api')
+    implementation project(':network_retrofit')
+    implementation project(':windowsManager')
+    implementation project(':resources')
+    implementation project(':analytics')
+    implementation project(':dependencyingection')
+    implementation project(':symbol_details')
+    implementation project(':smth')
+    implementation project(':constants')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //androidx
@@ -56,17 +66,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
 
     //firebase
-    api platform('com.google.firebase:firebase-bom:28.4.1')
+    api platform('com.google.firebase:firebase-bom:28.4.1') //todo modules
     api 'com.google.firebase:firebase-crashlytics-ktx'
     api 'com.google.firebase:firebase-analytics'
 
-//    implementation project(path: ':windowsManager')
-    implementation project(':windowsManager')
-    implementation project(':resources')
-    implementation project(':analytics')
-    implementation project(':di')
-    implementation project(':symbol_details')
-    implementation project(':smth')
 
     //phone number formatter
     implementation 'com.googlecode.libphonenumber:libphonenumber:7.2.2' //todo module remove it from here

@@ -5,18 +5,50 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.multidex.MultiDex
 import com.klim.analytics.AnalyticsI
-import com.klim.di.ApplicationContextProvider
+import com.klim.analytics.di.DaggerAnalyticsComponent
+import com.klim.constants.di.DaggerConstantsComponent
+import com.klim.dep_in.ApplicationContextProvider
+import com.klim.network_retrofit.di.DaggerNetworkComponent
+import com.klim.us_stock.di.AppComponent
 import com.klim.us_stock.di.ComponentsProvider
+import com.klim.us_stock.di.DaggerAppComponent
 
 
 class App : Application(), ApplicationContextProvider {
 
-    lateinit var componentsProvider: ComponentsProvider
+//    lateinit var componentsProvider: ComponentsProvider
+
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
-        componentsProvider = ComponentsProvider(this)
-        componentsProvider.appComponent.inject(this)
+//        componentsProvider = ComponentsProvider(this)
+//        componentsProvider.appComponent.inject(this)
+
+
+//        val appComponent: AppComponent
+//        get
+
+//        init {
+
+            var const = DaggerConstantsComponent.builder()
+                .build()
+
+            var nc = DaggerNetworkComponent.builder()
+                .build()
+
+            var analytics = DaggerAnalyticsComponent.builder()
+                .context(this)
+                .build()
+
+            appComponent = DaggerAppComponent
+                .builder()
+                .app(this)
+                .apiProvider(nc)
+                .constantsProvider(const)
+                .analyticsDependency(analytics)
+                .build()
+//        }
 
 //        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false)
     }
@@ -35,12 +67,12 @@ class App : Application(), ApplicationContextProvider {
     }
 
     override fun getViewModelFactory(): ViewModelProvider.Factory {
-        return componentsProvider.appComponent.getViewModelFactory()
+        return appComponent.getViewModelFactory()
     }
 
-    override fun getAnalytics(): AnalyticsI {
-        return componentsProvider.appComponent.getAnalytics()
-    }
+//    override fun getAnalytics(): AnalyticsI {
+//        return appComponent.getAnalytics()
+//    }
 
 
 //    override fun getAppComponent(): AppComponent {

@@ -1,7 +1,9 @@
-package com.klim.di.view_model
+package com.klim.us_stock.di.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.klim.dep_in.view_model.ViewModelFactory
+import com.klim.dep_in.view_model.ViewModelKey
 import com.klim.symbol_details.presentation.SymbolDetailsViewModel
 import com.klim.us_stock.ui.windows.MainActivityViewModel
 import com.klim.us_stock.ui.windows.home.SymbolViewModel

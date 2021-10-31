@@ -1,6 +1,6 @@
 package com.klim.us_stock.di.settings
 
-import com.klim.di.ApplicationContextProvider
+import com.klim.dep_in.ApplicationContextProvider
 import com.klim.us_stock.ui.windows.settings.SettingsFragment
 import dagger.Component
 

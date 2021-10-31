@@ -1,12 +1,9 @@
 package com.klim.us_stock.di
 
-//import com.klim.di.AppComponent
+import com.klim.analytics.di.DaggerAnalyticsComponent
+import com.klim.constants.di.DaggerConstantsComponent
+import com.klim.network_retrofit.di.DaggerNetworkComponent
 import com.klim.us_stock.App
-import com.klim.us_stock.di.home.SymbolsComponent
-import com.klim.us_stock.di.info.InfoComponent
-import com.klim.us_stock.di.main_activity.MainActivityComponent
-import com.klim.us_stock.di.search.SearchComponent
-import com.klim.us_stock.di.settings.SettingsComponent
 
 class ComponentsProvider(val app: App) {
 
@@ -14,9 +11,23 @@ class ComponentsProvider(val app: App) {
         get
 
     init {
+
+        var const = DaggerConstantsComponent.builder()
+            .build()
+
+        var nc = DaggerNetworkComponent.builder()
+            .build()
+
+        var analytics = DaggerAnalyticsComponent.builder()
+            .context(app)
+            .build()
+
         appComponent = DaggerAppComponent
             .builder()
             .app(app)
+            .apiProvider(nc)
+            .constantsProvider(const)
+            .analyticsDependency(analytics)
             .build()
     }
 

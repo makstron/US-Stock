@@ -38,7 +38,7 @@ android {
 
 dependencies {
 
-    implementation project(':di')
+    implementation project(':dependencyingection')
     implementation project(':resources')
     implementation project(':analytics')
 //    implementation project(':app') //todo module delete it
