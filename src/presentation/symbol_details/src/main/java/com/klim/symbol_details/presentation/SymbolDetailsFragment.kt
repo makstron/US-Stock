@@ -59,7 +59,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun inject() {
         val symbolDetailsComponent = SymbolDetailsComponent.Initializer
-            .init(getApplicationContextProvider())
+            .init(getApplicationContextProvider(), this)
         symbolDetailsComponent.inject(this)
     }
 

@@ -1,35 +1,32 @@
 package com.klim.us_stock.di
 
-import com.klim.analytics.di.DaggerAnalyticsComponent
-import com.klim.constants.di.DaggerConstantsComponent
-import com.klim.network_retrofit.di.DaggerNetworkComponent
 import com.klim.us_stock.App
 
 class ComponentsProvider(val app: App) {
 
-    val appComponent: AppComponent
-        get
-
-    init {
-
-        var const = DaggerConstantsComponent.builder()
-            .build()
-
-        var nc = DaggerNetworkComponent.builder()
-            .build()
-
-        var analytics = DaggerAnalyticsComponent.builder()
-            .context(app)
-            .build()
-
-        appComponent = DaggerAppComponent
-            .builder()
-            .app(app)
-            .apiProvider(nc)
-            .constantsProvider(const)
-            .analyticsDependency(analytics)
-            .build()
-    }
+//    val appComponent: AppComponent
+//        get
+//
+//    init {
+//
+//        var const = DaggerConstantsComponent.builder()
+//            .build()
+//
+//        var nc = DaggerNetworkComponent.builder()
+//            .build()
+//
+//        var analytics = DaggerAnalyticsComponent.builder()
+//            .context(app)
+//            .build()
+//
+//        appComponent = DaggerAppComponent
+//            .builder()
+//            .app(app)
+//            .apiProvider(nc)
+//            .constantsProvider(const)
+//            .analyticsDependency(analytics)
+//            .build()
+//    }
 
 //    /////// MainActivityComponent
 //

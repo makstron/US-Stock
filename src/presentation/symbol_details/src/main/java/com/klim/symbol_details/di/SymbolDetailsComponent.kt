@@ -1,13 +1,13 @@
 package com.klim.symbol_details.di
 
 import com.klim.dep_in.ApplicationContextProvider
+import com.klim.smth.BaseFragment
 import com.klim.symbol_details.presentation.SymbolDetailsFragment
-import com.klim.us_stock.di.symbol_details.SymbolDetailsModule
 import dagger.Component
 
 @Component(
     dependencies = [ApplicationContextProvider::class],
-    modules = [SymbolDetailsModule::class]
+    modules = [SymbolDetailsModule::class, ViewModelsBindModule::class]
 )
 interface SymbolDetailsComponent {
 
@@ -15,7 +15,7 @@ interface SymbolDetailsComponent {
 
     class Initializer private constructor() {
         companion object {
-            fun init(appComponent: ApplicationContextProvider): SymbolDetailsComponent =
+            fun init(appComponent: ApplicationContextProvider, bf: BaseFragment): SymbolDetailsComponent =
                 DaggerSymbolDetailsComponent.builder()
                     .applicationContextProvider(appComponent)
                     .build()

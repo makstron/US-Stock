@@ -1,7 +1,7 @@
 package com.klim.us_stock.di
 
 import com.klim.analytics.di.AnalyticsDependency
-import com.klim.constants.di.ConstantsProvider
+import com.klim.constants.di.ConstantsNetworkModule
 import com.klim.dep_in.ApplicationContextProvider
 import com.klim.network_api.ApiProvider
 import com.klim.smth.di.DataSourcesModule
@@ -18,11 +18,11 @@ import javax.inject.Singleton
 @Component(
     dependencies = [
         ApiProvider::class,
-        ConstantsProvider::class,
         AnalyticsDependency::class,
     ],
     modules = [
         AppModule::class,
+        ConstantsNetworkModule::class,
         AppBindsModule::class,
         ViewModelsBindModule::class,
         RepositoryModule::class,
@@ -41,8 +41,6 @@ interface AppComponent : AndroidInjector<App>, ApplicationContextProvider { //to
         fun app(app: App): Builder
 
         fun apiProvider(apiProvider: ApiProvider): Builder
-
-        fun constantsProvider(constantsProvider: ConstantsProvider): Builder
 
         fun analyticsDependency(analyticsDependency: AnalyticsDependency): Builder
 

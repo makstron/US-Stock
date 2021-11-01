@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.multidex.MultiDex
 import com.klim.analytics.AnalyticsI
 import com.klim.analytics.di.DaggerAnalyticsComponent
-import com.klim.constants.di.DaggerConstantsComponent
 import com.klim.dep_in.ApplicationContextProvider
 import com.klim.network_retrofit.di.DaggerNetworkComponent
 import com.klim.us_stock.di.AppComponent
@@ -31,8 +30,6 @@ class App : Application(), ApplicationContextProvider {
 
 //        init {
 
-            var const = DaggerConstantsComponent.builder()
-                .build()
 
             var nc = DaggerNetworkComponent.builder()
                 .build()
@@ -45,7 +42,6 @@ class App : Application(), ApplicationContextProvider {
                 .builder()
                 .app(this)
                 .apiProvider(nc)
-                .constantsProvider(const)
                 .analyticsDependency(analytics)
                 .build()
 //        }

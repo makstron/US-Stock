@@ -10,8 +10,13 @@ import javax.inject.Singleton
 class ViewModelFactory
 @Inject
 constructor(
-    private val viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+    val viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 ) : ViewModelProvider.Factory {
+
+    init {
+        println("!!!!!!!!!!!!!!!!!!!! ViewModelProvider.Factory was created")
+        println(viewModels)
+    }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val viewModelProvider = viewModels[modelClass]

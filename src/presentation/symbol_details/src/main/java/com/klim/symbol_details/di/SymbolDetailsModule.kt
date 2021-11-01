@@ -1,4 +1,4 @@
-package com.klim.us_stock.di.symbol_details
+package com.klim.symbol_details.di
 
 import dagger.Module
 
