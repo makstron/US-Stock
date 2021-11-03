@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
-import com.klim.smth.BaseFragment
-import com.klim.smth.utils.viewBind
+import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.utils.viewBind
 import com.klim.us_stock.databinding.FragmentSearchBinding
 import com.klim.us_stock.di.search.SearchComponent
 import com.klim.us_stock.ui.view_extensions.addOnTextChangeEndListener

@@ -1,8 +1,8 @@
 package com.klim.us_stock.ui.windows.search
 
 import com.google.common.truth.Truth.assertThat
-import com.klim.smth.domain.entity.SearchResultEntity
-import com.klim.smth.domain.usecase.SearchUseCase
+import com.klim.symbol_details_usecase_api.entity.SearchResultEntity
+import com.klim.search_usecase.SearchUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.*
@@ -24,7 +24,7 @@ class SearchViTewTModelTest {
     private val testDispatcher = TestCoroutineDispatcher()
     private val dispatchers = TestCoroutineDispatchers(testDispatcher)
 
-    private lateinit var useCase: SearchUseCase
+    private lateinit var useCase: com.klim.search_usecase.SearchUseCase
     private lateinit var searchResultFormatter: SearchResultFormatter
     private lateinit var viewModel: SearchViewModel
 
@@ -35,7 +35,7 @@ class SearchViTewTModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
 
-        useCase = mockk<SearchUseCase> {}
+        useCase = mockk<com.klim.search_usecase.SearchUseCase> {}
         searchResultFormatter = mockk<SearchResultFormatter> {
             every { format(any(), any()) } returns ""
         }
@@ -52,7 +52,7 @@ class SearchViTewTModelTest {
     @Test
     fun `test searching state`() {
         //setup
-        coEvery { useCase.search(any()) } returns ArrayList<SearchResultEntity>()
+        coEvery { useCase.search(any()) } returns ArrayList<com.klim.symbol_details_usecase_api.entity.SearchResultEntity>()
 
         //test
         testDispatcher.runBlockingTest {
@@ -67,7 +67,7 @@ class SearchViTewTModelTest {
     @Test
     fun `test search results exist`() {
         //setup
-        coEvery { useCase.search(any()) } returns listOf(SearchResultEntity("TESS", "Tessco Technologies Inc"))
+        coEvery { useCase.search(any()) } returns listOf(com.klim.symbol_details_usecase_api.entity.SearchResultEntity("TESS", "Tessco Technologies Inc"))
 
         //test
         runBlockingTest {
@@ -79,7 +79,7 @@ class SearchViTewTModelTest {
     @Test
     fun `test search results not exist`() {
         //setup
-        coEvery { useCase.search(any()) } returns ArrayList<SearchResultEntity>()
+        coEvery { useCase.search(any()) } returns ArrayList<com.klim.symbol_details_usecase_api.entity.SearchResultEntity>()
 
         //test
         runBlockingTest {

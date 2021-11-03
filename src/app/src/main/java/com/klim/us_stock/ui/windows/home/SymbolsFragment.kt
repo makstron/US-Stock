@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.klim.smth.BaseFragment
-import com.klim.smth.utils.viewBind
+import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.utils.viewBind
 import com.klim.us_stock.databinding.FragmentHomeBinding
 import com.klim.us_stock.di.home.SymbolsComponent
 import javax.inject.Inject

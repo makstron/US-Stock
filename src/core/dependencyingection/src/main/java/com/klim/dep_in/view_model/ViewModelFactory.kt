@@ -7,21 +7,29 @@ import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-class ViewModelFactory
+open class ViewModelFactory
 @Inject
 constructor(
-    val viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
-) : ViewModelProvider.Factory {
+    var viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+) : ViewModelFactoryTest() {
+
+    public val mutableMap = HashMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>()
 
     init {
         println("!!!!!!!!!!!!!!!!!!!! ViewModelProvider.Factory was created")
         println(viewModels)
+        mutableMap.putAll(viewModels)
     }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val viewModelProvider = viewModels[modelClass]
+        val viewModelProvider = mutableMap[modelClass]
             ?: throw IllegalArgumentException("model class $modelClass not found")
         return viewModelProvider.get() as T
     }
+
+}
+
+abstract class ViewModelFactoryTest : ViewModelProvider.Factory {
+
 
 }

@@ -33,6 +33,7 @@ object RetrofitProvider {
             .addInterceptor(apiKeyInterceptor)
             .build()
 
+
     private val loggingInterceptor: Interceptor
         get() {
             val interceptor = HttpLoggingInterceptor()

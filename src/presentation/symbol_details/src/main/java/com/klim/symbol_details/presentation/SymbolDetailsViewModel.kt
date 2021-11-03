@@ -15,11 +15,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.klim.analytics.AnalyticsI
 import com.klim.analytics.firebase.FirebaseLogKeys
+import com.klim.coreUi.domain.entity.SymbolDetailsEntity
+import com.klim.coreUi.domain.entity.SymbolPriceSummaryEntity
 import com.klim.dep_in.ApplicationContextProvider
 import com.klim.smoothie_chart.ChartDataItem
-import com.klim.smth.domain.entity.SymbolDetailsEntity
-import com.klim.smth.domain.entity.SymbolPriceSummaryEntity
-import com.klim.smth.domain.usecase.SymbolDetailsUseCase
 import com.klim.symbol_details.R
 import com.klim.symbol_details.presentation.entity.DetailsResultView
 import com.klim.symbol_details.presentation.entity.PriceEntityView
@@ -39,7 +38,7 @@ class SymbolDetailsViewModel
 @Inject
 constructor(
     application: Application,
-    private val symbolDetailsUseCase: SymbolDetailsUseCase,
+    private val symbolDetailsUseCase: com.klim.symbol_details_usecase.SymbolDetailsUseCase,
     private val geocoder: Geocoder,
 //    private val firebaseCrashlytics: FirebaseCrashlytics,//todo modules
     private val analytics: AnalyticsI,
@@ -86,7 +85,7 @@ constructor(
         viewModelScope.launch(Dispatchers.Main) {
 
             val jobDetails = launch(Dispatchers.Main) {
-                val results = symbolDetailsUseCase.getDetails(SymbolDetailsUseCase.Params(currentSymbol))
+                val results = symbolDetailsUseCase.getDetails(com.klim.symbol_details_usecase.SymbolDetailsUseCase.Params(currentSymbol))
                 results?.let {
                     val preparedResult = prepareDetailsResult(results)
                     _detailsResults.postValue(preparedResult)
@@ -97,7 +96,7 @@ constructor(
             }
 //
             val jobPrice = launch(Dispatchers.Main) {
-                val results = symbolDetailsUseCase.getPrice(SymbolDetailsUseCase.Params(currentSymbol))
+                val results = symbolDetailsUseCase.getPrice(com.klim.symbol_details_usecase.SymbolDetailsUseCase.Params(currentSymbol))
 
                 _price.postValue(
                     preparePriceResult(results)
@@ -105,7 +104,7 @@ constructor(
             }
 
             val jobHistory = launch(Dispatchers.Main) {
-                val lastMonthsHistory = symbolDetailsUseCase.getLastMonthPrice(SymbolDetailsUseCase.Params(currentSymbol))
+                val lastMonthsHistory = symbolDetailsUseCase.getLastMonthPrice(com.klim.symbol_details_usecase.SymbolDetailsUseCase.Params(currentSymbol))
                 if (lastMonthsHistory != null) {
                     _history.postValue(lastMonthsHistory.map {
                         ChartDataItem(it.time, it.priceClose)

@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.klim.us_stock.CoroutineDispatchers
-import com.klim.smth.domain.entity.SearchResultEntity
-import com.klim.smth.domain.usecase.SearchUseCase
+import com.klim.symbol_details_usecase_api.entity.SearchResultEntity
+import com.klim.search_usecase.SearchUseCase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class SearchViewModel
 @Inject constructor(
-    private val searchUseCase: SearchUseCase,
+    private val searchUseCase: com.klim.search_usecase.SearchUseCase,
     private val dispatchers: CoroutineDispatchers,
     private val searchResultFormatter: SearchResultFormatter,
 ) : ViewModel() {
@@ -32,7 +32,7 @@ class SearchViewModel
         searchRequest = request
         isSearching.set(true)
         viewModelScope.launch(dispatchers.Main) {
-            val results = searchUseCase.search(SearchUseCase.Params(searchRequest))
+            val results = searchUseCase.search(com.klim.search_usecase.SearchUseCase.Params(searchRequest))
             val resultsViews: List<SearchResultView>
             withContext(dispatchers.IO) {
                 resultsViews = prepareSearchResults(results)
@@ -43,7 +43,7 @@ class SearchViewModel
         }
     }
 
-    private fun prepareSearchResults(results: List<SearchResultEntity>): List<SearchResultView> {
+    private fun prepareSearchResults(results: List<com.klim.symbol_details_usecase_api.entity.SearchResultEntity>): List<SearchResultView> {
         val regex = Regex(searchRequest, RegexOption.IGNORE_CASE)
         return results.map { sre ->
             SearchResultView(

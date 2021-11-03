@@ -1,7 +1,7 @@
 package com.klim.symbol_details.di
 
+import com.klim.coreUi.BaseFragment
 import com.klim.dep_in.ApplicationContextProvider
-import com.klim.smth.BaseFragment
 import com.klim.symbol_details.presentation.SymbolDetailsFragment
 import dagger.Component
 

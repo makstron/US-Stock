@@ -4,10 +4,11 @@ import com.klim.analytics.di.AnalyticsDependency
 import com.klim.constants.di.ConstantsNetworkModule
 import com.klim.dep_in.ApplicationContextProvider
 import com.klim.network_api.ApiProvider
-import com.klim.smth.di.DataSourcesModule
-import com.klim.smth.di.RepositoryBindModule
-import com.klim.smth.di.RepositoryModule
 import com.klim.us_stock.App
+import com.klim.us_stock.di.di.DataSourcesModule
+import com.klim.us_stock.di.di.RepositoryBindModule
+import com.klim.us_stock.di.di.RepositoryModule
+import com.klim.us_stock.di.view_model.ViewModelFactoryModule
 import com.klim.us_stock.di.view_model.ViewModelsBindModule
 import dagger.BindsInstance
 import dagger.Component
@@ -24,7 +25,10 @@ import javax.inject.Singleton
         AppModule::class,
         ConstantsNetworkModule::class,
         AppBindsModule::class,
+
         ViewModelsBindModule::class,
+        ViewModelFactoryModule::class,
+
         RepositoryModule::class,
         RepositoryBindModule::class,
         DataSourcesModule::class,

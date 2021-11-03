@@ -1,6 +1,6 @@
 package com.klim.network_api.apis
 
-import com.klim.smth.data.retrofit.models.HistoryPriceResponse
+import com.klim.coreUi.data.retrofit.models.HistoryPriceResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -42,6 +42,15 @@ android {
 
 dependencies {
 
+    implementation project(':history_repository')
+    implementation project(':stock_repository')
+    implementation project(':symbol_repository')
+
+    implementation project(':symbol_details_usecase_api')
+    implementation project(':symbol_details_usecase')
+    implementation project(':search_usecase')
+
+
     implementation project(':network_api')
     implementation project(':network_retrofit')
     implementation project(':windowsManager')
@@ -49,7 +58,7 @@ dependencies {
     implementation project(':analytics')
     implementation project(':dependencyingection')
     implementation project(':symbol_details')
-    implementation project(':smth')
+    implementation project(':coreUi')
     implementation project(':constants')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -78,6 +87,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation project(path: ':cache')
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 

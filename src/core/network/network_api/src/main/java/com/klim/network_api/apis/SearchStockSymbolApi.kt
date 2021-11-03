@@ -1,7 +1,7 @@
 package com.klim.network_api.apis
 
-import com.klim.smth.data.retrofit.models.SearchResultResponse
-import com.klim.smth.data.retrofit.models.SymbolDetailsResponse
+import com.klim.coreUi.data.retrofit.models.SearchResultResponse
+import com.klim.coreUi.data.retrofit.models.SymbolDetailsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

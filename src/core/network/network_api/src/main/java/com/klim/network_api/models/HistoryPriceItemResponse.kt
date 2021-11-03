@@ -1,4 +1,4 @@
-package com.klim.smth.data.retrofit.models
+package com.klim.coreUi.data.retrofit.models
 
 import com.google.gson.annotations.SerializedName
 

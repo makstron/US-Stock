@@ -14,8 +14,9 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.klim.smth.BaseFragment
-import com.klim.smth.utils.viewBind
+import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.utils.viewBind
+import com.klim.dep_in.view_model.ViewModelFactoryTest
 import com.klim.symbol_details.R
 import com.klim.symbol_details.databinding.FragmentSymbolDetailsBinding
 import com.klim.symbol_details.di.SymbolDetailsComponent
@@ -29,7 +30,7 @@ import javax.inject.Inject
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelFactoryTest
     private lateinit var vm: SymbolDetailsViewModel
     private var binding: FragmentSymbolDetailsBinding by viewBind()
     private var addressMap: MapView? = null

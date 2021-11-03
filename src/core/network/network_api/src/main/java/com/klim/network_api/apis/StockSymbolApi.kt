@@ -1,6 +1,6 @@
 package com.klim.network_api.apis
 
-import com.klim.smth.data.retrofit.models.SymbolPriceResponse
+import com.klim.coreUi.data.retrofit.models.SymbolPriceResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

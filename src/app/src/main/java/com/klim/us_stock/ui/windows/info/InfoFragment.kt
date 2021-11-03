@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.klim.smth.BaseFragment
-import com.klim.smth.utils.viewBind
+import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.utils.viewBind
 import com.klim.us_stock.databinding.FragmentInfoBinding
 import com.klim.us_stock.di.info.InfoComponent
 import javax.inject.Inject

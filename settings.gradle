@@ -20,6 +20,34 @@ project(':windowsManager').projectDir = new File(rootDir, 'src/presentation/view
 include ':smoothie_chart'
 project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/views/smoothie_chart')
 
+
+//domain
+
+include ':symbol_details_usecase_api'
+project(':symbol_details_usecase_api').projectDir = new File(rootDir, 'src/domain/symbol_details_usecase_api')
+
+include ':symbol_details_usecase'
+project(':symbol_details_usecase').projectDir = new File(rootDir, 'src/domain/symbol_details_usecase')
+
+include ':search_usecase'
+project(':search_usecase').projectDir = new File(rootDir, 'src/domain/search_usecase')
+
+//repository
+
+include ':history_repository'
+project(':history_repository').projectDir = new File(rootDir, 'src/data/repositories/history_repository')
+
+include ':stock_repository'
+project(':stock_repository').projectDir = new File(rootDir, 'src/data/repositories/stock_repository')
+
+include ':symbol_repository'
+project(':symbol_repository').projectDir = new File(rootDir, 'src/data/repositories/symbol_repository')
+
+//
+
+include ':cache'
+project(':cache').projectDir = new File(rootDir, 'src/data/cache/cache')
+
 //base components
 
 include ':analytics'
@@ -31,8 +59,8 @@ project(':resources').projectDir = new File(rootDir, 'src/presentation/resources
 include ':dependencyingection'
 project(':dependencyingection').projectDir = new File(rootDir, 'src/core/dependencyingection')
 
-include ':smth'
-project(':smth').projectDir = new File(rootDir, 'src/core/smth')
+include ':coreUi'
+project(':coreUi').projectDir = new File(rootDir, 'src/core/coreUi')
 
 include ':network_retrofit'
 project(':network_retrofit').projectDir = new File(rootDir, 'src/core/network/network_retrofit')
