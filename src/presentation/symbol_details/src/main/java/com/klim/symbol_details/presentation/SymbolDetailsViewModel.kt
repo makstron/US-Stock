@@ -24,6 +24,7 @@ import com.klim.symbol_details.presentation.entity.DetailsResultView
 import com.klim.symbol_details.presentation.entity.PriceEntityView
 import com.klim.symbol_details.presentation.entity.SimilarEntityView
 import com.klim.symbol_details.presentation.entity.TagEntityView
+import com.klim.symbol_details_usecase.SymbolDetailsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,7 +39,7 @@ class SymbolDetailsViewModel
 @Inject
 constructor(
     application: Application,
-    private val symbolDetailsUseCase: com.klim.symbol_details_usecase.SymbolDetailsUseCase,
+    private val symbolDetailsUseCase: SymbolDetailsUseCase,
     private val geocoder: Geocoder,
 //    private val firebaseCrashlytics: FirebaseCrashlytics,//todo modules
     private val analytics: AnalyticsI,
@@ -85,7 +86,7 @@ constructor(
         viewModelScope.launch(Dispatchers.Main) {
 
             val jobDetails = launch(Dispatchers.Main) {
-                val results = symbolDetailsUseCase.getDetails(com.klim.symbol_details_usecase.SymbolDetailsUseCase.Params(currentSymbol))
+                val results = symbolDetailsUseCase.getDetails(SymbolDetailsUseCase.Params(currentSymbol))
                 results?.let {
                     val preparedResult = prepareDetailsResult(results)
                     _detailsResults.postValue(preparedResult)
@@ -96,7 +97,7 @@ constructor(
             }
 //
             val jobPrice = launch(Dispatchers.Main) {
-                val results = symbolDetailsUseCase.getPrice(com.klim.symbol_details_usecase.SymbolDetailsUseCase.Params(currentSymbol))
+                val results = symbolDetailsUseCase.getPrice(SymbolDetailsUseCase.Params(currentSymbol))
 
                 _price.postValue(
                     preparePriceResult(results)
@@ -104,7 +105,7 @@ constructor(
             }
 
             val jobHistory = launch(Dispatchers.Main) {
-                val lastMonthsHistory = symbolDetailsUseCase.getLastMonthPrice(com.klim.symbol_details_usecase.SymbolDetailsUseCase.Params(currentSymbol))
+                val lastMonthsHistory = symbolDetailsUseCase.getLastMonthPrice(SymbolDetailsUseCase.Params(currentSymbol))
                 if (lastMonthsHistory != null) {
                     _history.postValue(lastMonthsHistory.map {
                         ChartDataItem(it.time, it.priceClose)
