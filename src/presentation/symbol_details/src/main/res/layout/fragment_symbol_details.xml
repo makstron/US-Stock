@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.klim.symbol_details.presentation.SymbolDetailsViewModel" />
+            type="com.klim.stock.symbol.ui.presentation.SymbolDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,7 +159,7 @@
                     app:layout_constraintTop_toTopOf="@+id/priceDelta"
                     tools:text="1.5%" />
 
-                <com.klim.smoothie_chart.SmoothieChartView
+                <com.klim.chart.smoothie.SmoothieChartView
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"

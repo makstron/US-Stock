@@ -47,8 +47,8 @@ class WindowsContainer : FrameLayout {
         windowsKeeper.startWindow(fragment, isItBase)
     }
 
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        when (ev?.action) {
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 startedClosing = false
                 resetSwipeDistance()
@@ -106,10 +106,9 @@ class WindowsContainer : FrameLayout {
         }
         va.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(
-                animation: Animator?,
-                isReverse: Boolean
+                animation: Animator
             ) {
-                super.onAnimationEnd(animation, isReverse)
+                super.onAnimationEnd(animation)
                 enableUserSwipe = true
             }
         })
@@ -127,8 +126,8 @@ class WindowsContainer : FrameLayout {
             window.containerView.translationX = animation.animatedValue as Float
         }
         va.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
-                super.onAnimationEnd(animation, isReverse)
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
                 enableUserSwipe = true
                 windowsKeeper.removeTopWindow()
                 windowCloseListener?.invoke()

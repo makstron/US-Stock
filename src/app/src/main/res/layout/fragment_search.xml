@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.klim.us_stock.ui.windows.search.SearchViewModel" />
+            type="com.klim.stock.ui.windows.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'kotlin-kapt'
+}
+apply from: "$project.rootDir/dependencies.gradle"
+
+java {
+    def globalConfig = rootProject.ext
+    sourceCompatibility = globalConfig.javaVersion
+    targetCompatibility = globalConfig.javaVersion
+}
+
+dependencies {
+
+    dagger()
+
+}

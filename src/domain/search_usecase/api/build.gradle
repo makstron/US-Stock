@@ -1,0 +1,16 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+java {
+    def globalConfig = rootProject.ext
+    sourceCompatibility = globalConfig.javaVersion
+    targetCompatibility = globalConfig.javaVersion
+}
+
+dependencies {
+    implementation project(path: ':dependency_provider')
+}
+
+

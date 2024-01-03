@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "421364873796",
-    "project_id": "us-stock-326811",
-    "storage_bucket": "us-stock-326811.appspot.com"
+    "project_number": "234549138089",
+    "project_id": "stock-81d13",
+    "storage_bucket": "stock-81d13.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:421364873796:android:22a12c226ea21a5ec85a11",
+        "mobilesdk_app_id": "1:234549138089:android:f000ff0eb88d847eaecfb8",
         "android_client_info": {
-          "package_name": "com.klim.us_stock"
+          "package_name": "com.klim.stock"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "421364873796-qh7pbv6nkn05c7p84deiv1j60ft95jgi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAjYstM6bBUyzcaCstAplQFEj40amKGxbk"
+          "current_key": "AIzaSyDWgar048Q3DeTB68ho3YXwj4CcwMltB4E"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "421364873796-qh7pbv6nkn05c7p84deiv1j60ft95jgi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

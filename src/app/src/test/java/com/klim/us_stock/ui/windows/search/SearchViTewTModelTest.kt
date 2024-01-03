@@ -1,7 +1,6 @@
 package com.klim.us_stock.ui.windows.search
 
 import com.google.common.truth.Truth.assertThat
-import com.klim.symbol_details_usecase_api.entity.SearchResultEntity
 import com.klim.search_usecase.SearchUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -52,7 +51,7 @@ class SearchViTewTModelTest {
     @Test
     fun `test searching state`() {
         //setup
-        coEvery { useCase.search(any()) } returns ArrayList<com.klim.symbol_details_usecase_api.entity.SearchResultEntity>()
+        coEvery { useCase.search(any()) } returns ArrayList<com.klim.stock.symboldetails.entity.SearchResultEntity>()
 
         //test
         testDispatcher.runBlockingTest {
@@ -67,7 +66,7 @@ class SearchViTewTModelTest {
     @Test
     fun `test search results exist`() {
         //setup
-        coEvery { useCase.search(any()) } returns listOf(com.klim.symbol_details_usecase_api.entity.SearchResultEntity("TESS", "Tessco Technologies Inc"))
+        coEvery { useCase.search(any()) } returns listOf(com.klim.stock.symboldetails.entity.SearchResultEntity("TESS", "Tessco Technologies Inc"))
 
         //test
         runBlockingTest {
@@ -79,7 +78,7 @@ class SearchViTewTModelTest {
     @Test
     fun `test search results not exist`() {
         //setup
-        coEvery { useCase.search(any()) } returns ArrayList<com.klim.symbol_details_usecase_api.entity.SearchResultEntity>()
+        coEvery { useCase.search(any()) } returns ArrayList<com.klim.stock.symboldetails.entity.SearchResultEntity>()
 
         //test
         runBlockingTest {
