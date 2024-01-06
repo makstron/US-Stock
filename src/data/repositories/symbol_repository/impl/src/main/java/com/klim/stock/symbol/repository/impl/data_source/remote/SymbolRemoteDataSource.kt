@@ -1,23 +1,30 @@
 package com.klim.stock.symbol.repository.impl.data_source.remote
 
-import com.klim.stock.network.models.SearchResultResponse
-import com.klim.stock.network.api.SearchStockSymbolApi
+import com.klim.stock.network.models.search.SearchResponse
+import com.klim.stock.network.api.SearchApi
+import com.klim.stock.network.api.SymbolDetailsApi
 import com.klim.stock.symbol.repository.impl.data_source.SymbolDataSourceI
 import com.klim.stock.symbol.repository.impl.data_source.dto.SearchStockSymbolDTO
 import com.klim.stock.symbol.repository.impl.data_source.dto.SymbolDetailsDTO
 import com.klim.stock.symbol.repository.impl.map
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlin.coroutines.coroutineContext
 
-class SymbolRemoteDataSource(private val api: SearchStockSymbolApi) : SymbolDataSourceI {
+class SymbolRemoteDataSource(
+    private val searchApi: SearchApi,
+    private val detailsApi: SymbolDetailsApi,
+) : SymbolDataSourceI {
 
     override suspend fun search(query: String): List<SearchStockSymbolDTO> {
-        var response: SearchResultResponse? = null
+        var response: SearchResponse? = null
         try {
-            response = api.search(query)
+            response = searchApi.searchY(query = query)
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        response?.results?.let { results ->
+        response?.finance?.result?.first()?.results?.let { results ->
             return results.map {
                 it.map()
             }
@@ -26,12 +33,16 @@ class SymbolRemoteDataSource(private val api: SearchStockSymbolApi) : SymbolData
         }
     }
 
-    override suspend fun getDetails(symbol: String): SymbolDetailsDTO? {
+    override suspend fun getDetails(symbol: String): SymbolDetailsDTO? = coroutineScope {
+        val detailsSummary = async { detailsApi.getDetailsSummary(symbol = symbol) }
+        val details = async { detailsApi.getDetails(symbol = symbol) }
+
         try {
-            return api.getDetails(symbol).map()
+            //TODO: now check for errors
+            return@coroutineScope map(details.await().result, detailsSummary.await().result)
         } catch (e: Exception) {
             e.printStackTrace()
-            return null
+            return@coroutineScope null
         }
     }
 }

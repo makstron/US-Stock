@@ -27,7 +27,7 @@ class SymbolsFavoritedFragment : BaseFragment() {
 
     private fun inject() {
         val component = SymbolsFavoritedComponent.Initializer
-            .init(getApplicationContextProvider(), findDependencies())
+            .init(getApplicationContextProvider(), getViewModelProviderProvider(), findDependencies())
         component.inject(this)
     }
 

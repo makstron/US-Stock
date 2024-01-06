@@ -10,6 +10,8 @@
     <string name="label_industry">Industry:</string>
     <string name="label_ceo">CEO:</string>
     <string name="label_employees">Employees:</string>
+    <string name="label_address">Address:</string>
+    <string name="label_phone">Phone:</string>
     <string name="label_description">Description</string>
     <string name="description_open_full">Open full description</string>
     <string name="label_tags">Tags</string>

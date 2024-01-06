@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- region fonts -->
+    <attr name="colorFontMain" format="color" />
+    <attr name="colorFontSecond" format="color" />
+    <attr name="colorBackground" format="color" />
+    <!-- endregion fonts -->
+</resources>

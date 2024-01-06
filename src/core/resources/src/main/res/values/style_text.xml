@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text" />
+
+    <!-- Heading -->
+    <style name="Text.Heading" />
+
+    <!-- Heading.XXLarge -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 40sp
+        Line height: 52sp
+        Line height: 109.7%
+    -->
+    <style name="Text.Heading.XXLarge">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">40sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">52sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <!-- Heading.XLarge -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 36sp
+        Line height: 44sp
+        Line height: 103.14%
+    -->
+    <style name="Text.Heading.XLarge">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">36sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">44sp</item>
+        <item name="android:lineSpacingExtra">1sp</item>
+    </style>
+
+    <!-- Heading.Large -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 32sp
+        Line height: 40sp
+        Line height: 105.49%
+    -->
+    <style name="Text.Heading.Large">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">32sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">40sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <!-- Heading.Medium -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 28sp
+        Line height: 36sp
+        Line height: 108.5%
+    -->
+    <style name="Text.Heading.Medium">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">28sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">36sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Heading.Small.Medium -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 24sp
+        Line height: 32sp
+        Line height: 112.52%
+    -->
+    <style name="Text.Heading.Small.Medium">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">32sp</item>
+        <item name="fontWeight">500</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <!-- Heading.Small -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 24sp
+        Line height: 32sp
+        Line height: 112.52%
+    -->
+    <style name="Text.Heading.Small">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">32sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <!-- Heading.X_Small -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 20sp
+        Line height: 24sp
+        Line height: 118.14%
+    -->
+    <style name="Text.Heading.XSmall">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">24sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <!-- Heading.SmallSemibold -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 24sp
+        Line height: 32sp
+        Line height: 112.52%
+    -->
+    <style name="Text.Heading.SmallSemibold">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">32sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+
+    <!-- Paragraph -->
+    <style name="Text.Paragraph" />
+
+    <!-- Paragraph.LargeM -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 18sp
+        Line height: 28sp
+        Line height: 131.27%
+        Letter spacing: 0.15dp
+    -->
+    <style name="Text.Paragraph.LargeM">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">28sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Paragraph.Large -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 18sp
+        Line height: 28sp
+        Line height: 131.27%
+        Letter spacing: 0.15dp
+    -->
+    <style name="Text.Paragraph.Large">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">28sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">7sp</item>
+    </style>
+
+    <!-- Paragraph.Medium-Semibold -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 16sp
+        Line height: 24sp
+        Line height: 126.58%
+    -->
+    <style name="Text.Paragraph.MediumSemibold">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">24sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <!-- Paragraph.Medium -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 16sp
+        Line height: 24sp
+        Line height: 126.58%
+    -->
+    <style name="Text.Paragraph.Medium">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">24sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <!-- Paragraph.Medium.Medium -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 16sp
+        Line height: 24sp
+        Line height: 126.58%
+    -->
+    <style name="Text.Paragraph.Medium.Medium">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">24sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <!-- Paragraph.Small-Medium -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 14sp
+        Line height: 20sp
+        Line height: 120.55%
+    -->
+    <style name="Text.Paragraph.SmallMedium">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">20sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Paragraph.Small -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 14sp
+        Line height: 20sp
+        Line height: 120.55%
+    -->
+    <style name="Text.Paragraph.Small">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">17sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Paragraph/X Small -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 12sp
+        Line height: 14sp
+        Line height: 140.65%
+    -->
+    <style name="Text.Paragraph.SmallX">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">14sp</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+    </style>
+
+    <!-- Paragraph/Small-Semibold -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 14sp
+        Line height: 20sp
+        Line height: 120.55%
+    -->
+    <style name="Text.Paragraph.SmallSemibold">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">20sp</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+
+    <!-- Label -->
+    <style name="Text.Label" />
+
+    <!-- Label/LargeX -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 14sp
+        Line height: 22sp
+        Line height: 132.61%
+        Letter spacing: 0.5dp
+    -->
+    <style name="Text.Label.LargeX">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">22sp</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <!-- Label/Large -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 14sp
+        Line height: 20sp
+        Line height: 120.55%
+        Letter spacing: 0.1dp
+    -->
+    <style name="Text.Label.Large">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">20sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Label/Medium -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 12sp
+        Line height: 16sp
+        Line height: 112.52%
+        Letter spacing: 0.5dp
+    -->
+    <style name="Text.Label.Medium">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="lineHeight">16sp</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <!-- Label/Small -->
+    <!--
+        Font family: Rubik
+        Font style: Medium
+        Font size: 11sp
+        Line height: 16sp
+        Line height: 122.75%
+        Letter spacing: 0.5dp
+    -->
+    <style name="Text.Label.Small">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="lineHeight">16sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:lineSpacingExtra">3sp</item>
+    </style>
+
+    <!-- Label/SmallXX -->
+    <!--
+        Font family: Rubik
+        Font style: Regular
+        Font size: 8sp
+        Line height: 9.48sp
+        Line height: 100%
+    -->
+    <style name="Text.Label.SmallXX">
+        <item name="android:textColor">?attr/colorFontMain</item>
+        <item name="android:textSize">8sp</item>
+        <item name="fontFamily">@font/rubik_regular</item>
+        <item name="lineHeight">9.48sp</item>
+    </style>
+</resources>

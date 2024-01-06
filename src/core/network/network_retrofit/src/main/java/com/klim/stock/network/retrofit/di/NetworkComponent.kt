@@ -2,22 +2,26 @@ package com.klim.stock.network.retrofit.di
 
 import com.klim.stock.network.ApiProvider
 import com.klim.stock.network.api.HistoryApi
-import com.klim.stock.network.api.SearchStockSymbolApi
+import com.klim.stock.network.api.SearchApi
 import com.klim.stock.network.api.StockSymbolApi
+import com.klim.stock.network.api.SymbolDetailsApi
+import com.klim.stock.storage.api.StorageKeyProvider
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-//    dependencies = [ApiProvider::class],
-    modules = [RetrofitModule::class]
+    dependencies = [StorageKeyProvider::class],
+    modules = [RetrofitApiModule::class]
 )
 interface NetworkComponent : ApiProvider {
 
     override fun getHistoryApi(): HistoryApi
 
-    override fun getSearchStockSymbolApi(): SearchStockSymbolApi
+    override fun getSearchApi(): SearchApi
 
     override fun getStockSymbolApi(): StockSymbolApi
+
+    override fun getSymbolDetailsApi(): SymbolDetailsApi
 
 }

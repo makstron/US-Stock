@@ -29,5 +29,5 @@ interface SymbolDetailsUseCaseModule {
 class SymbolDetailsUseCaseProviderImpl
 @Inject
 constructor(
-    override val symbolDetailsUseCase: SymbolDetailsUseCase
+    override val useCase: SymbolDetailsUseCase
 ) : SymbolDetailsUseCaseProvider

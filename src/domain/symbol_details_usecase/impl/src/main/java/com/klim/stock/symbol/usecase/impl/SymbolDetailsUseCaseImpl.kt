@@ -6,12 +6,12 @@ import com.klim.constants.qualifiers.TimezoneServer
 import com.klim.stock.symbol.api.SymbolDetailsUseCase
 import com.klim.stock.symbol.api.entity.RelatedStockEntity
 import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
-import com.klim.stock.symbol.api.entity.SymbolHistoryPriceEntity
 import com.klim.stock.symbol.api.entity.SymbolPriceSummaryEntity
 import com.klim.stock.symbol.api.entity.TagEntity
 import com.klim.stock.symbol.repository.api.SymbolRepository
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -43,6 +43,9 @@ class SymbolDetailsUseCaseImpl
             description = details.description,
             tags = details.tags.map { TagEntity(it.tag, getRandomColor()) },
             relatedStocks = details.relatedStocks.map { RelatedStockEntity(it.symbol, getNextTagColor()) },
+            currentPrice = details.currentPrice,
+            marketChange = details.marketChange,
+            marketChangePercent = details.marketChangePercent,
         )
     }
 
@@ -82,13 +85,6 @@ class SymbolDetailsUseCaseImpl
         return null
     }
 
-    override suspend fun getLastMonthPrice(params: SymbolDetailsUseCase.RequestParams): List<SymbolHistoryPriceEntity>? {
-        //TODO: now
-//        return repositoryHistory.getPricesForPeriod(params.symbol, getDayWithShift(-30), getDayWithShift(0))
-
-        return null
-    }
-
     private fun getLastAndPreviousAvailableDays(): Pair<String, String> {
         val cal = Calendar.getInstance(serverTimezone)
         cal.add(Calendar.DAY_OF_YEAR, -1)
@@ -102,18 +98,21 @@ class SymbolDetailsUseCaseImpl
                 cal.add(Calendar.DAY_OF_YEAR, -3)
                 previousAvailableDay = dayFormat.format(cal.timeInMillis)
             }
+
             Calendar.SATURDAY -> {
                 cal.add(Calendar.DAY_OF_YEAR, -1)
                 lastAvailableDay = dayFormat.format(cal.timeInMillis)
                 cal.add(Calendar.DAY_OF_YEAR, -1)
                 previousAvailableDay = dayFormat.format(cal.timeInMillis)
             }
+
             Calendar.SUNDAY -> {
                 cal.add(Calendar.DAY_OF_YEAR, -2)
                 lastAvailableDay = dayFormat.format(cal.timeInMillis)
                 cal.add(Calendar.DAY_OF_YEAR, -1)
                 previousAvailableDay = dayFormat.format(cal.timeInMillis)
             }
+
             else -> {
                 lastAvailableDay = dayFormat.format(cal.timeInMillis)
                 cal.add(Calendar.DAY_OF_YEAR, -1)

@@ -27,7 +27,7 @@ class SettingsFragment : BaseFragment() {
 
     private fun inject() {
         val component = SettingsComponent.Initializer
-            .init(getApplicationContextProvider())
+            .init(getApplicationContextProvider(), getViewModelProviderProvider())
         component.inject(this)
     }
 

@@ -32,7 +32,6 @@ android {
     }
     buildFeatures {
         viewBinding true
-        dataBinding true //TODO: now remove it
     }
 }
 
@@ -46,7 +45,8 @@ dependencies {
 
     //UI components
     implementation project(':smoothie_chart')
-    implementation project(path: ':symbol_details_usecase:api')
+    implementation project(':symbol_details_usecase:api')
+    implementation project(':history_usecase:api')
     maps()
 
     //Core

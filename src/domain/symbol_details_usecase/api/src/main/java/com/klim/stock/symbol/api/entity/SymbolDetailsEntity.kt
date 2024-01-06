@@ -12,4 +12,7 @@ class SymbolDetailsEntity(
     val description: String,
     val tags: List<TagEntity>,
     val relatedStocks: List<RelatedStockEntity>,
+    val currentPrice: Float,
+    val marketChange: Float,
+    val marketChangePercent: Float,
 )

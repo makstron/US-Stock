@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.R
 import com.klim.stock.databinding.ActivityMainBinding
+import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.di.main_activity.MainActivityComponent
 import com.klim.stock.ui.windows.MainActivityViewModel
 import com.klim.stock.ui.windows.search.SearchFragment
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     private fun inject() {
         val component = MainActivityComponent.Initializer
-            .init(application as ApplicationContextProvider)
+            .init(application as ApplicationContextProvider, application as ViewModelProviderProvider)
         component.inject(this)
     }
 

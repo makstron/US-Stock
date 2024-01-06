@@ -37,8 +37,11 @@ android {
 
 dependencies {
 
-    implementation project(':network_api')
+    api project(':network_api')
     implementation project(':constants')
+    implementation project(':storage:api')
+    implementation project(':storage:impl') //TODO: now remove it
+    implementation project(':dependency_provider')
 
     retrofit2()
 

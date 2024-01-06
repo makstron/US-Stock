@@ -52,17 +52,22 @@ dependencies {
 
     implementation project(':symbol_details_usecase:api')
     implementation project(':symbol_details_usecase:impl')
+    implementation project(':history_usecase:api')
+    implementation project(':history_usecase:impl')
     implementation project(':search_usecase:api')
     implementation project(':search_usecase:impl')
 
-    implementation project(':history_repository')
+    //Repositories
     implementation project(':stock_repository')
     implementation project(':symbol_repository:api')
     implementation project(':symbol_repository:impl')
+    implementation project(':history_repository:api')
+    implementation project(':history_repository:impl')
 
 
     implementation project(':network_api')
     implementation project(':network_retrofit')
+
     implementation project(':windowsManager')
     implementation project(':resources')
     implementation project(':analytics')
@@ -84,6 +89,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
 
+    dagger()
+
     //firebase
     api platform('com.google.firebase:firebase-bom:28.4.1') //todo modules
     api 'com.google.firebase:firebase-crashlytics-ktx'
@@ -92,11 +99,12 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:18.2.0' // TODO: now must stay here
 
-    //dagger
-    dagger()
-
-
+    //storages
+    implementation project(path: ':storage:api')
+    implementation project(path: ':storage:impl')
     implementation project(path: ':cache')
+
+
     implementation project(path: ':utils')
     implementation project(path: ':dependency_provider')
 

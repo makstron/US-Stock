@@ -2,10 +2,10 @@ package com.klim.stock.di
 
 import com.klim.stock.cache.lru_cache.LRUCache
 import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
-import com.klim.stock.symbol.api.entity.SymbolHistoryPriceEntity
 import com.klim.stock.symbol.api.entity.SymbolPriceEntity
 import com.klim.stock.Constants
 import com.klim.stock.cache.Cache
+import com.klim.stock.history.usecase.api.entity.SymbolHistoryPriceEntity
 import dagger.Module
 import dagger.Provides
 

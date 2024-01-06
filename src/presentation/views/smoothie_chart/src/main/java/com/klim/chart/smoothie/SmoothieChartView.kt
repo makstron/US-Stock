@@ -77,7 +77,7 @@ class SmoothieChartView : View {
     private fun prepareData(data: List<ChartDataItem>): ArrayList<ChartPreparedDataItem> {
         if (height == 0 || width == 0)
             return ArrayList()
-        data.forEach { it.time = -it.time } //reverse timeline
+//        data.forEach { it.time = -it.time } //reverse timeline
         val sortedRawData = data.sortedBy { it.time }
         val minTime = sortedRawData.first().time
         val maxTime = sortedRawData.last().time
@@ -116,6 +116,7 @@ class SmoothieChartView : View {
 
         maxEnabledShift = list.last().cubic3.x - list.first().cubic0.x
         maxEnabledShift = -maxEnabledShift + width - paddingRight - paddingLeft
+        shiftSum = maxEnabledShift //navigate to the right side
 
         return list
     }

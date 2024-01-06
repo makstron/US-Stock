@@ -11,6 +11,10 @@
         <item name="colorSecondary">@color/brand_red</item>
         <item name="colorSecondaryVariant">@color/brand_red</item>
         <item name="colorOnSecondary">@color/black</item>
+
+        <item name="colorFontMain">@color/gray_96</item>
+        <item name="colorFontSecond">@color/gray_60</item>
+        <item name="colorBackground">@color/gray_10</item>
     </style>
 
     <style name="Theme.USStock.NoActionBar">

@@ -21,21 +21,22 @@ include ':smoothie_chart'
 project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/views/smoothie_chart')
 
 
-//domain
+//region domain
 
-includeDomain(':symbol_details_usecase', 'src/domain/symbol_details_usecase')
-includeDomain(':search_usecase', 'src/domain/search_usecase')
+includeApiImpl(':history_usecase', 'src/domain/history_usecase')
+includeApiImpl(':search_usecase', 'src/domain/search_usecase')
+includeApiImpl(':symbol_details_usecase', 'src/domain/symbol_details_usecase')
 
+//endregion
 
 //region repository
-
-include ':history_repository'
-project(':history_repository').projectDir = new File(rootDir, 'src/data/repositories/history_repository')
 
 include ':stock_repository'
 project(':stock_repository').projectDir = new File(rootDir, 'src/data/repositories/stock_repository')
 
-includeDomain(':symbol_repository', 'src/data/repositories/symbol_repository')
+includeApiImpl(':symbol_repository', 'src/data/repositories/symbol_repository')
+includeApiImpl(':history_repository', 'src/data/repositories/history_repository')
+
 //endregion
 
 include ':cache'
@@ -70,13 +71,16 @@ project(':utils').projectDir = new File(rootDir, 'src/core/utils')
 include ':dependency_provider'
 project(':dependency_provider').projectDir = new File(rootDir, 'src/core/dependency_provider')
 
+includeApiImpl(':storage', 'src/data/storage')
 
 def includePresentation(name, path) {
     include name
     project(name).projectDir = new File(rootDir, path)
 }
 
-def includeDomain(name, path) {
+def includeApiImpl(name, path) {
+    include "$name"
+    project("$name").projectDir = new File(rootDir,  "$path")
     include "$name:api"
     project("$name:api").projectDir = new File(rootDir,  "$path/api")
     include "$name:impl"

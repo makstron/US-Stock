@@ -27,7 +27,7 @@ class InfoFragment : BaseFragment() {
 
     private fun inject() {
         val component = InfoComponent.Initializer
-            .init(getApplicationContextProvider())
+            .init(getApplicationContextProvider(), getViewModelProviderProvider())
         component.inject(this)
     }
 

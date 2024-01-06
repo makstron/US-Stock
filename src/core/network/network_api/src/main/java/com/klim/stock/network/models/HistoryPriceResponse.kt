@@ -2,5 +2,5 @@ package com.klim.stock.network.models
 
 class HistoryPriceResponse(
     val results: List<HistoryPriceItemResponse>?,
-    val count: Int
+    val error: Boolean? = false, //TODO: now extend it
 )

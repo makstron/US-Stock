@@ -42,7 +42,7 @@ class SearchFragment : BaseFragment() {
 
     private fun inject() {
         val component = SearchComponent.Initializer
-            .init(getApplicationContextProvider())
+            .init(getApplicationContextProvider(), getViewModelProviderProvider())
         component.inject(this)
     }
 

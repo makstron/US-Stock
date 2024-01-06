@@ -12,4 +12,7 @@ class SymbolDetailsDTO(
     val description: String,
     val tags: List<TagDTO>,
     val relatedStocks: List<RelatedStockDTO>,
+    val currentPrice: Float,
+    val marketChange: Float,
+    val marketChangePercent: Float,
 )

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Color
 import android.os.Bundle
-import androidx.databinding.ObservableBoolean
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,11 +15,12 @@ import com.klim.stock.analytics.crashliytics.Crashlytics
 import com.klim.stock.analytics.crashliytics.FirebaseCrashKeys
 import com.klim.stock.analytics.analytics.FirebaseLogKeys
 import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
-import com.klim.stock.symbol.api.entity.SymbolPriceSummaryEntity
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.chart.smoothie.ChartDataItem
+import com.klim.stock.history.usecase.api.HistoryUseCase
 import com.klim.stock.symbol.api.SymbolDetailsUseCase
 import com.klim.stock.symbol.ui.R
+import com.klim.stock.resources.R as Res
 import com.klim.stock.utils.geocoder.api.Address
 import com.klim.stock.utils.geocoder.api.Geocoder
 import com.klim.stock.symbol.ui.presentation.entity.DetailsResultView
@@ -42,6 +43,7 @@ class SymbolDetailsViewModel
 constructor(
     application: Application,
     private val symbolDetailsUseCase: SymbolDetailsUseCase,
+    private val historyUseCase: HistoryUseCase,
     private val geocoder: Geocoder,
     private val phoneNumberUtil: PhoneNumberUtils,
     private val analytics: Analytics,
@@ -65,10 +67,11 @@ constructor(
     private val _history = MutableLiveData<List<ChartDataItem>?>()
     val history: LiveData<List<ChartDataItem>?> = _history
 
-    val data = ArrayList<ChartDataItem>()
+    private val _isLoading = MutableLiveData<Boolean>(true)
+    val isLoading: LiveData<Boolean> = _isLoading
 
-    val isLoading = ObservableBoolean(false)
-    val isExistsResult = ObservableBoolean(true)
+    private val _isExistsResult = MutableLiveData<Boolean>(true)
+    val isExistsResult: LiveData<Boolean> = _isExistsResult
 
     fun loadArguments(args: Bundle?) {
         args?.let { args ->
@@ -84,7 +87,7 @@ constructor(
     }
 
     fun loadDetails() {
-        isLoading.set(true)
+        _isLoading.postValue(true)
         viewModelScope.launch(Dispatchers.Main) {
 
             val jobDetails = launch(Dispatchers.Main) {
@@ -92,36 +95,36 @@ constructor(
                 results?.let {
                     val preparedResult = prepareDetailsResult(results)
                     _detailsResults.postValue(preparedResult)
-
                     _geocodedAddress.postValue(geocodeAddress(results.address))
+                    _price.postValue(preparePriceResult(results))
                 }
-                isExistsResult.set(results != null)
-            }
-
-            val jobPrice = launch(Dispatchers.Main) {
-                val results = symbolDetailsUseCase.getPrice(SymbolDetailsUseCase.RequestParams(currentSymbol))
-
-                _price.postValue(
-                    preparePriceResult(results)
-                )
+                _isExistsResult.postValue(results != null)
             }
 
             val jobHistory = launch(Dispatchers.Main) {
-                val lastMonthsHistory = symbolDetailsUseCase.getLastMonthPrice(SymbolDetailsUseCase.RequestParams(currentSymbol))
+                val lastMonthsHistory =
+                    historyUseCase.getSymbolPricesHistory(
+                        HistoryUseCase.RequestParams(
+                            currentSymbol,
+                            HistoryUseCase.RequestParams.Range.ONE_MONTH,
+                            HistoryUseCase.RequestParams.TimeInterval.ONE_DAY
+                        )
+                    )
                 if (lastMonthsHistory != null) {
-                    _history.postValue(lastMonthsHistory.map {
-                        ChartDataItem(it.time, it.priceClose)
-                    })
+                    _history.postValue(
+                        lastMonthsHistory
+                            .map {
+                                ChartDataItem(it.time * 1000, it.priceClose.toFloat())
+                            })
                 } else {
                     _history.postValue(null)
                 }
             }
 
             jobDetails.join()
-            jobPrice.join()
             jobHistory.join()
 
-            isLoading.set(false)
+            _isLoading.postValue(false)
         }
     }
 
@@ -175,45 +178,45 @@ constructor(
 
     private fun numberFormat(number: String): String {
         return try {
-            phoneNumberUtil.format( number)
+            phoneNumberUtil.format(number)
         } catch (e: Exception) {
             number
         }
     }
 
-    private fun preparePriceResult(price: SymbolPriceSummaryEntity?): PriceEntityView {
-        var priceCurrent = getApplication<Application>().getString(R.string.data_not_loaded)//todo modules
-        var priceDifferentFormat = (getApplication() as ApplicationContextProvider).getAppContext().getString(R.string.data_not_loaded) //todo modules
+    private fun preparePriceResult(result: SymbolDetailsEntity?): PriceEntityView {
+        var priceCurrent = getApplication<Application>().getString(R.string.data_not_loaded)
+        var priceDifferentFormat = (getApplication() as ApplicationContextProvider).getAppContext().getString(R.string.data_not_loaded)
         var priceDifferentPercentFormat = ""
         var color: Int = Color.GRAY
         var arrow: Int = 0
 
-        if (price != null) {
+        if (result != null) {
 
-            priceCurrent = "$${price.currentPrice}"
+            priceCurrent = "$${result.currentPrice}"
 
-            if (price.valueFromLatest != null && price.percentFromLatest != null) {
-                when {
-                    price.valueFromLatest!! > 0 -> { //todo modules !!
-                        color = Color.parseColor("#0ac269")
-                        arrow = R.drawable.ic_arrow_up
-                    }
-                    price.valueFromLatest!! < 0 -> {//todo modules !!
-                        color = Color.parseColor("#E51616")
-                        arrow = R.drawable.ic_arrow_down
-                    }
-                    else -> {
-                        color = Color.GRAY
-                        arrow = R.drawable.ic_arrow_empty
-                    }
+            when {
+                result.marketChange > 0 -> {
+                    color = ContextCompat.getColor(getApplication(), Res.color.price_rise)
+                    arrow = R.drawable.ic_arrow_up
                 }
 
-                val priceDifferent = roundUpMoney(price.valueFromLatest!!) //todo modules !!
-                val priceDifferentPercent = roundUpMoney(price.percentFromLatest!!) //todo modules !!
+                result.marketChange < 0 -> {
+                    color = ContextCompat.getColor(getApplication(), Res.color.price_fall)
+                    arrow = R.drawable.ic_arrow_down
+                }
 
-                priceDifferentFormat = if (priceDifferent > 0) "+${priceDifferent}" else "$priceDifferent"
-                priceDifferentPercentFormat = "$priceDifferentPercent".replace("-", "")
+                else -> {
+                    color = Color.GRAY
+                    arrow = R.drawable.ic_arrow_empty
+                }
             }
+
+            val priceDifferent = roundUpMoney(result.marketChange)
+            val priceDifferentPercent = roundUpMoney(result.marketChangePercent)
+
+            priceDifferentFormat = if (priceDifferent > 0) "+${priceDifferent}" else "$priceDifferent"
+            priceDifferentPercentFormat = "$priceDifferentPercent%".replace("-", "")
         }
 
         return PriceEntityView(

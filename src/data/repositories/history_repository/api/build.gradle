@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+java {
+    def globalConfig = rootProject.ext
+    sourceCompatibility = globalConfig.javaVersion
+    targetCompatibility = globalConfig.javaVersion
+}
+
+dependencies {
+    api project(':history_usecase:api')
+}

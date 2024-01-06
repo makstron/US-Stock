@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,16 +18,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTest
-import com.klim.stock.symbol.ui.R
 import com.klim.stock.symbol.ui.databinding.FragmentSymbolDetailsBinding
-import com.klim.stock.resources.R as RR
 import com.klim.stock.symbol.ui.di.SymbolDetailsComponent
 import com.klim.stock.symbol.ui.presentation.adapters.SimilarAdapter
 import com.klim.stock.symbol.ui.presentation.adapters.TagsAdapter
 import com.klim.stock.symbol.ui.presentation.entity.DetailsResultView
 import com.klim.stock.symbol.ui.presentation.entity.PriceEntityView
-
 import javax.inject.Inject
+import com.klim.stock.resources.R as RR
 
 
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
@@ -62,7 +61,15 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun inject() {
         val component = SymbolDetailsComponent.Initializer
-            .init(getApplicationContextProvider(), findDependencies(), findDependencies(), findDependencies(), findDependencies())
+            .init(
+                getApplicationContextProvider(),
+                getViewModelProviderProvider(),
+                findDependencies(),
+                findDependencies(),
+                findDependencies(),
+                findDependencies(),
+                findDependencies()
+            )
         component.inject(this)
     }
 
@@ -70,10 +77,10 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         binding = FragmentSymbolDetailsBinding.inflate(inflater, container, false)
         vm = ViewModelProvider(this, viewModelFactory).get(SymbolDetailsViewModel::class.java)
         addressMap = binding.addressMap
-        binding.vm = vm
 
         vm.loadArguments(arguments)
         setActionListeners()
+        observeViewModel()
 
         binding.tagsContainer.adapter = tagsAdapter
         binding.relatedStocksContainer.adapter = similarAdapter
@@ -92,27 +99,6 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
             closeWindow()
         }
 
-        vm.detailsResults.observe(viewLifecycleOwner, { details ->
-            setContent(details)
-        })
-
-        vm.geocodedAddress.observe(viewLifecycleOwner) { location ->
-            setLocationOnMap(location)
-        }
-
-        vm.price.observe(viewLifecycleOwner) { prices ->
-            setPrices(prices)
-        }
-
-        vm.history.observe(viewLifecycleOwner) { prices ->
-            prices?.let {
-                binding.chart.setData(prices, getColor(RR.color.brand_red))
-                binding.labelChartErrorMessage.visibility = View.GONE
-            } ?: run {
-                binding.labelChartErrorMessage.visibility = View.VISIBLE
-            }
-        }
-
         similarAdapter.clickListener = ::onSimilarSymbolItemSelected
 
         binding.descriptionContent.setOnClickListener {
@@ -123,36 +109,57 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    private fun observeViewModel() {
+        vm.apply {
+
+            detailsResults.observe(viewLifecycleOwner, { details ->
+                setContent(details)
+            })
+
+            geocodedAddress.observe(viewLifecycleOwner) { location ->
+                setLocationOnMap(location)
+            }
+
+            price.observe(viewLifecycleOwner) { prices ->
+                setPrices(prices)
+            }
+
+            history.observe(viewLifecycleOwner) { prices ->
+                prices?.let {
+                    binding.chart.setData(prices, getColor(RR.color.brand_red))
+                    binding.labelChartErrorMessage.visibility = View.GONE
+                } ?: run {
+                    binding.labelChartErrorMessage.visibility = View.VISIBLE
+                }
+            }
+
+            isLoading.observe(viewLifecycleOwner) { status ->
+                binding.progress.isVisible = status
+            }
+            isExistsResult.observe(viewLifecycleOwner) { result ->
+                binding.content.isVisible = result
+                binding.emptyMessage.isVisible = !result
+            }
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun setContent(details: DetailsResultView) {
         binding.apply {
-            symbol.text = details.symbol
-            symbol.background = null
-            symbol.minimumWidth = 0
-            symbol.minWidth = 0
+            tvSymbol.text = details.symbol
+            tvSymbol.background = null
+            tvSymbol.minimumWidth = 0
+            tvSymbol.minWidth = 0
 
             companyName.text = details.name
             companyName.background = null
 
-            labelAbout.text = getString(R.string.label_about)
-            labelAbout.background = null
-            aboutName.text = details.symbol
-            aboutName.background = null
-
-            labelSector.text = getString(R.string.label_sector)
-            labelSector.background = null
             sectorValue.text = details.sector
             sectorValue.background = null
-            labelIndustry.text = getString(R.string.label_industry)
-            labelIndustry.background = null
             industryValue.text = details.industry
             industryValue.background = null
-            labelCEO.text = getString(R.string.label_ceo)
-            labelCEO.background = null
             ceoValue.text = details.ceo
             ceoValue.background = null
-            labelEmployees.text = getString(R.string.label_employees)
-            labelEmployees.background = null
             employeesValue.text = details.employees
             employeesValue.background = null
 
@@ -163,26 +170,16 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
             phone.text = details.phone
             phone.background = null
 
-            labelDescription.text = getString(R.string.label_description)
-            labelDescription.background = null
             descriptionContent.text = details.description
             descriptionContentThumbOne.visibility = View.GONE
             descriptionContentThumbTwo.visibility = View.GONE
 
             ///
-
-            labelTags.text = getString(R.string.label_tags)
-            labelTags.background = null
-
             tagsAdapter.tagsList.clear()
             tagsAdapter.tagsList.addAll(details.tags)
             tagsAdapter.notifyDataSetChanged()
 
             ///
-
-            labelRelatedStocks.text = getString(R.string.label_related_stocks)
-            labelRelatedStocks.background = null
-
             similarAdapter.similarList.clear()
             similarAdapter.similarList.addAll(details.similar)
             similarAdapter.notifyDataSetChanged()

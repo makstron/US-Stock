@@ -10,6 +10,10 @@ interface ApplicationContextProvider {
 
     fun getApplication(): Application
 
+}
+
+interface ViewModelProviderProvider {
+
     fun getViewModelFactory(): ViewModelProvider.Factory
 
 }
