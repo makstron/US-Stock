@@ -5,12 +5,12 @@ class DetailsResultView(
     val name: String,
     val sector: String,
     val industry: String,
-    val ceo: String,
+    val ceo: String?,
     val employees: String,
     val address: String,
     val phone: String,
     val description: String,
 
-    val tags: List<TagEntityView>,
-    val similar: List<SimilarEntityView>,
+    val recommendedSymbols: List<RecommendedEntityView>,
+    val officers: List<OfficerEntityView>,
 )

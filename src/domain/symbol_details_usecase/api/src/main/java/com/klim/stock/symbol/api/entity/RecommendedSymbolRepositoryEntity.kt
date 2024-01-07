@@ -1,6 +1,5 @@
 package com.klim.stock.symbol.api.entity
 
-class RelatedStockEntity(
+class RecommendedSymbolRepositoryEntity(
     val symbol: String,
-    val color: Int = 0,
 )

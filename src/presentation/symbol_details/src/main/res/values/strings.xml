@@ -14,8 +14,7 @@
     <string name="label_phone">Phone:</string>
     <string name="label_description">Description</string>
     <string name="description_open_full">Open full description</string>
-    <string name="label_tags">Tags</string>
-    <string name="label_related_stocks">Related Stocks</string>
+    <string name="label_recommended_symbols">Recommended symbol</string>
     <!-- // Details -->
 
 </resources>

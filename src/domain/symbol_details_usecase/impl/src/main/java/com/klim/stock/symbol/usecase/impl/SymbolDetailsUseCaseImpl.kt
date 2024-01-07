@@ -4,10 +4,10 @@ import android.graphics.Color
 import com.klim.constants.qualifiers.DateFormatRequest
 import com.klim.constants.qualifiers.TimezoneServer
 import com.klim.stock.symbol.api.SymbolDetailsUseCase
-import com.klim.stock.symbol.api.entity.RelatedStockEntity
+import com.klim.stock.symbol.api.entity.RecommendedSymbolEntity
 import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
 import com.klim.stock.symbol.api.entity.SymbolPriceSummaryEntity
-import com.klim.stock.symbol.api.entity.TagEntity
+import com.klim.stock.symbol.api.entity.OfficerEntity
 import com.klim.stock.symbol.repository.api.SymbolRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -24,30 +24,30 @@ class SymbolDetailsUseCaseImpl
     private val serverTimezone: TimeZone,
 ) : SymbolDetailsUseCase {
 
-    private var similarColorRed = Color.parseColor("#E83E3E")
-    private var similarColorGreen = Color.parseColor("#58D38C")
-    private var lastSimilarColor: Int = similarColorRed
-
     override suspend fun getDetails(params: SymbolDetailsUseCase.RequestParams): SymbolDetailsEntity? {
         val details = repositorySymbol.getDetails(params.symbol) ?: return null
-        resetInitialColors()
         return SymbolDetailsEntity(
             symbol = details.symbol,
             name = details.name,
             sector = details.sector,
             industry = details.industry,
-            ceo = details.ceo,
+            ceo = findCEO(details.officers)?.name,
             employees = details.employees,
             address = details.address,
             phone = details.phone,
             description = details.description,
-            tags = details.tags.map { TagEntity(it.tag, getRandomColor()) },
-            relatedStocks = details.relatedStocks.map { RelatedStockEntity(it.symbol, getNextTagColor()) },
+            officers = details.officers.map { OfficerEntity(it.name, it.title) },
+            recommendedSymbols = details.recommendedSymbols.map { RecommendedSymbolEntity(it.symbol, getRandomColor()) },
             currentPrice = details.currentPrice,
             marketChange = details.marketChange,
             marketChangePercent = details.marketChangePercent,
         )
     }
+
+    private fun findCEO(officers: List<OfficerEntity>): OfficerEntity? {
+        return officers.firstOrNull { it.title.contains("CEO", true) }
+    }
+
 
     override suspend fun getPrice(params: SymbolDetailsUseCase.RequestParams): SymbolPriceSummaryEntity? {
         //TODO: now
@@ -129,14 +129,9 @@ class SymbolDetailsUseCaseImpl
         return dayFormat.format(cal.timeInMillis)
     }
 
-    private fun resetInitialColors() {
-        lastSimilarColor = Color.RED
-    }
-
-    //Sorry, I don't know where the designer took that colors and principles to generate them
     private fun getRandomColor(): Int {
-        val darkerColor = 70
-        val brighterColor = 180
+        val darkerColor = 50
+        val brighterColor = 200
         return Color.argb(
             255,
             darkerColor + Random.nextInt(brighterColor - darkerColor),
@@ -145,14 +140,4 @@ class SymbolDetailsUseCaseImpl
         )
     }
 
-    //Sorry, I don't know where the designer took that colors and principles to generate them
-    private fun getNextTagColor(): Int {
-        lastSimilarColor =
-            if (lastSimilarColor == similarColorRed) {
-                similarColorGreen
-            } else {
-                similarColorRed
-            }
-        return lastSimilarColor
-    }
 }

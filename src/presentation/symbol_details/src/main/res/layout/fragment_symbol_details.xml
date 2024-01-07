@@ -444,18 +444,18 @@
                 app:tint="@color/default_text_color" />
 
             <TextView
-                android:id="@+id/labelTags"
+                android:id="@+id/labelOfficers"
                 style="@style/Text.Paragraph.LargeM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
-                android:text="@string/label_tags"
+                android:text="@string/label_officers"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iconOpenMoreDescription" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tagsContainer"
+                android:id="@+id/officersContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -465,8 +465,8 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/labelTags"
-                tools:listitem="@layout/item_tag" />
+                app:layout_constraintTop_toBottomOf="@+id/labelOfficers"
+                tools:listitem="@layout/item_officer" />
 
             <TextView
                 android:id="@+id/labelRelatedStocks"
@@ -475,9 +475,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="16dp"
-                android:text="@string/label_related_stocks"
+                android:text="@string/label_recommended_symbols"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tagsContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/officersContainer" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/relatedStocksContainer"
@@ -491,7 +491,7 @@
                 android:paddingVertical="4dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/labelRelatedStocks"
-                tools:listitem="@layout/item_similar" />
+                tools:listitem="@layout/item_recommendation" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

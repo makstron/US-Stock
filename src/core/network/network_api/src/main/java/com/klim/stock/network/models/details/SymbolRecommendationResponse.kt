@@ -1,6 +1,6 @@
 package com.klim.stock.network.models.details
 
-class SymbolDetailsResponse(
-    val result: SymbolDetailsResult?,
+class SymbolRecommendationResponse(
+    val result: List<String>?,
     val error: String? = null,
 )

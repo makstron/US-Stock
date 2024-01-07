@@ -1,5 +1,5 @@
 package com.klim.stock.symbol.repository.impl.data_source.dto
 
-class RelatedStockDTO(
+class RecommendedSymbolDTO(
     val symbol: String,
 )

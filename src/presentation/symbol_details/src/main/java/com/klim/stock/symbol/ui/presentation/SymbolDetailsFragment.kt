@@ -20,8 +20,8 @@ import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTest
 import com.klim.stock.symbol.ui.databinding.FragmentSymbolDetailsBinding
 import com.klim.stock.symbol.ui.di.SymbolDetailsComponent
-import com.klim.stock.symbol.ui.presentation.adapters.SimilarAdapter
-import com.klim.stock.symbol.ui.presentation.adapters.TagsAdapter
+import com.klim.stock.symbol.ui.presentation.adapters.OfficerAdapter
+import com.klim.stock.symbol.ui.presentation.adapters.RecommendedAdapter
 import com.klim.stock.symbol.ui.presentation.entity.DetailsResultView
 import com.klim.stock.symbol.ui.presentation.entity.PriceEntityView
 import javax.inject.Inject
@@ -38,8 +38,8 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     private var googleMap: GoogleMap? = null
 
-    private val tagsAdapter = TagsAdapter()
-    private val similarAdapter = SimilarAdapter()
+    private val officerAdapter = OfficerAdapter()
+    private val recommendedAdapter = RecommendedAdapter()
 
     private var descriptionIsOpen = false
     private var locationWasSetOnMap: Boolean = false
@@ -82,8 +82,8 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         setActionListeners()
         observeViewModel()
 
-        binding.tagsContainer.adapter = tagsAdapter
-        binding.relatedStocksContainer.adapter = similarAdapter
+        binding.officersContainer.adapter = officerAdapter
+        binding.relatedStocksContainer.adapter = recommendedAdapter
 
         binding.addressMap.onCreate(null)
         binding.addressMap.getMapAsync(this)
@@ -99,7 +99,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
             closeWindow()
         }
 
-        similarAdapter.clickListener = ::onSimilarSymbolItemSelected
+        recommendedAdapter.clickListener = ::onSimilarSymbolItemSelected
 
         binding.descriptionContent.setOnClickListener {
             showHideFullDescription()
@@ -147,42 +147,41 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     private fun setContent(details: DetailsResultView) {
         binding.apply {
             tvSymbol.text = details.symbol
-            tvSymbol.background = null
             tvSymbol.minimumWidth = 0
             tvSymbol.minWidth = 0
 
             companyName.text = details.name
-            companyName.background = null
 
             sectorValue.text = details.sector
-            sectorValue.background = null
             industryValue.text = details.industry
-            industryValue.background = null
-            ceoValue.text = details.ceo
-            ceoValue.background = null
+            if (details.ceo?.isNotEmpty() == true) {
+                ceoValue.text = details.ceo
+            } else {
+                labelCEO.isVisible = false
+                ceoValue.isVisible = false
+            }
+
             employeesValue.text = details.employees
-            employeesValue.background = null
 
             address.text = details.address
             addressThumbOne.visibility = View.GONE
             addressThumbTwo.visibility = View.GONE
 
             phone.text = details.phone
-            phone.background = null
 
             descriptionContent.text = details.description
             descriptionContentThumbOne.visibility = View.GONE
             descriptionContentThumbTwo.visibility = View.GONE
 
             ///
-            tagsAdapter.tagsList.clear()
-            tagsAdapter.tagsList.addAll(details.tags)
-            tagsAdapter.notifyDataSetChanged()
+            officerAdapter.data.clear()
+            officerAdapter.data.addAll(details.officers)
+            officerAdapter.notifyDataSetChanged()
 
             ///
-            similarAdapter.similarList.clear()
-            similarAdapter.similarList.addAll(details.similar)
-            similarAdapter.notifyDataSetChanged()
+            recommendedAdapter.data.clear()
+            recommendedAdapter.data.addAll(details.recommendedSymbols)
+            recommendedAdapter.notifyDataSetChanged()
         }
     }
 
@@ -218,7 +217,6 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
             priceChangeIcon.setImageResource(prices.arrow)
             priceChangeIcon.visibility = View.VISIBLE
 
-            price.background = null
             priceDeltaThumb.visibility = View.GONE
         }
     }
@@ -269,11 +267,6 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         super.onDestroyView()
         addressMap?.onDestroy()
         addressMap = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-//        getComponentProvider().destroySymbolDetailsComponent()//todo modules keep component in other place
     }
 
     override fun onLowMemory() {

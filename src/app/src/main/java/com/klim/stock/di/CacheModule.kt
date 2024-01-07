@@ -1,11 +1,11 @@
 package com.klim.stock.di
 
-import com.klim.stock.cache.lru_cache.LRUCache
-import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
-import com.klim.stock.symbol.api.entity.SymbolPriceEntity
 import com.klim.stock.Constants
 import com.klim.stock.cache.Cache
+import com.klim.stock.cache.lru_cache.LRUCache
 import com.klim.stock.history.usecase.api.entity.SymbolHistoryPriceEntity
+import com.klim.stock.symbol.api.entity.SymbolDetailsRepositoryEntity
+import com.klim.stock.symbol.api.entity.SymbolPriceEntity
 import dagger.Module
 import dagger.Provides
 
@@ -23,7 +23,7 @@ class CacheModule {
     }
 
     @Provides
-    fun getCache_StockRepository__SymbolDetailsEntity(): Cache<String, SymbolDetailsEntity> {
+    fun getCache_StockRepository__SymbolDetailsEntity(): Cache<String, SymbolDetailsRepositoryEntity> {
         return LRUCache(Constants.Cache_SymbolRepository_SymbolDetailsEntity_Size)
     }
 

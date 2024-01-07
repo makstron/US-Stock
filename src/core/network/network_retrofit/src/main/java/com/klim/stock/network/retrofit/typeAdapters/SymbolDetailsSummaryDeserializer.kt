@@ -1,11 +1,14 @@
 package com.klim.stock.network.retrofit.typeAdapters
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
 import com.google.gson.JsonParseException
 import com.klim.stock.network.models.details.SymbolDetailsSummaryResponse
 import com.klim.stock.network.models.details.SymbolDetailsSummaryResult
+import com.klim.stock.network.models.details.SymbolOfficer
 import java.lang.reflect.Type
 
 
@@ -16,29 +19,35 @@ class SymbolDetailsSummaryDeserializer : JsonDeserializer<SymbolDetailsSummaryRe
         typeOfT: Type?,
         context: JsonDeserializationContext?
     ): SymbolDetailsSummaryResponse {
-        if (true) { //TODO: now
-            json?.asJsonObject?.
-            getAsJsonObject("quoteSummary")?.
-            getAsJsonArray("result")?.
-            get(0)?.asJsonObject?.
-            getAsJsonObject("assetProfile")?.
-            apply {
+        val response = json?.asJsonObject?.getAsJsonObject("quoteSummary")
+        return if (response?.get("error") is JsonNull) {
+            response.getAsJsonArray("result")?.get(0)?.asJsonObject?.getAsJsonObject("assetProfile")?.apply {
                 return SymbolDetailsSummaryResponse(
                     SymbolDetailsSummaryResult(
 
-                        sector = getAsJsonPrimitive("sector").asString, //* : String,
-                        industry = getAsJsonPrimitive("industry").asString, //* : String,
-                        ceo = "", //* : String, //TODO: now
-                        employees = getAsJsonPrimitive("fullTimeEmployees").asInt, //* : Int,
-                        hq_address = getAsJsonPrimitive("address1").asString, //* : String,
-                        phone = getAsJsonPrimitive("phone").asString, //* : String,
-                        description = getAsJsonPrimitive("longBusinessSummary").asString, //* : String,
-                        tags = emptyList(), //* : List<String>, //TODO: now
-                        similar = emptyList(), //* : List<String>, //TODO: now
+                        sector = getAsJsonPrimitive("sector")?.asString ?: "",
+                        industry = getAsJsonPrimitive("industry").asString,
+                        employees = getAsJsonPrimitive("fullTimeEmployees").asInt,
+                        hqAddress = getAsJsonPrimitive("address1").asString,
+                        phone = getAsJsonPrimitive("phone").asString,
+                        description = getAsJsonPrimitive("longBusinessSummary").asString,
+                        officers = mapOfficers(getAsJsonArray("companyOfficers")),
                     )
                 )
             }
+            return SymbolDetailsSummaryResponse(null, "")
+        } else {
+            return SymbolDetailsSummaryResponse(null, "")
         }
-        return SymbolDetailsSummaryResponse(null!!, "") //TODO: now
+    }
+
+    private fun mapOfficers(array: JsonArray): List<SymbolOfficer> {
+        return array
+            .map {
+                SymbolOfficer(
+                    name = it.asJsonObject.getAsJsonPrimitive("name").asString,
+                    title = it.asJsonObject.getAsJsonPrimitive("title").asString
+                )
+            }
     }
 }

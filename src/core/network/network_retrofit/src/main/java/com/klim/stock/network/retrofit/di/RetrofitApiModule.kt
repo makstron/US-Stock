@@ -11,6 +11,7 @@ import com.klim.stock.network.api.SymbolDetailsApi
 import com.klim.stock.network.models.HistoryPriceResponse
 import com.klim.stock.network.models.details.SymbolDetailsResponse
 import com.klim.stock.network.models.details.SymbolDetailsSummaryResponse
+import com.klim.stock.network.models.details.SymbolRecommendationResponse
 import com.klim.stock.network.retrofit.BuildConfig
 import com.klim.stock.network.retrofit.auth.AuthApiProvider
 import com.klim.stock.network.retrofit.interceptors.AuthInterceptor
@@ -22,6 +23,7 @@ import com.klim.stock.network.retrofit.interceptors.StockCookieJar
 import com.klim.stock.network.retrofit.typeAdapters.HistoryPriceResponseDeserializer
 import com.klim.stock.network.retrofit.typeAdapters.SymbolDetailsDeserializer
 import com.klim.stock.network.retrofit.typeAdapters.SymbolDetailsSummaryDeserializer
+import com.klim.stock.network.retrofit.typeAdapters.SymbolRecommendationDeserializer
 import com.klim.stock.storage.api.StorageKeys
 import dagger.Module
 import dagger.Provides
@@ -82,6 +84,7 @@ class RetrofitModule {
             .registerTypeAdapter(SymbolDetailsSummaryResponse::class.java, SymbolDetailsSummaryDeserializer())
             .registerTypeAdapter(SymbolDetailsResponse::class.java, SymbolDetailsDeserializer())
             .registerTypeAdapter(HistoryPriceResponse::class.java, HistoryPriceResponseDeserializer())
+            .registerTypeAdapter(SymbolRecommendationResponse::class.java, SymbolRecommendationDeserializer())
             .create()
     }
 

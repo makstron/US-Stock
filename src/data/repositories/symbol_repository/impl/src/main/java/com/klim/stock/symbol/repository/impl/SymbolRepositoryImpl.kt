@@ -1,8 +1,8 @@
 package com.klim.stock.symbol.repository.impl
 
 import com.klim.stock.cache.Cache
-import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
 import com.klim.stock.searchusecase.api.entity.SearchResultEntity
+import com.klim.stock.symbol.api.entity.SymbolDetailsRepositoryEntity
 import com.klim.stock.symbol.repository.api.SymbolRepository
 import com.klim.stock.symbol.repository.impl.data_source.SymbolDataSourceI
 import javax.inject.Inject
@@ -13,7 +13,7 @@ class SymbolRepositoryImpl
 @Inject
 constructor(
     private val remoteDataSource: SymbolDataSourceI,
-    private val cacheDetails: Cache<String, SymbolDetailsEntity>,
+    private val cacheDetails: Cache<String, SymbolDetailsRepositoryEntity>,
 ) : SymbolRepository {
 
     override suspend fun search(query: String): List<SearchResultEntity> {
@@ -23,8 +23,8 @@ constructor(
     }
 
     //TODO now cache works every time because limit of free API
-    override suspend fun getDetails(symbol: String): SymbolDetailsEntity? {
-        var detailsEntity: SymbolDetailsEntity? = null
+    override suspend fun getDetails(symbol: String): SymbolDetailsRepositoryEntity? {
+        var detailsEntity: SymbolDetailsRepositoryEntity? = null
         if (!cacheDetails.isEmpty()) {
             detailsEntity = cacheDetails[symbol]
         }

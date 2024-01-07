@@ -24,9 +24,9 @@ import com.klim.stock.resources.R as Res
 import com.klim.stock.utils.geocoder.api.Address
 import com.klim.stock.utils.geocoder.api.Geocoder
 import com.klim.stock.symbol.ui.presentation.entity.DetailsResultView
+import com.klim.stock.symbol.ui.presentation.entity.OfficerEntityView
 import com.klim.stock.symbol.ui.presentation.entity.PriceEntityView
-import com.klim.stock.symbol.ui.presentation.entity.SimilarEntityView
-import com.klim.stock.symbol.ui.presentation.entity.TagEntityView
+import com.klim.stock.symbol.ui.presentation.entity.RecommendedEntityView
 import com.klim.stock.utils.phonenumber.api.PhoneNumberUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -158,8 +158,8 @@ constructor(
     }
 
     private fun prepareDetailsResult(results: SymbolDetailsEntity): DetailsResultView {
-        val tags = results.tags.map { TagEntityView(it.tag, it.color) }
-        val similar = results.relatedStocks.map { SimilarEntityView(it.symbol, it.color) }
+        val officers = results.officers.map { OfficerEntityView(it.name, it.title) }
+        val recommendedSymbols = results.recommendedSymbols.map { RecommendedEntityView(it.symbol, it.color) }
 
         return DetailsResultView(
             symbol = results.symbol,
@@ -171,8 +171,8 @@ constructor(
             address = results.address,
             phone = numberFormat(results.phone),
             description = results.description,
-            tags = tags,
-            similar = similar,
+            officers = officers,
+            recommendedSymbols = recommendedSymbols,
         )
     }
 
