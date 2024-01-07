@@ -6,10 +6,27 @@ include ':app'
 project(':app').projectDir = new File(rootDir, 'src/app')
 
 
-//presentation
+//region presentation
+includePresentation('symbol_details')
+includePresentation('symbols_favorited')
+includePresentation('info')
+includePresentation('search')
+//endregion
 
-includePresentation(':symbol_details', 'src/presentation/symbol_details')
-includePresentation(':symbols_favorited', 'src/presentation/symbols_favorited')
+//region domain
+includeApiImpl(':history_usecase', 'src/domain/history_usecase')
+includeApiImpl(':search_usecase', 'src/domain/search_usecase')
+includeApiImpl(':symbol_details_usecase', 'src/domain/symbol_details_usecase')
+//endregion
+
+
+//region repository
+include ':stock_repository'
+project(':stock_repository').projectDir = new File(rootDir, 'src/data/repositories/stock_repository')
+
+includeApiImpl(':symbol_repository', 'src/data/repositories/symbol_repository')
+includeApiImpl(':history_repository', 'src/data/repositories/history_repository')
+//endregion
 
 
 //views
@@ -19,25 +36,6 @@ project(':windowsManager').projectDir = new File(rootDir, 'src/presentation/view
 
 include ':smoothie_chart'
 project(':smoothie_chart').projectDir = new File(rootDir, 'src/presentation/views/smoothie_chart')
-
-
-//region domain
-
-includeApiImpl(':history_usecase', 'src/domain/history_usecase')
-includeApiImpl(':search_usecase', 'src/domain/search_usecase')
-includeApiImpl(':symbol_details_usecase', 'src/domain/symbol_details_usecase')
-
-//endregion
-
-//region repository
-
-include ':stock_repository'
-project(':stock_repository').projectDir = new File(rootDir, 'src/data/repositories/stock_repository')
-
-includeApiImpl(':symbol_repository', 'src/data/repositories/symbol_repository')
-includeApiImpl(':history_repository', 'src/data/repositories/history_repository')
-
-//endregion
 
 include ':cache'
 project(':cache').projectDir = new File(rootDir, 'src/data/cache/cache')
@@ -71,11 +69,14 @@ project(':utils').projectDir = new File(rootDir, 'src/core/utils')
 include ':dependency_provider'
 project(':dependency_provider').projectDir = new File(rootDir, 'src/core/dependency_provider')
 
+include ':navigation'
+project(':navigation').projectDir = new File(rootDir, 'src/core/navigation')
+
 includeApiImpl(':storage', 'src/data/storage')
 
-def includePresentation(name, path) {
-    include name
-    project(name).projectDir = new File(rootDir, path)
+def includePresentation(name) {
+    include ":$name"
+    project(":$name").projectDir = new File(rootDir, "src/presentation/$name")
 }
 
 def includeApiImpl(name, path) {
@@ -86,3 +87,5 @@ def includeApiImpl(name, path) {
     include "$name:impl"
     project("$name:impl").projectDir = new File(rootDir,  "$path/impl")
 }
+
+

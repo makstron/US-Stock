@@ -45,8 +45,6 @@ dependencies {
 
     //UI components
     implementation project(':smoothie_chart')
-    implementation project(':symbol_details_usecase:api')
-    implementation project(':history_usecase:api')
     maps()
 
     //Core
@@ -58,7 +56,8 @@ dependencies {
     lifecycle()
 
     //UC
-    uscasesApi()
+    implementation project(':symbol_details_usecase:api')
+    implementation project(':history_usecase:api')
 
     test()
 }

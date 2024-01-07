@@ -9,7 +9,7 @@ open class ViewModelFactory
 @Inject
 constructor(
     var viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
-) : ViewModelFactoryTest() {
+) : ViewModelFactoryTemp() {
 
     public val mutableMap = HashMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>()
 
@@ -27,7 +27,8 @@ constructor(
 
 }
 
-abstract class ViewModelFactoryTest : ViewModelProvider.Factory {
+//TODO: now remove it
+abstract class ViewModelFactoryTemp : ViewModelProvider.Factory {
 
 
 }

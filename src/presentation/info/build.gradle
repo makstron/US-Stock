@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+apply from: "$project.rootDir/dependencies.gradle"
+
+android {
+    namespace 'com.klim.stock.info.ui'
+
+    def globalConfig = rootProject.ext
+    compileSdk globalConfig.compileSdkV
+
+    defaultConfig {
+        minSdk minSdkV
+        targetSdk globalConfig.targetSdkV
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility globalConfig.javaVersion
+        targetCompatibility globalConfig.javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = globalConfig.javaVersion
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation project(':analytics')
+    implementation project(':dependency_provider')
+
+    //Implementation providers
+    implementation project(':dependencyingection')
+
+    //Core
+    implementation project(':coreUi')
+    kotlinAndroidCore()
+    appcompat()
+    material()
+    dagger()
+    lifecycle()
+}

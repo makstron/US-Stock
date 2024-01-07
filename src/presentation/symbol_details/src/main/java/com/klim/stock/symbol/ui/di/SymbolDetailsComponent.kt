@@ -22,7 +22,7 @@ import dagger.Component
         SymbolDetailsUseCaseProvider::class,
         HistoryUseCaseProvider::class,
     ],
-    modules = [SymbolDetailsModule::class, ViewModelsBindModule::class]
+    modules = [ViewModelsModule::class]
 )
 interface SymbolDetailsComponent {
 

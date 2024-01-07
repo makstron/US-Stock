@@ -8,14 +8,17 @@ import com.klim.stock.symbol.repository.impl.di.SymbolRepositoryModule
 import com.klim.stock.analytics.di.AnalyticsBindModule
 import com.klim.stock.search.usecase.impl.di.SearchUseCaseModule
 import com.klim.stock.symbol.usecase.impl.di.SymbolDetailsUseCaseModule
-import com.klim.stock.utils.geocoder.di.GeocoderModule
 import com.klim.stock.utils.phonenumber.di.PhoneNumberUtilsModule
 import com.klim.stock.stock.repository.di.StockRepositoryModule
 import com.klim.stock.App
 import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.di.view_model.ViewModelsBindModule
 import com.klim.stock.history.usecase.impl.di.HistoryUseCaseModule
+import com.klim.stock.navigation.di.CreateNavigationModule
+import com.klim.stock.navigation.di.NavigationModule
 import com.klim.stock.storage.impl.di.StorageKeysModule
+import com.klim.stock.utils.coroutines.di.CoroutineModule
+import com.klim.stock.utils.geocoder.di.GeocoderModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -42,10 +45,15 @@ import javax.inject.Singleton
         //Utils
         GeocoderModule::class,
         PhoneNumberUtilsModule::class,
+        CoroutineModule::class,
 
         //Storages
         StorageKeysModule::class,
         CacheModule::class,
+
+        //navigation
+        NavigationModule::class,
+        CreateNavigationModule::class,
 
 //        RetrofitApiModule::class,
 

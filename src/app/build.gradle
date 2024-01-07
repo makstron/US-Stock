@@ -53,7 +53,10 @@ dependencies {
     //presentation
     implementation project(':symbols_favorited')
     implementation project(':symbol_details')
+    implementation project(':info')
+    implementation project(':search')
 
+    //UC
     implementation project(':symbol_details_usecase:api')
     implementation project(':symbol_details_usecase:impl')
     implementation project(':history_usecase:api')
@@ -79,6 +82,8 @@ dependencies {
 
     implementation project(':coreUi')
     implementation project(':constants')
+
+    implementation project(':navigation')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
