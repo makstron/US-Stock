@@ -36,6 +36,9 @@ out/
 .gradle/
 build/
 
+# Keys storage
+key_store/
+
 # Signing files
 .signing/
 
