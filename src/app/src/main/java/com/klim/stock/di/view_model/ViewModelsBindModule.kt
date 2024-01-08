@@ -21,10 +21,10 @@ interface ViewModelsBindModule {
     @ViewModelKey(MainActivityViewModel::class)
     fun mainActivityViewModel(viewModel: MainActivityViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(SymbolFavoritedViewModel::class)
-    fun homeViewModel(viewModel: SymbolFavoritedViewModel): ViewModel
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(SymbolFavoritedViewModel::class)
+//    fun homeViewModel(viewModel: SymbolFavoritedViewModel): ViewModel
 
 //    @Binds
 //    @IntoMap

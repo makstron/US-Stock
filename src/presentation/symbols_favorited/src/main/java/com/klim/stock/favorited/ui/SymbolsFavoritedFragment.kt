@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.viewBind
+import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTemp
 import com.klim.stock.favorited.ui.databinding.FragmentFavoritedBinding
 import com.klim.stock.favorited.ui.di.SymbolsFavoritedComponent
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class SymbolsFavoritedFragment : BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelFactoryTemp
     private lateinit var vm: SymbolFavoritedViewModel
 
     private var binding: FragmentFavoritedBinding by viewBind()

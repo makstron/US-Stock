@@ -14,8 +14,7 @@ import dagger.Component
         AnalyticsProvider::class,
     ],
     modules = [
-        SymbolsFavoritedModule::class,
-        ViewModelsBindModule::class,
+        ViewModelsModule::class,
     ]
 )
 interface SymbolsFavoritedComponent {
@@ -24,7 +23,11 @@ interface SymbolsFavoritedComponent {
 
     class Initializer private constructor() {
         companion object {
-            fun init(appComponent: ApplicationContextProvider, viewModelProvider: ViewModelProviderProvider, analyticsProvider: AnalyticsProvider): SymbolsFavoritedComponent =
+            fun init(
+                appComponent: ApplicationContextProvider,
+                viewModelProvider: ViewModelProviderProvider,
+                analyticsProvider: AnalyticsProvider
+            ): SymbolsFavoritedComponent =
                 DaggerSymbolsFavoritedComponent.builder()
                     .applicationContextProvider(appComponent)
                     .analyticsProvider(analyticsProvider)
