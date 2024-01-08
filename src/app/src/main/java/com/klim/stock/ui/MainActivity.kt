@@ -1,5 +1,6 @@
 package com.klim.stock.ui
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
@@ -14,9 +15,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.klim.stock.R
+import com.klim.stock.analytics.analytics.Analytics
 import com.klim.stock.databinding.ActivityMainBinding
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
+import com.klim.stock.dicore.Dependency
+import com.klim.stock.dicore.DependencyContainer
 import com.klim.stock.ui.di.MainActivityComponent
 import com.klim.stock.search.ui.presentation.SearchFragment
 import com.klim.windowsmanager.WindowsContainerActivity
@@ -30,17 +34,13 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory>
-    val vm: MainActivityViewModel by viewModels { viewModelFactory.get() }
-
-//    @Inject
-//    lateinit var analytics: AnalyticsI  //todo modules
+    val viewModel: MainActivityViewModel by viewModels { viewModelFactory.get() }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
-//        (application as App).componentsProvider.getMainActivityComponent().inject(this) //todo modules
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     private fun inject() {
         val component = MainActivityComponent.Initializer
-            .init(application as ApplicationContextProvider)
+            .init(
+                application as ApplicationContextProvider,
+                findDependencies()
+            )
         component.inject(this)
     }
 
@@ -121,11 +124,10 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 //        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-//        analytics.logEvent(FirebaseLogKeys.ACTION_EXIT, Bundle())  //todo: now modules
-
-//        (application as App).componentsProvider.destroyMainActivityComponent() //todo: now modules
+    inline fun <reified D : Dependency> Activity.findDependencies(): D {
+        val dependenciesClass = D::class.java
+        return (application as DependencyContainer)
+            .dependenciesMap[dependenciesClass] as D?
+            ?: throw IllegalStateException("No $dependenciesClass provided to DependencyMap ")
     }
 }

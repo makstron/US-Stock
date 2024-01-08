@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.klim.stock.analytics.analytics.Analytics
 import com.klim.stock.analytics.crashliytics.Crashlytics
 import com.klim.stock.analytics.crashliytics.FirebaseCrashKeys
-import com.klim.stock.analytics.analytics.FirebaseLogKeys
+import com.klim.stock.analytics.analytics.AnalyticKeys
 import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.chart.smoothie.ChartDataItem
@@ -81,9 +81,7 @@ constructor(
         //logs
         crashlytics.setCustomKey(FirebaseCrashKeys.SYMBOL_DETAILS, currentSymbol)
 
-        val bundle = Bundle()
-        bundle.putString(FirebaseLogKeys.PARAM_SYMBOL, currentSymbol)
-        analytics.logEvent(FirebaseLogKeys.ACTION_OPEN_SYMBOL_DETAILS, bundle)
+        analytics.logEventOpenSymbol(currentSymbol)
     }
 
     fun loadDetails() {

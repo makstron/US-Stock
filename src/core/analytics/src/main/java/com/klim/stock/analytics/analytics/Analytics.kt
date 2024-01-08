@@ -5,6 +5,12 @@ import androidx.annotation.Size
 
 interface Analytics {
 
-    fun logEvent(@Size(min = 1L,max = 40L) name: String, params: Bundle?)
+    fun logEvent(name: AnalyticKeys, params: Bundle?)
+
+    fun logEventOpenApp()
+
+    fun logEventCloseApp()
+
+    fun logEventOpenSymbol(symbol: String)
 
 }
