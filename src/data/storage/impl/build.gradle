@@ -36,8 +36,8 @@ android {
 
 dependencies {
     api project(path: ':storage:api')
-    implementation project(path: ':dependency_provider')
-    implementation project(':dependencyingection')
+    implementation project(path: ':dependency_interface')
+    implementation project(':dependency_provider')
     storages()
     kotlinAndroidCore()
     dagger()

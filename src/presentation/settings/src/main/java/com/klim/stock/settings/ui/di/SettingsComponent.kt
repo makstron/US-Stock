@@ -1,13 +1,12 @@
 package com.klim.stock.settings.ui.di
 
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
-import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.settings.ui.presentation.SettingsFragment
 import dagger.Component
 
 @SettingsScope
 @Component(
-    dependencies = [ApplicationContextProvider::class, ViewModelProviderProvider::class],
+    dependencies = [ApplicationContextProvider::class],
     modules = [ViewModelsModule::class]
 )
 interface SettingsComponent {
@@ -15,10 +14,9 @@ interface SettingsComponent {
 
     class Initializer private constructor() {
         companion object {
-            fun init(appComponent: ApplicationContextProvider, viewModelProvider: ViewModelProviderProvider): SettingsComponent =
+            fun init(appComponent: ApplicationContextProvider): SettingsComponent =
                 DaggerSettingsComponent.builder()
                     .applicationContextProvider(appComponent)
-                    .viewModelProviderProvider(viewModelProvider)
                     .build()
         }
     }

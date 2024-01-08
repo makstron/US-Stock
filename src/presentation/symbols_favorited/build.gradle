@@ -39,10 +39,10 @@ android {
 dependencies {
     implementation project(':utils')
     implementation project(':analytics')
+    implementation project(':dependency_interface')
     implementation project(':dependency_provider')
 
     //Implementation providers
-    implementation project(':dependencyingection')
 
     //Core
     implementation project(':coreUi')

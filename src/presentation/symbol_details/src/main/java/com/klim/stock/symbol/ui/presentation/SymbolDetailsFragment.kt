@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -17,7 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.viewBind
-import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTemp
+import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.symbol.ui.databinding.FragmentSymbolDetailsBinding
 import com.klim.stock.symbol.ui.di.SymbolDetailsComponent
 import com.klim.stock.symbol.ui.presentation.adapters.OfficerAdapter
@@ -31,8 +30,8 @@ import com.klim.stock.resources.R as RR
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactoryTemp
-    private lateinit var vm: SymbolDetailsViewModel
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SymbolDetailsViewModel by viewModels { viewModelFactory }
     private var binding: FragmentSymbolDetailsBinding by viewBind()
     private var addressMap: MapView? = null
 
@@ -63,7 +62,6 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         val component = SymbolDetailsComponent.Initializer
             .init(
                 getApplicationContextProvider(),
-                getViewModelProviderProvider(),
                 findDependencies(),
                 findDependencies(),
                 findDependencies(),
@@ -75,10 +73,9 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSymbolDetailsBinding.inflate(inflater, container, false)
-        vm = ViewModelProvider(this, viewModelFactory).get(SymbolDetailsViewModel::class.java)
         addressMap = binding.addressMap
 
-        vm.loadArguments(arguments)
+        viewModel.loadArguments(arguments)
         setActionListeners()
         observeViewModel()
 
@@ -88,7 +85,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         binding.addressMap.onCreate(null)
         binding.addressMap.getMapAsync(this)
 
-        vm.loadDetails()
+        viewModel.loadDetails()
 
         return binding.root
     }
@@ -110,7 +107,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun observeViewModel() {
-        vm.apply {
+        viewModel.apply {
 
             detailsResults.observe(viewLifecycleOwner, { details ->
                 setContent(details)
@@ -248,7 +245,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         googleMap.setMinZoomPreference(0f)
         googleMap.uiSettings.setAllGesturesEnabled(false)
 
-        vm.geocodedAddress.value?.let { value ->
+        viewModel.geocodedAddress.value?.let { value ->
             setLocationOnMap(value)
         }
     }

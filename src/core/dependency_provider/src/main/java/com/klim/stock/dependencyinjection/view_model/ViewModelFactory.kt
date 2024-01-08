@@ -9,13 +9,11 @@ open class ViewModelFactory
 @Inject
 constructor(
     var viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
-) : ViewModelFactoryTemp() {
+) : ViewModelProvider.Factory {
 
-    public val mutableMap = HashMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>()
+    val mutableMap = HashMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>()
 
     init {
-        println("!!!!!!!!!!!!!!!!!!!! ViewModelProvider.Factory was created") //TODO: now remove me
-        println(viewModels)
         mutableMap.putAll(viewModels)
     }
 
@@ -24,11 +22,5 @@ constructor(
             ?: throw IllegalArgumentException("model class $modelClass not found")
         return viewModelProvider.get() as T
     }
-
-}
-
-//TODO: now remove it
-abstract class ViewModelFactoryTemp : ViewModelProvider.Factory {
-
 
 }

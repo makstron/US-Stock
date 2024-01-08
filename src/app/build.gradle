@@ -79,7 +79,7 @@ dependencies {
     implementation project(':windowsManager')
     implementation project(':resources')
     implementation project(':analytics')
-    implementation project(':dependencyingection')
+    implementation project(':dependency_provider')
 
     implementation project(':coreUi')
     implementation project(':constants')
@@ -116,7 +116,7 @@ dependencies {
 
 
     implementation project(path: ':utils')
-    implementation project(path: ':dependency_provider')
+    implementation project(path: ':dependency_interface')
 
 
     //tests

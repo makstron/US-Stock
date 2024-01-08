@@ -8,23 +8,21 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.view.extensions.addOnTextChangeEndListener
 import com.klim.coreUi.utils.viewBind
-import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTemp
+import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.navigation.Navigation
 import com.klim.stock.search.ui.databinding.FragmentSearchBinding
 import com.klim.stock.search.ui.di.SearchComponent
 import com.klim.stock.search.ui.presentation.adapter.SearchResultAdapter
 import javax.inject.Inject
 
-
 class SearchFragment : BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactoryTemp
-    private lateinit var viewModel: SearchViewModel
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SearchViewModel by viewModels { viewModelFactory }
     private var binding: FragmentSearchBinding by viewBind()
 
     @Inject
@@ -49,7 +47,6 @@ class SearchFragment : BaseFragment() {
         val component = SearchComponent.Initializer
             .init(
                 getApplicationContextProvider(),
-                getViewModelProviderProvider(),
                 findDependencies(),
                 findDependencies(),
                 findDependencies(),
@@ -59,7 +56,6 @@ class SearchFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
 
         setActionListeners()
         observeViewModel()

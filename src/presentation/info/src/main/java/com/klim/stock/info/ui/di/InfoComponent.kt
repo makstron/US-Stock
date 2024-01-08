@@ -1,13 +1,12 @@
 package com.klim.stock.info.ui.di
 
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
-import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.info.ui.presentation.InfoFragment
 import dagger.Component
 
 @InfoScope
 @Component(
-    dependencies = [ApplicationContextProvider::class, ViewModelProviderProvider::class],
+    dependencies = [ApplicationContextProvider::class],
     modules = [ViewModelsModule::class]
 )
 interface InfoComponent {
@@ -15,10 +14,9 @@ interface InfoComponent {
 
     class Initializer private constructor() {
         companion object {
-            fun init(appComponent: ApplicationContextProvider, viewModelProvider: ViewModelProviderProvider): InfoComponent =
+            fun init(appComponent: ApplicationContextProvider): InfoComponent =
                 DaggerInfoComponent.builder()
                     .applicationContextProvider(appComponent)
-                    .viewModelProviderProvider(viewModelProvider)
                     .build()
         }
     }

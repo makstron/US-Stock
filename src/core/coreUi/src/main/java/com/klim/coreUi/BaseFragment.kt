@@ -2,10 +2,13 @@ package com.klim.coreUi
 
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelProvider
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
-import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.dicore.Dependency
 import com.klim.stock.dicore.DependencyContainer
 import com.klim.windowsmanager.WindowsContainerActivity
@@ -14,10 +17,6 @@ abstract class BaseFragment() : Fragment() {
 
     fun getApplicationContextProvider(): ApplicationContextProvider {
         return requireActivity().application as ApplicationContextProvider
-    }
-
-    fun getViewModelProviderProvider(): ViewModelProviderProvider {
-        return requireActivity().application as ViewModelProviderProvider
     }
 
     inline fun <reified D : Dependency> Fragment.findDependencies(): D {
@@ -46,6 +45,17 @@ abstract class BaseFragment() : Fragment() {
     @ColorInt
     fun getColor(@ColorRes color: Int): Int {
         return ContextCompat.getColor(requireContext(), color)
+    }
+
+    @MainThread
+    inline fun <reified VM : ViewModel> viewModels(
+        noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
+    ): Lazy<VM> {
+        val factoryPromise = factoryProducer ?: {
+            defaultViewModelProviderFactory
+        }
+
+        return ViewModelLazy(VM::class, { viewModelStore }, factoryPromise)
     }
 
 }

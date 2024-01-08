@@ -49,8 +49,8 @@ project(':analytics').projectDir = new File(rootDir, 'src/core/analytics')
 include ':resources'
 project(':resources').projectDir = new File(rootDir, 'src/core/resources')
 
-include ':dependencyingection'
-project(':dependencyingection').projectDir = new File(rootDir, 'src/core/dependencyingection')
+include ':dependency_provider'
+project(':dependency_provider').projectDir = new File(rootDir, 'src/core/dependency_provider')
 
 include ':coreUi'
 project(':coreUi').projectDir = new File(rootDir, 'src/core/coreUi')
@@ -67,8 +67,8 @@ project(':constants').projectDir = new File(rootDir, 'src/core/constants')
 include ':utils'
 project(':utils').projectDir = new File(rootDir, 'src/core/utils')
 
-include ':dependency_provider'
-project(':dependency_provider').projectDir = new File(rootDir, 'src/core/dependency_provider')
+include ':dependency_interface'
+project(':dependency_interface').projectDir = new File(rootDir, 'src/core/dependency_interface')
 
 include ':navigation'
 project(':navigation').projectDir = new File(rootDir, 'src/core/navigation')

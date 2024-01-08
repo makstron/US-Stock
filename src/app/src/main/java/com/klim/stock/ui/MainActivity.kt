@@ -8,19 +8,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.R
 import com.klim.stock.databinding.ActivityMainBinding
-import com.klim.stock.dependencyinjection.ViewModelProviderProvider
+import com.klim.stock.dependencyinjection.ApplicationContextProvider
+import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.di.main_activity.MainActivityComponent
 import com.klim.stock.search.ui.presentation.SearchFragment
-import com.klim.stock.ui.windows.MainActivityViewModel
 import com.klim.windowsmanager.WindowsContainerActivity
 import com.klim.windowsmanager.WindowsKeeper
 import com.klim.windowsmanager.views.WindowsContainer
@@ -31,7 +29,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     @Inject
-    lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
+    lateinit var viewModelFactory: Lazy<ViewModelFactory>
     val vm: MainActivityViewModel by viewModels { viewModelFactory.get() }
 
 //    @Inject
@@ -64,7 +62,7 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
     private fun inject() {
         val component = MainActivityComponent.Initializer
-            .init(application as ApplicationContextProvider, application as ViewModelProviderProvider)
+            .init(application as ApplicationContextProvider)
         component.inject(this)
     }
 

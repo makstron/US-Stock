@@ -1,9 +1,8 @@
 package com.klim.stock.symbol.ui.di
 
+import com.klim.stock.analytics.di.AnalyticsProvider
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.dependencyinjection.ComponentScope
-import com.klim.stock.analytics.di.AnalyticsProvider
-import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.history.usecase.api.di.HistoryUseCaseProvider
 import com.klim.stock.symbol.api.di.SymbolDetailsUseCaseProvider
 import com.klim.stock.symbol.ui.presentation.SymbolDetailsFragment
@@ -15,7 +14,6 @@ import dagger.Component
 @Component(
     dependencies = [
         ApplicationContextProvider::class,
-        ViewModelProviderProvider::class,
         GeocoderProvider::class,
         PhoneNumberUtilsProvider::class,
         AnalyticsProvider::class,
@@ -32,7 +30,6 @@ interface SymbolDetailsComponent {
         companion object {
             fun init(
                 appComponent: ApplicationContextProvider,
-                viewModelProvider: ViewModelProviderProvider,
                 geocoderProvider: GeocoderProvider,
                 analyticsProvider: AnalyticsProvider,
                 phoneNumberUtilsProvider: PhoneNumberUtilsProvider,
@@ -41,7 +38,6 @@ interface SymbolDetailsComponent {
             ): SymbolDetailsComponent =
                 DaggerSymbolDetailsComponent.builder()
                     .applicationContextProvider(appComponent)
-                    .viewModelProviderProvider(viewModelProvider)
                     .geocoderProvider(geocoderProvider)
                     .analyticsProvider(analyticsProvider)
                     .phoneNumberUtilsProvider(phoneNumberUtilsProvider)

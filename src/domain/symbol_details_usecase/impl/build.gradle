@@ -39,7 +39,7 @@ dependencies {
     implementation project(':constants')
     implementation project(':symbol_details_usecase:api')
     implementation project(':symbol_repository:api')
-    implementation project(path: ':dependency_provider')
+    implementation project(path: ':dependency_interface')
 
     dagger()
     kotlinAndroidCore()

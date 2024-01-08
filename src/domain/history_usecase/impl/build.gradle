@@ -39,7 +39,7 @@ dependencies {
     implementation project(':constants')
     implementation project(':history_usecase:api')
     implementation project(':history_repository:api')
-    implementation project(':dependency_provider')
+    implementation project(':dependency_interface')
 
     dagger()
     kotlinAndroidCore()

@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.viewBind
-import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTemp
+import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.favorited.ui.databinding.FragmentFavoritedBinding
 import com.klim.stock.favorited.ui.di.SymbolsFavoritedComponent
 import javax.inject.Inject
@@ -16,8 +15,8 @@ import javax.inject.Inject
 class SymbolsFavoritedFragment : BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactoryTemp
-    private lateinit var vm: SymbolFavoritedViewModel
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: SymbolFavoritedViewModel by viewModels { viewModelFactory }
 
     private var binding: FragmentFavoritedBinding by viewBind()
 
@@ -28,21 +27,23 @@ class SymbolsFavoritedFragment : BaseFragment() {
 
     private fun inject() {
         val component = SymbolsFavoritedComponent.Initializer
-            .init(getApplicationContextProvider(), getViewModelProviderProvider(), findDependencies())
+            .init(getApplicationContextProvider(), findDependencies())
         component.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFavoritedBinding.inflate(inflater, container, false)
-        vm = ViewModelProvider(this, viewModelFactory).get(SymbolFavoritedViewModel::class.java)
 
-        vm.text.observe(viewLifecycleOwner, Observer {
-            binding.textHome.text = it
-        })
+        observeViewModel()
 
         return binding.root
     }
 
+    private fun observeViewModel() {
+        viewModel.text.observe(viewLifecycleOwner, Observer {
+            binding.textHome.text = it
+        })
+    }
 
 
 }

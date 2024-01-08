@@ -10,7 +10,8 @@ java {
 }
 
 dependencies {
-    implementation project(path: ':dependency_provider')
+    implementation project(path: ':dependency_interface')
 }
+
 
 

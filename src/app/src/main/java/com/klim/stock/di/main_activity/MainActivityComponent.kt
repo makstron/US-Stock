@@ -1,14 +1,13 @@
 package com.klim.stock.di.main_activity
 
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
-import com.klim.stock.dependencyinjection.ViewModelProviderProvider
 import com.klim.stock.ui.MainActivity
 import dagger.Component
 
 @MainActivityScope
 @Component(
-    dependencies = [ApplicationContextProvider::class, ViewModelProviderProvider::class],
-    modules = [MainActivityModule::class]
+    dependencies = [ApplicationContextProvider::class],
+    modules = [ViewModelsModule::class]
 )
 interface MainActivityComponent {
 
@@ -16,10 +15,9 @@ interface MainActivityComponent {
 
     class Initializer private constructor() {
         companion object {
-            fun init(appComponent: ApplicationContextProvider, viewModelProvider: ViewModelProviderProvider): MainActivityComponent =
+            fun init(appComponent: ApplicationContextProvider): MainActivityComponent =
                 DaggerMainActivityComponent.builder()
                     .applicationContextProvider(appComponent)
-                    .viewModelProviderProvider(viewModelProvider)
                     .build()
         }
     }

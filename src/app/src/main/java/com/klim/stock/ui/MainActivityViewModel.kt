@@ -1,4 +1,4 @@
-package com.klim.stock.ui.windows
+package com.klim.stock.ui
 
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
