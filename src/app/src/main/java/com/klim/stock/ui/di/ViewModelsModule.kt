@@ -1,4 +1,4 @@
-package com.klim.stock.di.main_activity
+package com.klim.stock.ui.di
 
 import androidx.lifecycle.ViewModel
 import com.klim.stock.dependencyinjection.view_model.ViewModelKey

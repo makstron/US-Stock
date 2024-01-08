@@ -17,7 +17,7 @@ import com.klim.stock.R
 import com.klim.stock.databinding.ActivityMainBinding
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
-import com.klim.stock.di.main_activity.MainActivityComponent
+import com.klim.stock.ui.di.MainActivityComponent
 import com.klim.stock.search.ui.presentation.SearchFragment
 import com.klim.windowsmanager.WindowsContainerActivity
 import com.klim.windowsmanager.WindowsKeeper

@@ -51,8 +51,6 @@ import javax.inject.Singleton
         NavigationModule::class,
         CreateNavigationModule::class,
 
-//        RetrofitApiModule::class,
-
         //Use Cases
         SymbolDetailsUseCaseModule::class,
         HistoryUseCaseModule::class,

@@ -1,6 +1,7 @@
-package com.klim.stock.di.main_activity
+package com.klim.stock.ui.di
 
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
+import com.klim.stock.di.main_activity.DaggerMainActivityComponent
 import com.klim.stock.ui.MainActivity
 import dagger.Component
 
