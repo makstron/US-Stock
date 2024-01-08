@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.USStock.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.USStock.Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorPrimary">?attr/toolbarBackground</item>
+        <item name="colorControlNormal">?attr/toolbarMenuIconColor</item>
+        <item name="navigationIcon">@drawable/ic_menu</item>
+        <item name="navigationIconTint">?attr/toolbarMenuIconColor</item>
+    </style>
+</resources>

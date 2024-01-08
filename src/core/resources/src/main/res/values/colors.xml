@@ -13,7 +13,7 @@
     <color name="gray_70">#4D4D4D</color>
     <color name="gray_80">#333333</color>
     <color name="gray_90">#1A1A1A</color>
-    <color name="gray_96">#0A0A0A</color>
+    <color name="gray_95">#0D0D0D</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <!-- endregion common -->
@@ -23,14 +23,10 @@
     <color name="font_third">#B3B3B3</color>
 
 
-
-
-
-
     <!-- Common -->
 
     <color name="brand_red">#EA4335</color>
-    <color name="default_text_color">#141111</color>
+    <color name="default_text_color">#111111</color>
     <color name="second_text_color">#7A7A7A</color>
     <!-- // Common -->
 
@@ -43,14 +39,6 @@
     <color name="nav_menu_item_color">#2B2B2B</color>
     <color name="nav_menu_item_color_selected">@color/brand_red</color>
     <!-- // navigation -->
-
-    <!-- toolbar -->
-    <color name="toolbar_fon">@color/white</color>
-    <color name="toolbar_menu_icon_color">#505050</color>
-    <color name="toolbar_text_color">#505050</color>
-    <color name="toolbar_edit_text_hint_color">#9C9C9C</color>
-    <color name="toolbar_edit_text_color">#141111</color>
-    <!-- // toolbar -->
 
     <!-- Search -->
     <color name="search_result_item_text">#141111</color>

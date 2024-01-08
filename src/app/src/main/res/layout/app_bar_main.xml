@@ -24,7 +24,7 @@
             android:theme="@style/Theme.USStock.Toolbar"
             app:menu="@menu/main"
             app:title="@string/app_name"
-            app:titleTextColor="@color/toolbar_menu_icon_color">
+            app:titleTextColor="?attr/toolbarMenuIconColor">
 
         </com.google.android.material.appbar.MaterialToolbar>
 

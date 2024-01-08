@@ -5,4 +5,13 @@
     <attr name="colorFontSecond" format="color" />
     <attr name="colorBackground" format="color" />
     <!-- endregion fonts -->
+
+    <!-- region toolbar -->
+    <attr name="toolbarBackground" format="color" />
+    <attr name="toolbarMenuIconColor" format="color" />
+    <attr name="toolbarTextColor" format="color" />
+    <attr name="toolbarEditTextHintColor" format="color" />
+    <attr name="toolbarEditTextColor" format="color" />
+    <attr name="toolbarSearchIconColor" format="color" />
+    <!-- endregion toolbar -->
 </resources>
