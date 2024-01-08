@@ -1,4 +1,4 @@
-package com.klim.stock.di.settings
+package com.klim.stock.settings.ui.di
 
 import javax.inject.Scope
 

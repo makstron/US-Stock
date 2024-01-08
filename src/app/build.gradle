@@ -55,6 +55,7 @@ dependencies {
     implementation project(':symbol_details')
     implementation project(':info')
     implementation project(':search')
+    implementation project(':settings')
 
     //UC
     implementation project(':symbol_details_usecase:api')

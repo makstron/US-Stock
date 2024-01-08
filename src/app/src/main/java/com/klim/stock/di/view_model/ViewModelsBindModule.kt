@@ -6,7 +6,6 @@ import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.dependencyinjection.view_model.ViewModelKey
 import com.klim.stock.ui.windows.MainActivityViewModel
 import com.klim.stock.favorited.ui.SymbolFavoritedViewModel
-import com.klim.stock.ui.windows.settings.SettingsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -27,10 +26,10 @@ interface ViewModelsBindModule {
     @ViewModelKey(SymbolFavoritedViewModel::class)
     fun homeViewModel(viewModel: SymbolFavoritedViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(SettingsViewModel::class)
-    fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(com.klim.stock.settings.ui.presentation.SettingsViewModel::class)
+//    fun settingsViewModel(viewModel: com.klim.stock.settings.ui.presentation.SettingsViewModel): ViewModel
 
 //    @Binds
 //    @IntoMap

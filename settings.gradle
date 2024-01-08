@@ -11,6 +11,7 @@ includePresentation('symbol_details')
 includePresentation('symbols_favorited')
 includePresentation('info')
 includePresentation('search')
+includePresentation('settings')
 //endregion
 
 //region domain
@@ -87,5 +88,6 @@ def includeApiImpl(name, path) {
     include "$name:impl"
     project("$name:impl").projectDir = new File(rootDir,  "$path/impl")
 }
+
 
 

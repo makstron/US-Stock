@@ -1,10 +1,10 @@
-package com.klim.stock.info.ui.di
+package com.klim.stock.settings.ui.di
 
 import androidx.lifecycle.ViewModel
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTemp
 import com.klim.stock.dependencyinjection.view_model.ViewModelKey
-import com.klim.stock.info.ui.presentation.InfoViewModel
+import com.klim.stock.settings.ui.presentation.SettingsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,8 +16,8 @@ interface ViewModelsModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(InfoViewModel::class)
-    fun bindViewModel(viewModel: InfoViewModel): ViewModel
+    @ViewModelKey(SettingsViewModel::class)
+    fun bindViewModel(viewModel: SettingsViewModel): ViewModel
 
 }
 

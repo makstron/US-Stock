@@ -1,14 +1,14 @@
-package com.klim.stock.di.settings
+package com.klim.stock.settings.ui.di
 
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.dependencyinjection.ViewModelProviderProvider
-import com.klim.stock.ui.windows.settings.SettingsFragment
+import com.klim.stock.settings.ui.presentation.SettingsFragment
 import dagger.Component
 
 @SettingsScope
 @Component(
     dependencies = [ApplicationContextProvider::class, ViewModelProviderProvider::class],
-    modules = [SettingsModule::class]
+    modules = [ViewModelsModule::class]
 )
 interface SettingsComponent {
     fun inject(fragment: SettingsFragment?)

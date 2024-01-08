@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.klim.stock.ui.windows.settings.SettingsFragment"
+        android:name="com.klim.stock.settings.ui.presentation.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 

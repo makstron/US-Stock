@@ -1,4 +1,4 @@
-package com.klim.stock.ui.windows.settings
+package com.klim.stock.settings.ui.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +9,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.viewBind
-import com.klim.stock.databinding.FragmentSettingsBinding
-import com.klim.stock.di.settings.SettingsComponent
+import com.klim.stock.dependencyinjection.view_model.ViewModelFactoryTemp
+import com.klim.stock.settings.ui.databinding.FragmentSettingsBinding
+import com.klim.stock.settings.ui.di.SettingsComponent
 import javax.inject.Inject
 
 class SettingsFragment : BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelFactoryTemp
     private lateinit var vm: SettingsViewModel
     private var binding: FragmentSettingsBinding by viewBind()
 
@@ -42,8 +43,4 @@ class SettingsFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        getComponentProvider().destroySettingsComponent() //todo modules
-    }
 }
