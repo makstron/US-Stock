@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.klim.stock.searchusecase.api.SearchUseCase
 import com.klim.stock.searchusecase.api.entity.SearchResultEntity
 import com.klim.stock.utils.coroutines.CoroutineDispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -28,17 +29,29 @@ class SearchViewModel
     private val _isExistsResult = MutableLiveData<Boolean>(true)
     val isExistsResult: LiveData<Boolean> = _isExistsResult
 
-    var searchRequest = ""
+    private var searchRequest = ""
+    private var searchDelayJob: Job? = null
+    private var searchJob: Job? = null
+    private val searchDelay: Long = 700L
 
-    fun search(request: String) {
+    fun updateSearchRequest(request: String) {
         searchRequest = request
-        _isSearching.postValue(true)
-        viewModelScope.launch(dispatchers.Main) {
+
+        searchDelayJob?.cancel()
+        searchDelayJob = viewModelScope.launch(dispatchers.Main) {
+            delay(searchDelay)
+            searchDelayJob = null
+            search()
+        }
+    }
+
+    fun search() {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch(dispatchers.IO) {
+            _isSearching.postValue(true)
             val results = searchUseCase.search(SearchUseCase.RequestParams(searchRequest))
-            val resultsViews: List<SearchResultView>
-            withContext(dispatchers.IO) {
-                resultsViews = prepareSearchResults(results)
-            }
+            val resultsViews: List<SearchResultView> = prepareSearchResults(results)
+
             _isExistsResult.postValue(resultsViews.isNotEmpty())
             _searchResults.postValue(resultsViews)
             _isSearching.postValue(false)

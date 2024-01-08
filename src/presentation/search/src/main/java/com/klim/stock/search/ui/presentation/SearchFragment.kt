@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.view.extensions.addOnTextChangeEndListener
 import com.klim.coreUi.utils.viewBind
@@ -27,6 +29,7 @@ class SearchFragment : BaseFragment() {
 
     @Inject
     lateinit var searchAdapter: SearchResultAdapter
+
     @Inject
     lateinit var navigation: Navigation
 
@@ -87,8 +90,15 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun setActionListeners() {
-        binding.searchField.addOnTextChangeEndListener { searchRequest ->
-            viewModel.search(searchRequest.toString())
+        binding.searchField.doOnTextChanged { text, start, before, count ->
+            viewModel.updateSearchRequest(text.toString())
+        }
+
+        binding.searchField.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.search()
+            }
+            true
         }
 
         binding.arrowBack.setOnClickListener {
