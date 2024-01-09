@@ -10,23 +10,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.klim.chart.smoothie.ChartDataItem
 import com.klim.stock.analytics.analytics.Analytics
 import com.klim.stock.analytics.crashliytics.Crashlytics
 import com.klim.stock.analytics.crashliytics.FirebaseCrashKeys
-import com.klim.stock.analytics.analytics.AnalyticKeys
-import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
-import com.klim.chart.smoothie.ChartDataItem
+import com.klim.stock.favorited.usecase.api.FavoritedUseCase
 import com.klim.stock.history.usecase.api.HistoryUseCase
 import com.klim.stock.symbol.api.SymbolDetailsUseCase
+import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
 import com.klim.stock.symbol.ui.R
-import com.klim.stock.resources.R as Res
-import com.klim.stock.utils.geocoder.api.Address
-import com.klim.stock.utils.geocoder.api.Geocoder
 import com.klim.stock.symbol.ui.presentation.entity.DetailsResultView
 import com.klim.stock.symbol.ui.presentation.entity.OfficerEntityView
 import com.klim.stock.symbol.ui.presentation.entity.PriceEntityView
 import com.klim.stock.symbol.ui.presentation.entity.RecommendedEntityView
+import com.klim.stock.utils.coroutines.CoroutineDispatchers
+import com.klim.stock.utils.geocoder.api.Address
+import com.klim.stock.utils.geocoder.api.Geocoder
 import com.klim.stock.utils.phonenumber.api.PhoneNumberUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,18 +36,21 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 import javax.inject.Inject
+import com.klim.stock.resources.R as Res
 
 
 class SymbolDetailsViewModel
 @Inject
 constructor(
     application: Application,
-    private val symbolDetailsUseCase: SymbolDetailsUseCase,
+    private val dispatchers: CoroutineDispatchers,
     private val historyUseCase: HistoryUseCase,
     private val geocoder: Geocoder,
     private val phoneNumberUtil: PhoneNumberUtils,
     private val analytics: Analytics,
     private val crashlytics: Crashlytics,
+    private val symbolDetailsUseCase: SymbolDetailsUseCase,
+    private val favoritedUseCase: FavoritedUseCase,
 ) : AndroidViewModel(application) {
 
     private val employeesFormatter = DecimalFormat("#,###")
@@ -66,6 +69,9 @@ constructor(
 
     private val _history = MutableLiveData<List<ChartDataItem>?>()
     val history: LiveData<List<ChartDataItem>?> = _history
+
+    private val _favorited = MutableLiveData<Boolean>(false)
+    val favorited: LiveData<Boolean> = _favorited
 
     private val _isLoading = MutableLiveData<Boolean>(true)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -86,9 +92,9 @@ constructor(
 
     fun loadDetails() {
         _isLoading.postValue(true)
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(dispatchers.Main) {
 
-            val jobDetails = launch(Dispatchers.Main) {
+            val jobDetails = launch(dispatchers.IO) {
                 val results = symbolDetailsUseCase.getDetails(SymbolDetailsUseCase.RequestParams(currentSymbol))
                 results?.let {
                     val preparedResult = prepareDetailsResult(results)
@@ -99,15 +105,14 @@ constructor(
                 _isExistsResult.postValue(results != null)
             }
 
-            val jobHistory = launch(Dispatchers.Main) {
-                val lastMonthsHistory =
-                    historyUseCase.getSymbolPricesHistory(
-                        HistoryUseCase.RequestParams(
-                            currentSymbol,
-                            HistoryUseCase.RequestParams.Range.ONE_MONTH,
-                            HistoryUseCase.RequestParams.TimeInterval.ONE_DAY
-                        )
+            val jobHistory = launch(dispatchers.IO) {
+                val lastMonthsHistory = historyUseCase.getSymbolPricesHistory(
+                    HistoryUseCase.RequestParams(
+                        currentSymbol,
+                        HistoryUseCase.RequestParams.Range.ONE_MONTH,
+                        HistoryUseCase.RequestParams.TimeInterval.ONE_DAY
                     )
+                )
                 if (lastMonthsHistory != null) {
                     _history.postValue(
                         lastMonthsHistory
@@ -119,10 +124,24 @@ constructor(
                 }
             }
 
+            val jobFavorited = launch(dispatchers.IO) {
+                val isFavorited = favoritedUseCase.checkIsFavorited(currentSymbol)
+                _favorited.postValue(isFavorited)
+            }
+
             jobDetails.join()
             jobHistory.join()
+            jobFavorited.join()
 
             _isLoading.postValue(false)
+        }
+    }
+
+    fun setFavorited() {
+        viewModelScope.launch(dispatchers.IO) {
+            val newValue = !(favorited.value ?: false)
+            favoritedUseCase.setFavorited(currentSymbol, newValue)
+            _favorited.postValue(newValue)
         }
     }
 

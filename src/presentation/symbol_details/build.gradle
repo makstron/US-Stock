@@ -58,6 +58,7 @@ dependencies {
     //UC
     implementation project(':symbol_details_usecase:api')
     implementation project(':history_usecase:api')
+    implementation project(':favorited_usecase:api')
 
     test()
 }

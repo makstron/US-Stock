@@ -27,7 +27,11 @@ class SymbolsFavoritedFragment : BaseFragment() {
 
     private fun inject() {
         val component = SymbolsFavoritedComponent.Initializer
-            .init(getApplicationContextProvider(), findDependencies())
+            .init(
+                getApplicationContextProvider(),
+                findDependencies(),
+                findDependencies(),
+            )
         component.inject(this)
     }
 
@@ -35,6 +39,7 @@ class SymbolsFavoritedFragment : BaseFragment() {
         binding = FragmentFavoritedBinding.inflate(inflater, container, false)
 
         observeViewModel()
+        viewModel.load()
 
         return binding.root
     }
@@ -45,5 +50,8 @@ class SymbolsFavoritedFragment : BaseFragment() {
         })
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.load()
+    }
 }

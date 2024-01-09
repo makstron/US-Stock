@@ -59,4 +59,11 @@ ext {
     storages = dependencyGroup {
         implementation 'androidx.security:security-crypto:1.1.0-alpha03'
     }
+
+    room = dependencyGroup {
+        def room_version = "2.2.6"
+
+        implementation "androidx.room:room-runtime:$room_version"
+        kapt "androidx.room:room-compiler:$room_version"
+    }
 }

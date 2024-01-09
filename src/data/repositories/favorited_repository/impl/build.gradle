@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+apply from: "$project.rootDir/dependencies.gradle"
+
+android {
+    namespace 'com.klim.stock.favorited.repository.impl'
+
+    def globalConfig = rootProject.ext
+    compileSdk globalConfig.compileSdkV
+
+    defaultConfig {
+        minSdk minSdkV
+        targetSdk globalConfig.targetSdkV
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility globalConfig.javaVersion
+        targetCompatibility globalConfig.javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = globalConfig.javaVersion
+    }
+}
+
+dependencies {
+dagger()
+    implementation project(path: ':cache')
+
+    implementation project(':favorited_repository:api')
+
+    implementation project(path: ':database')
+    kotlinAndroidCore()
+    coroutines()
+    test()
+}

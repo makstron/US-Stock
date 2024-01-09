@@ -63,6 +63,8 @@ dependencies {
     implementation project(':history_usecase:impl')
     implementation project(':search_usecase:api')
     implementation project(':search_usecase:impl')
+    implementation project(':favorited_usecase:api')
+    implementation project(':favorited_usecase:impl')
 
     //Repositories
     implementation project(':stock_repository')
@@ -70,6 +72,8 @@ dependencies {
     implementation project(':symbol_repository:impl')
     implementation project(':history_repository:api')
     implementation project(':history_repository:impl')
+    implementation project(':favorited_repository:api')
+    implementation project(':favorited_repository:impl')
 
 
     implementation project(':network_api')
@@ -112,6 +116,7 @@ dependencies {
     implementation project(path: ':storage:api')
     implementation project(path: ':storage:impl')
     implementation project(path: ':cache')
+    implementation project(path: ':database')
 
 
     implementation project(path: ':utils')

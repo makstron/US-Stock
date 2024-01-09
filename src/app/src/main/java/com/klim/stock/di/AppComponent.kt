@@ -3,7 +3,10 @@ package com.klim.stock.di
 import com.klim.constants.di.ConstantsNetworkModule
 import com.klim.stock.App
 import com.klim.stock.analytics.di.AnalyticsBindModule
+import com.klim.stock.database.di.DatabaseModule
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
+import com.klim.stock.favorited.repository.impl.di.FavoritedRepositoryModule
+import com.klim.stock.favorited.usecase.impl.di.FavoritedUseCaseModule
 import com.klim.stock.history.repository.impl.di.HistoryRepositoryModule
 import com.klim.stock.history.usecase.impl.di.HistoryUseCaseModule
 import com.klim.stock.navigation.di.CreateNavigationModule
@@ -31,9 +34,11 @@ import javax.inject.Singleton
         ConstantsNetworkModule::class,
         AppBindsModule::class,
 
+        //Repositories
         SymbolRepositoryModule::class,
         HistoryRepositoryModule::class,
         StockRepositoryModule::class,
+        FavoritedRepositoryModule::class,
 
         //Analitycs
         AnalyticsBindModule::class,
@@ -46,6 +51,7 @@ import javax.inject.Singleton
         //Storages
         StorageKeysModule::class,
         CacheModule::class,
+        DatabaseModule::class,
 
         //navigation
         NavigationModule::class,
@@ -55,6 +61,7 @@ import javax.inject.Singleton
         SymbolDetailsUseCaseModule::class,
         HistoryUseCaseModule::class,
         SearchUseCaseModule::class,
+        FavoritedUseCaseModule::class,
     ],
 )
 interface AppComponent : ApplicationContextProvider { //todo modules is it need here ApplicationContextProvider

@@ -24,7 +24,7 @@ import com.klim.stock.symbol.ui.presentation.adapters.RecommendedAdapter
 import com.klim.stock.symbol.ui.presentation.entity.DetailsResultView
 import com.klim.stock.symbol.ui.presentation.entity.PriceEntityView
 import javax.inject.Inject
-import com.klim.stock.resources.R as RR
+import com.klim.stock.resources.R as Res
 
 
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
@@ -66,7 +66,9 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
                 findDependencies(),
                 findDependencies(),
                 findDependencies(),
-                findDependencies()
+                findDependencies(),
+                findDependencies(),
+                findDependencies(),
             )
         component.inject(this)
     }
@@ -92,18 +94,25 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
 
     private fun setActionListeners() {
-        binding.arrowBack.setOnClickListener {
-            closeWindow()
+        binding.apply {
+            arrowBack.setOnClickListener {
+                closeWindow()
+            }
+
+            ivFavorite.setOnClickListener {
+                viewModel.setFavorited()
+            }
+
+            descriptionContent.setOnClickListener {
+                showHideFullDescription()
+            }
+            iconOpenMoreDescription.setOnClickListener {
+                showHideFullDescription()
+            }
         }
 
         recommendedAdapter.clickListener = ::onSimilarSymbolItemSelected
 
-        binding.descriptionContent.setOnClickListener {
-            showHideFullDescription()
-        }
-        binding.iconOpenMoreDescription.setOnClickListener {
-            showHideFullDescription()
-        }
     }
 
     private fun observeViewModel() {
@@ -123,11 +132,15 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
             history.observe(viewLifecycleOwner) { prices ->
                 prices?.let {
-                    binding.chart.setData(prices, getColor(RR.color.brand_red))
+                    binding.chart.setData(prices, getColor(Res.color.brand_red))
                     binding.labelChartErrorMessage.visibility = View.GONE
                 } ?: run {
                     binding.labelChartErrorMessage.visibility = View.VISIBLE
                 }
+            }
+
+            favorited.observe(viewLifecycleOwner) { isFavorited ->
+                updateFavoritedIcon(isFavorited)
             }
 
             isLoading.observe(viewLifecycleOwner) { status ->
@@ -220,16 +233,25 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun showHideFullDescription() {
         if (descriptionIsOpen) {
-            binding.iconOpenMoreDescription.setImageResource(RR.drawable.anim_description_close)
+            binding.iconOpenMoreDescription.setImageResource(Res.drawable.anim_description_close)
             binding.descriptionContent.maxLines = 2
         } else {
-            binding.iconOpenMoreDescription.setImageResource(RR.drawable.anim_description_open)
+            binding.iconOpenMoreDescription.setImageResource(Res.drawable.anim_description_open)
             binding.descriptionContent.maxLines = 100
         }
         val avd = binding.iconOpenMoreDescription.drawable as AnimatedVectorDrawable
         avd.start()
 
         descriptionIsOpen = !descriptionIsOpen
+    }
+
+    private fun updateFavoritedIcon(isFavorited: Boolean) {
+        val icon = if (isFavorited) {
+            Res.drawable.ic_star_full
+        } else {
+            Res.drawable.ic_star_empty
+        }
+        binding.ivFavorite.setImageResource(icon)
     }
 
     private fun onSimilarSymbolItemSelected(ticker: String) {

@@ -53,6 +53,7 @@ dependencies {
     lifecycle()
 
     //UC
+    implementation project(':favorited_usecase:api')
 
     test()
 }
