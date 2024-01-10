@@ -9,20 +9,20 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.klim.stock.R
-import com.klim.stock.analytics.analytics.Analytics
 import com.klim.stock.databinding.ActivityMainBinding
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.dicore.Dependency
 import com.klim.stock.dicore.DependencyContainer
-import com.klim.stock.ui.di.MainActivityComponent
 import com.klim.stock.search.ui.presentation.SearchFragment
+import com.klim.stock.ui.di.MainActivityComponent
 import com.klim.windowsmanager.WindowsContainerActivity
 import com.klim.windowsmanager.WindowsKeeper
 import com.klim.windowsmanager.views.WindowsContainer
@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
 
         binding.appBarMain.wcWindowsContainer.windowsKeeper = WindowsKeeper(this@MainActivity)
         binding.appBarMain.wcWindowsContainer.windowCloseListener = ::windowsClose
+        binding.appBarMain.wcWindowsContainer.windowOpenListener = ::windowsOpen
     }
 
     private fun inject() {
@@ -98,6 +99,29 @@ class MainActivity : AppCompatActivity(), WindowsContainerActivity {
     private fun windowsClose() {
         if (binding.appBarMain.wcWindowsContainer.windowsKeeper.getTopWindowOrNull() == null) {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            resumeFragment()
+        }
+    }
+
+    private fun resumeFragment() {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)?.childFragmentManager?.let { fragmentManager ->
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.setMaxLifecycle(fragmentManager.fragments.first(), Lifecycle.State.RESUMED)
+            fragmentTransaction.commit()
+        }
+    }
+
+    private fun windowsOpen() {
+        if (binding.appBarMain.wcWindowsContainer.windowsKeeper.getStackSize() == 1) {
+            pauseFragment()
+        }
+    }
+
+    private fun pauseFragment() {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)?.childFragmentManager?.let { fragmentManager ->
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.setMaxLifecycle(fragmentManager.fragments[0], Lifecycle.State.STARTED)
+            fragmentTransaction.commit()
         }
     }
 

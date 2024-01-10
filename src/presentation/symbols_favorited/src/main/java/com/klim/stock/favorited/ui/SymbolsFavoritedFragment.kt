@@ -39,7 +39,6 @@ class SymbolsFavoritedFragment : BaseFragment() {
         binding = FragmentFavoritedBinding.inflate(inflater, container, false)
 
         observeViewModel()
-        viewModel.load()
 
         return binding.root
     }

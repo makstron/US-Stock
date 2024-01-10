@@ -47,15 +47,4 @@ abstract class BaseFragment() : Fragment() {
         return ContextCompat.getColor(requireContext(), color)
     }
 
-    @MainThread
-    inline fun <reified VM : ViewModel> viewModels(
-        noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-    ): Lazy<VM> {
-        val factoryPromise = factoryProducer ?: {
-            defaultViewModelProviderFactory
-        }
-
-        return ViewModelLazy(VM::class, { viewModelStore }, factoryPromise)
-    }
-
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import java.util.*
 
 class WindowsKeeper(var activity: WindowsContainerActivity) {
@@ -19,6 +20,9 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
         frameLayout.isClickable = true
         containerView.addView(frameLayout)
 
+        getTopWindowOrNull()?.fragment?.let {
+            pauseFragment(it)
+        }
         setFragment(activity, frameLayout.id, fragment, fragment::class.java.simpleName)
         windows.add(Window(fragment, frameLayout, isItBase))
     }
@@ -26,6 +30,18 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
     private fun setFragment(activity: WindowsContainerActivity, targetId: Int, fragment: Fragment, fragmentTag: String?) {
         val fragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
         fragmentTransaction.add(targetId, fragment, fragmentTag)
+        fragmentTransaction.commit()
+    }
+
+    private fun pauseFragment(fragment: Fragment) {
+        val fragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
+        fragmentTransaction.setMaxLifecycle(fragment, Lifecycle.State.STARTED)
+        fragmentTransaction.commit()
+    }
+
+    private fun resumeFragment(fragment: Fragment) {
+        val fragmentTransaction = activity.getSupportFragmentManager().beginTransaction()
+        fragmentTransaction.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
         fragmentTransaction.commit()
     }
 
@@ -54,6 +70,8 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
             null
     }
 
+    fun getStackSize(): Int = windows.size
+
     fun existsWindowForBackPressed(): Boolean {
         val topWindows = getTopWindowOrNull()
         return if (topWindows != null) {
@@ -69,6 +87,11 @@ class WindowsKeeper(var activity: WindowsContainerActivity) {
             removeFragment(topWindow)
             removeView(topWindow)
             windows.removeLast()
+
+            getTopWindowOrNull()?.fragment?.let {
+                resumeFragment(it)
+            }
+
             return true
         }
         return false
