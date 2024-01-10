@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.extensions.viewModels
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.info.ui.databinding.FragmentInfoBinding

@@ -11,7 +11,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.klim.coreUi.BaseFragment
-import com.klim.coreUi.utils.view.extensions.addOnTextChangeEndListener
+import com.klim.coreUi.extensions.viewModels
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.navigation.Navigation

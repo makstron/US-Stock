@@ -15,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.extensions.viewModels
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
 import com.klim.stock.symbol.ui.databinding.FragmentSymbolDetailsBinding

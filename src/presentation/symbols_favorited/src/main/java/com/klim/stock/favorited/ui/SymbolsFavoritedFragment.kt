@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.klim.coreUi.extensions.viewModels
 import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
