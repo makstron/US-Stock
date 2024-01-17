@@ -1,6 +1,7 @@
 # US-Stock
 
 This is a test project. Based on single activity approach.
+Currently in complete mess and refactoring
 
 Main information
 * Language: Kotlin/Java
