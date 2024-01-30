@@ -32,10 +32,15 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = globalConfig.kotlinConposeCompilerVer
     }
 }
 
 dependencies {
+    composeDependency()
     implementation project(':analytics')
     implementation project(':dependency_interface')
     implementation project(':dependency_provider')

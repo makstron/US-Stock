@@ -44,6 +44,10 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = globalConfig.kotlinConposeCompilerVer
     }
 }
 
@@ -59,8 +63,8 @@ dependencies {
     //UC
     implementation project(':symbol_details_usecase:api')
     implementation project(':symbol_details_usecase:impl')
-    implementation project(':history_usecase:api')
-    implementation project(':history_usecase:impl')
+    implementation project(':chart_usecase:api')
+    implementation project(':chart_usecase:impl')
     implementation project(':search_usecase:api')
     implementation project(':search_usecase:impl')
     implementation project(':favorited_usecase:api')
@@ -70,8 +74,8 @@ dependencies {
     implementation project(':stock_repository')
     implementation project(':symbol_repository:api')
     implementation project(':symbol_repository:impl')
-    implementation project(':history_repository:api')
-    implementation project(':history_repository:impl')
+    implementation project(':chart_repository:api')
+    implementation project(':chart_repository:impl')
     implementation project(':favorited_repository:api')
     implementation project(':favorited_repository:impl')
 
@@ -85,6 +89,7 @@ dependencies {
     implementation project(':dependency_provider')
 
     implementation project(':coreUi')
+    composeDependency()
     implementation project(':constants')
 
     implementation project(':navigation')
@@ -98,8 +103,7 @@ dependencies {
     material()
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     lifecycle()
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    navigation()
 
     dagger()
 

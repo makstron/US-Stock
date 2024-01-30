@@ -3,7 +3,7 @@ package com.klim.stock.database.di
 import android.content.Context
 import androidx.room.Room
 import com.klim.stock.database.AppDatabase
-import com.klim.stock.database.dao.FavoritedDAO
+import com.klim.stock.database.dao.FavouriteDAO
 import dagger.Module
 import dagger.Provides
 
@@ -23,7 +23,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideFavoritedDTO(db: AppDatabase): FavoritedDAO {
+    fun provideFavoritedDTO(db: AppDatabase): FavouriteDAO {
         return db.getFavoritedDao()
     }
 

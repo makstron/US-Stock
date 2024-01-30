@@ -36,12 +36,12 @@ android {
 
 dependencies {
 
-    implementation project(path: ':cache')
+    implementation project(':cache')
     dagger()
 
     implementation project(':symbol_repository:api')
 
-    implementation project(path: ':network_api')
+    implementation project(':network_api')
     kotlinAndroidCore()
     coroutines()
 

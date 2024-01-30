@@ -15,7 +15,7 @@ includePresentation('settings')
 //endregion
 
 //region domain
-includeApiImpl(':history_usecase', 'src/domain/history_usecase')
+includeApiImpl(':chart_usecase', 'src/domain/chart_usecase')
 includeApiImpl(':search_usecase', 'src/domain/search_usecase')
 includeApiImpl(':symbol_details_usecase', 'src/domain/symbol_details_usecase')
 includeApiImpl(':favorited_usecase', 'src/domain/favorited_usecase')
@@ -27,7 +27,7 @@ include ':stock_repository'
 project(':stock_repository').projectDir = new File(rootDir, 'src/data/repositories/stock_repository')
 
 includeApiImpl(':symbol_repository', 'src/data/repositories/symbol_repository')
-includeApiImpl(':history_repository', 'src/data/repositories/history_repository')
+includeApiImpl(':chart_repository', 'src/data/repositories/chart_repository')
 includeApiImpl(':favorited_repository', 'src/data/repositories/favorited_repository')
 //endregion
 

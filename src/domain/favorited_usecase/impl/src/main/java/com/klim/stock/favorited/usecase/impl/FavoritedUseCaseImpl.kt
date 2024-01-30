@@ -2,7 +2,7 @@ package com.klim.stock.favorited.usecase.impl
 
 import com.klim.stock.favorited.repository.api.FavoritedRepository
 import com.klim.stock.favorited.usecase.api.FavoritedUseCase
-import com.klim.stock.favorited.usecase.api.entity.FavoritedEntity
+import com.klim.stock.favorited.usecase.api.entity.FavoritedPreviewEntity
 import javax.inject.Inject
 
 class FavoritedUseCaseImpl
@@ -10,8 +10,8 @@ class FavoritedUseCaseImpl
     private val repositoryFavorited: FavoritedRepository,
 ) : FavoritedUseCase {
 
-    override suspend fun getFavorited(): List<FavoritedEntity>? {
-        return repositoryFavorited.getFavorited()
+    override suspend fun getFavoritedPreviewList(): List<FavoritedPreviewEntity>? {
+        return repositoryFavorited.getFavoritedPreview()
     }
 
     override suspend fun checkIsFavorited(symbol: String): Boolean {

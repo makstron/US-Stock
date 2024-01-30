@@ -34,7 +34,7 @@ class SymbolRemoteDataSource(
 
     override suspend fun getDetails(symbol: String): SymbolDetailsDTO? = coroutineScope {
         val detailsSummaryDeferred = async { detailsApi.getDetailsSummary(symbol = symbol) }
-        val detailsDeferred = async { detailsApi.getDetails(symbol = symbol) }
+        val detailsDeferred = async { detailsApi.getDetails(symbols = listOf(symbol)) }
         val recommendationDeferred = async { detailsApi.getRecommendations(symbol = symbol) }
 
         try {
@@ -44,7 +44,7 @@ class SymbolRemoteDataSource(
             val recommendation = recommendationDeferred.await()
 
             val detailsSummaryResult = detailsSummary.result
-            val detailsResult = details.result
+            val detailsResult = details.result?.first()
             val recommendationResult = recommendation.result
             if (detailsSummaryResult != null && detailsResult != null && recommendationResult != null) {
                 return@coroutineScope map(detailsSummaryResult, detailsResult, recommendationResult)

@@ -18,6 +18,7 @@ import com.klim.coreUi.BaseFragment
 import com.klim.coreUi.extensions.viewModels
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
+import com.klim.stock.navigation.Navigation
 import com.klim.stock.symbol.ui.databinding.FragmentSymbolDetailsBinding
 import com.klim.stock.symbol.ui.di.SymbolDetailsComponent
 import com.klim.stock.symbol.ui.presentation.adapters.OfficerAdapter
@@ -29,6 +30,9 @@ import com.klim.stock.resources.R as Res
 
 
 class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
+
+    @Inject
+    lateinit var navigation: Navigation
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -63,6 +67,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
         val component = SymbolDetailsComponent.Initializer
             .init(
                 getApplicationContextProvider(),
+                findDependencies(),
                 findDependencies(),
                 findDependencies(),
                 findDependencies(),
@@ -131,7 +136,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
                 setPrices(prices)
             }
 
-            history.observe(viewLifecycleOwner) { prices ->
+            chart.observe(viewLifecycleOwner) { prices ->
                 prices?.let {
                     binding.chart.setData(prices, getColor(Res.color.brand_red))
                     binding.labelChartErrorMessage.visibility = View.GONE
@@ -256,10 +261,7 @@ class SymbolDetailsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun onSimilarSymbolItemSelected(ticker: String) {
-        val args = Bundle().apply {
-            putString(SYMBOL, ticker)
-        }
-        startWindow(newInstance(args))
+        startWindow(navigation.getDetailsScreen(ticker))
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

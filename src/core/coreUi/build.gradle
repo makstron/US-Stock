@@ -7,7 +7,7 @@ apply from: "$project.rootDir/dependencies.gradle"
 
 android {
     namespace 'com.klim.stock.coreUi'
-    
+
     def globalConfig = rootProject.ext
     compileSdk globalConfig.compileSdkV
 
@@ -35,11 +35,15 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = globalConfig.kotlinConposeCompilerVer
     }
 }
 
 dependencies {
-
+    composeDependency()
     api project(':resources')
     implementation project(':constants')
     implementation project(':dependency_provider')

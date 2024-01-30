@@ -1,7 +1,7 @@
 package com.klim.stock.network.retrofit.di
 
 import com.klim.stock.network.ApiProvider
-import com.klim.stock.network.api.HistoryApi
+import com.klim.stock.network.api.ChartApi
 import com.klim.stock.network.api.SearchApi
 import com.klim.stock.network.api.StockSymbolApi
 import com.klim.stock.network.api.SymbolDetailsApi
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 )
 interface NetworkComponent : ApiProvider {
 
-    override fun getHistoryApi(): HistoryApi
+    override fun getChartApi(): ChartApi
 
     override fun getSearchApi(): SearchApi
 

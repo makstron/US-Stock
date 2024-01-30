@@ -4,11 +4,11 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.klim.stock.network.Constants
 import com.klim.stock.network.api.AuthApi
-import com.klim.stock.network.api.HistoryApi
+import com.klim.stock.network.api.ChartApi
 import com.klim.stock.network.api.SearchApi
 import com.klim.stock.network.api.StockSymbolApi
 import com.klim.stock.network.api.SymbolDetailsApi
-import com.klim.stock.network.models.HistoryPriceResponse
+import com.klim.stock.network.models.ChartResponse
 import com.klim.stock.network.models.details.SymbolDetailsResponse
 import com.klim.stock.network.models.details.SymbolDetailsSummaryResponse
 import com.klim.stock.network.models.details.SymbolRecommendationResponse
@@ -20,7 +20,7 @@ import com.klim.stock.network.retrofit.interceptors.CrumbInterceptor
 import com.klim.stock.network.retrofit.interceptors.HeaderInterceptor
 import com.klim.stock.network.retrofit.interceptors.LoggingInterceptor
 import com.klim.stock.network.retrofit.interceptors.StockCookieJar
-import com.klim.stock.network.retrofit.typeAdapters.HistoryPriceResponseDeserializer
+import com.klim.stock.network.retrofit.typeAdapters.ChartResponseDeserializer
 import com.klim.stock.network.retrofit.typeAdapters.SymbolDetailsDeserializer
 import com.klim.stock.network.retrofit.typeAdapters.SymbolDetailsSummaryDeserializer
 import com.klim.stock.network.retrofit.typeAdapters.SymbolRecommendationDeserializer
@@ -67,8 +67,8 @@ class RetrofitApiModule {
 
     @Provides
     @Singleton
-    fun provideHistoryApi(retrofit: Retrofit): HistoryApi {
-        return retrofit.create<HistoryApi>(HistoryApi::class.java)
+    fun provideChartApi(retrofit: Retrofit): ChartApi {
+        return retrofit.create<ChartApi>(ChartApi::class.java)
     }
 
 }
@@ -83,7 +83,7 @@ class RetrofitModule {
             .setLenient()
             .registerTypeAdapter(SymbolDetailsSummaryResponse::class.java, SymbolDetailsSummaryDeserializer())
             .registerTypeAdapter(SymbolDetailsResponse::class.java, SymbolDetailsDeserializer())
-            .registerTypeAdapter(HistoryPriceResponse::class.java, HistoryPriceResponseDeserializer())
+            .registerTypeAdapter(ChartResponse::class.java, ChartResponseDeserializer())
             .registerTypeAdapter(SymbolRecommendationResponse::class.java, SymbolRecommendationDeserializer())
             .create()
     }

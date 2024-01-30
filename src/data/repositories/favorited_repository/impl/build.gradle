@@ -36,11 +36,11 @@ android {
 
 dependencies {
 dagger()
-    implementation project(path: ':cache')
-
+    implementation project(':cache')
+    implementation project(':network_api')
     implementation project(':favorited_repository:api')
-
-    implementation project(path: ':database')
+    implementation project(':dependency_provider')
+    implementation project(':database')
     kotlinAndroidCore()
     coroutines()
     test()

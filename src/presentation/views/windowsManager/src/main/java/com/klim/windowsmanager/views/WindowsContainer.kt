@@ -172,7 +172,7 @@ class WindowsContainer : FrameLayout {
             return super.onDoubleTap(e)
         }
 
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             if (enableUserSwipe) {
                 addToSwipeDistance(distanceX, distanceY)
                 checkConditionsForStartClosing()
@@ -202,7 +202,7 @@ class WindowsContainer : FrameLayout {
             }
         }
 
-        override fun onFling(event1: MotionEvent, event2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(event1: MotionEvent?, event2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             return super.onFling(event1, event2, velocityX, velocityY)
         }
     }

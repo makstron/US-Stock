@@ -31,10 +31,18 @@ android {
     kotlinOptions {
         jvmTarget = globalConfig.javaVersion
     }
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = globalConfig.kotlinConposeCompilerVer
+    }
 }
 
 dependencies {
     kotlinAndroidCore()
+    composeDependency()
     appcompat()
     material()
     test()

@@ -10,13 +10,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
-import com.klim.chart.smoothie.ChartDataItem
+import com.klim.chart.entity.ChartDataItem
 import com.klim.stock.analytics.analytics.Analytics
 import com.klim.stock.analytics.crashliytics.Crashlytics
 import com.klim.stock.analytics.crashliytics.FirebaseCrashKeys
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.favorited.usecase.api.FavoritedUseCase
-import com.klim.stock.history.usecase.api.HistoryUseCase
+import com.klim.stock.chart.usecase.api.ChartUseCase
 import com.klim.stock.symbol.api.SymbolDetailsUseCase
 import com.klim.stock.symbol.api.entity.SymbolDetailsEntity
 import com.klim.stock.symbol.ui.R
@@ -44,7 +44,7 @@ class SymbolDetailsViewModel
 constructor(
     application: Application,
     private val dispatchers: CoroutineDispatchers,
-    private val historyUseCase: HistoryUseCase,
+    private val chartUseCase: ChartUseCase,
     private val geocoder: Geocoder,
     private val phoneNumberUtil: PhoneNumberUtils,
     private val analytics: Analytics,
@@ -67,8 +67,8 @@ constructor(
     private val _price = MutableLiveData<PriceEntityView>()
     val price: LiveData<PriceEntityView> = _price
 
-    private val _history = MutableLiveData<List<ChartDataItem>?>()
-    val history: LiveData<List<ChartDataItem>?> = _history
+    private val _chart = MutableLiveData<List<ChartDataItem>?>()
+    val chart: LiveData<List<ChartDataItem>?> = _chart
 
     private val _favorited = MutableLiveData<Boolean>(false)
     val favorited: LiveData<Boolean> = _favorited
@@ -105,22 +105,22 @@ constructor(
                 _isExistsResult.postValue(results != null)
             }
 
-            val jobHistory = launch(dispatchers.IO) {
-                val lastMonthsHistory = historyUseCase.getSymbolPricesHistory(
-                    HistoryUseCase.RequestParams(
+            val jobChart = launch(dispatchers.IO) {
+                val lastMonthsChartData = chartUseCase.getSymbolChartData(
+                    ChartUseCase.RequestParams(
                         currentSymbol,
-                        HistoryUseCase.RequestParams.Range.ONE_MONTH,
-                        HistoryUseCase.RequestParams.TimeInterval.ONE_DAY
+                        ChartUseCase.RequestParams.Range.ONE_MONTH,
+                        ChartUseCase.RequestParams.TimeInterval.ONE_DAY
                     )
                 )
-                if (lastMonthsHistory != null) {
-                    _history.postValue(
-                        lastMonthsHistory
+                if (lastMonthsChartData != null) {
+                    _chart.postValue(
+                        lastMonthsChartData
                             .map {
                                 ChartDataItem(it.time * 1000, it.priceClose.toFloat())
                             })
                 } else {
-                    _history.postValue(null)
+                    _chart.postValue(null)
                 }
             }
 
@@ -130,7 +130,7 @@ constructor(
             }
 
             jobDetails.join()
-            jobHistory.join()
+            jobChart.join()
             jobFavorited.join()
 
             _isLoading.postValue(false)
@@ -215,17 +215,17 @@ constructor(
             when {
                 result.marketChange > 0 -> {
                     color = ContextCompat.getColor(getApplication(), Res.color.price_rise)
-                    arrow = R.drawable.ic_arrow_up
+                    arrow = Res.drawable.ic_arrow_up
                 }
 
                 result.marketChange < 0 -> {
                     color = ContextCompat.getColor(getApplication(), Res.color.price_fall)
-                    arrow = R.drawable.ic_arrow_down
+                    arrow = Res.drawable.ic_arrow_down
                 }
 
                 else -> {
                     color = Color.GRAY
-                    arrow = R.drawable.ic_arrow_empty
+                    arrow = Res.drawable.ic_arrow_empty
                 }
             }
 
