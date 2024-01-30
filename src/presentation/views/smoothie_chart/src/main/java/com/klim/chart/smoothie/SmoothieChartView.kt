@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.view.setPadding
+import com.klim.chart.entity.ChartDataItem
 
 class SmoothieChartView : View {
 

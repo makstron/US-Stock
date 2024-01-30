@@ -16,6 +16,7 @@ constructor(
 ) : StockRepositoryI {
 
     //TODO now cache works every time because limit of free API
+    @Deprecated("because it was provided by old provider")
     override suspend fun getPriceForDate(symbol: String, date: String): SymbolPriceEntity? {
         val keyCache = "${symbol}_${date}"
         var symbolPriceEntity: SymbolPriceEntity? = null

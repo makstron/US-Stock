@@ -1,10 +1,10 @@
 package com.klim.stock.favorited.usecase.api
 
-import com.klim.stock.favorited.usecase.api.entity.FavoritedEntity
+import com.klim.stock.favorited.usecase.api.entity.FavoritedPreviewEntity
 
 interface FavoritedUseCase {
 
-    suspend fun getFavorited(): List<FavoritedEntity>?
+    suspend fun getFavoritedPreviewList(): List<FavoritedPreviewEntity>?
 
     suspend fun checkIsFavorited(symbol: String): Boolean
 

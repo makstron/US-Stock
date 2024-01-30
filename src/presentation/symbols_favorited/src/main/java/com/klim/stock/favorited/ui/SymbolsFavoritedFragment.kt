@@ -4,16 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import com.klim.coreUi.extensions.viewModels
+import androidx.compose.ui.platform.ComposeView
 import com.klim.coreUi.BaseFragment
+import com.klim.coreUi.extensions.viewModels
 import com.klim.coreUi.utils.viewBind
 import com.klim.stock.dependencyinjection.view_model.ViewModelFactory
+import com.klim.stock.favorited.ui.api.NavigationTarget
+import com.klim.stock.favorited.ui.api.SymbolFavoritedViewModel
 import com.klim.stock.favorited.ui.databinding.FragmentFavoritedBinding
 import com.klim.stock.favorited.ui.di.SymbolsFavoritedComponent
+import com.klim.stock.navigation.Navigation
+import com.klim.stock.resources.AppTheme
 import javax.inject.Inject
 
 class SymbolsFavoritedFragment : BaseFragment() {
+
+    @Inject
+    lateinit var navigation: Navigation
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -32,6 +39,7 @@ class SymbolsFavoritedFragment : BaseFragment() {
                 getApplicationContextProvider(),
                 findDependencies(),
                 findDependencies(),
+                findDependencies(),
             )
         component.inject(this)
     }
@@ -41,13 +49,23 @@ class SymbolsFavoritedFragment : BaseFragment() {
 
         observeViewModel()
 
-        return binding.root
+        return ComposeView(requireContext()).apply {
+            setContent {
+                AppTheme {
+                    FavoritedScreen(viewModel)
+                }
+            }
+        }
     }
 
     private fun observeViewModel() {
-        viewModel.text.observe(viewLifecycleOwner, Observer {
-            binding.textHome.text = it
-        })
+        viewModel.navigation?.observe(viewLifecycleOwner) { navigationTarget ->
+            startWindow(
+                when (navigationTarget) {
+                    is NavigationTarget.SymbolDetails -> navigation.getDetailsScreen(navigationTarget.symbol)
+                }
+            )
+        }
     }
 
     override fun onResume() {

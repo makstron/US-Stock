@@ -7,8 +7,8 @@ import com.klim.stock.database.di.DatabaseModule
 import com.klim.stock.dependencyinjection.ApplicationContextProvider
 import com.klim.stock.favorited.repository.impl.di.FavoritedRepositoryModule
 import com.klim.stock.favorited.usecase.impl.di.FavoritedUseCaseModule
-import com.klim.stock.history.repository.impl.di.HistoryRepositoryModule
-import com.klim.stock.history.usecase.impl.di.HistoryUseCaseModule
+import com.klim.stock.chart.repository.impl.di.ChartRepositoryModule
+import com.klim.stock.chart.usecase.impl.di.ChartUseCaseModule
 import com.klim.stock.navigation.di.CreateNavigationModule
 import com.klim.stock.navigation.di.NavigationModule
 import com.klim.stock.network.ApiProvider
@@ -36,7 +36,7 @@ import javax.inject.Singleton
 
         //Repositories
         SymbolRepositoryModule::class,
-        HistoryRepositoryModule::class,
+        ChartRepositoryModule::class,
         StockRepositoryModule::class,
         FavoritedRepositoryModule::class,
 
@@ -59,7 +59,7 @@ import javax.inject.Singleton
 
         //Use Cases
         SymbolDetailsUseCaseModule::class,
-        HistoryUseCaseModule::class,
+        ChartUseCaseModule::class,
         SearchUseCaseModule::class,
         FavoritedUseCaseModule::class,
     ],

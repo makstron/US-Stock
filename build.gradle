@@ -3,12 +3,16 @@ buildscript {
     apply from: 'dependencies.gradle'
 
     ext {
-        kotlin_version = '1.7.10'
+        kotlin_version = '1.9.22'
+        kotlinConposeCompilerVer = '1.5.8' // should be compatible with kotlin version https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
+        kotlinConposeVer = '1.2.1' //"1.0.0-beta07"
         javaVersion = JavaVersion.VERSION_17
-        compileSdkV = 33
+        compileSdkV = 34
         targetSdkV = 33
         minSdkV = 21
     }
+
+    //kotlin - Compose compatibility https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
 
     repositories {
         google()
